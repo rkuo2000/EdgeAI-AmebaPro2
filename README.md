@@ -9,3 +9,5 @@
 ### [Kaggle Tutorial](https://rkuo2000.github.io/EdgeAI-course/lecture/2024/03/02/Kaggle-Tutorial.html)
 
 ### [Ameba Arduino: Getting Started with AMB82 MINI (RTL8735B)](https://www.amebaiot.com/en/amebapro2-amb82-mini-arduino-getting-started/)
+
+### [Ameba AIoT YouTube](https://www.youtube.com/@amebaiot7033)
