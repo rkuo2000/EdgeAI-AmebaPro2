@@ -1,8 +1,10 @@
 # EdgeAI-MCU
+* **[AI-lecture](https://rkuo2000.github.io/AI-course/)**<br>
+* **[EdgeAI-lecture](https://rkuo2000.github.io/EdgeAI-course/)**<br>
 
 ## 1. Introduction
 
-### [AI 簡介](https://github.com/rkuo2000/EdgeAI-MCU/blob/main/2023-12-01-AI-Brief.md)
+### [AI 簡介](https://rkuo2000.github.io/AI-course/lecture/2023/12/01/AI-Brief.html)
 
 * [Kaggle 使用介紹](https://rkuo2000.github.io/EdgeAI-course/lecture/2024/03/02/Kaggle-Tutorial.html)
 * [Colab 使用介紹](https://steam.oxxostudio.tw/category/python/info/online-editor.html)
@@ -14,11 +16,24 @@
 ### [Ameba Arduino: Getting Started with AMB82 MINI (RTL8735B)](https://www.amebaiot.com/en/amebapro2-amb82-mini-arduino-getting-started/)
 <iframe width="1024" height="576" src="https://www.youtube.com/embed/-jQDpDFX2ao" title="AMB82 Mini - 入門教學" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
+### 2. AMB82 Mini 範例練習
+
 ### AMB82 Mini 影像串流範例
 <iframe width="1024" height="576" src="https://www.youtube.com/embed/OmAnWOmt6WQ" title="AMB82 Mini - RTSP 影片串流範例" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
+### AMB82 Mini 人臉檢測範例
+<iframe width="1024" height="576" src="https://www.youtube.com/embed/KD95JH6gVew" title="AMB82 Mini - 人臉檢測範例" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+### AMB82 Mini - 人臉識別範例 
+<iframe width="1024" height="576" src="https://www.youtube.com/embed/GGOIQmMfeF8" title="AMB82 Mini - 人臉識別範例" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+### AMB82 Mini - 音頻分類範例
+[YAMNet](https://codimd.mcl.math.ncu.edu.tw/s/hoOqEgBSf)<br>
+![](https://hackmd.mcl.math.ncu.edu.tw/uploads/upload_eb57d5e8ce690f0b7e22a749b658e97b.png)
+<iframe width="1024" height="576" src="https://www.youtube.com/embed/oi8ML6aJcvI" title="AMB82 Mini - 音頻分類" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
 ---
-## 2. Image Classification
+## 3. Image Classification
 
 ### [Convolutional Neural Networks](https://rkuo2000.github.io/AI-course/lecture/2023/12/03/CNN.html)
 
@@ -28,7 +43,7 @@
 [RTSP_ImageClassification.ino](https://github.com/rkuo2000/EdgeAI-MCU/blob/main/Arduino/AMB82-mini/RTSP_EmotionClassification/RTSP_EmotionClassification.ino)<br>
 
 ---
-## 3. Object Detection
+## 4. Object Detection
 
 ### [Object Detection](https://rkuo2000.github.io/AI-course/lecture/2023/12/05/Object-Detection.html)
 ### [Object Detection Exercises](https://rkuo2000.github.io/AI-course/lecture/2023/12/05/Object-Detection-Exercises.html)
@@ -45,16 +60,78 @@
 ### AMB82 Mini 物件偵測範例
 <iframe width="1024" height="576" src="https://www.youtube.com/embed/EvryVoQyqqk" title="AMB82 Mini -  物件偵測範例" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
+### AMB82 Mini SD卡加載模型範例
+[RTPS_ObjectDetection_AudioClassification.ino](Arduino/AMB82-mini/RTSP_ObjectDetection_AudioClassification/RTSP_ObjectDetection_AudioClassification.ino)<br>
+<iframe width="1024" height="576" src="https://www.youtube.com/embed/cVvdnXiCAa4" title="AMB82 Mini - 使用SD 卡加載神經網絡模型" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
 ### Pothole Detection (坑洞偵測範例)
 **Kaggle:** [https://www.kaggle.com/code/rkuo2000/yolov7-pothole-detection](https://www.kaggle.com/code/rkuo2000/yolov7-pothole-detection)<br>
 **Kaggle:** [https://www.kaggle.com/code/rkuo2000/yolov7-pothole-v1-raw](https://www.kaggle.com/code/rkuo2000/yolov7-pothole-v1-raw)<br>
 **Kaggle:** [https://www.kaggle.com/code/rkuo2000/yolov7-pothole-reparam](https://www.kaggle.com/code/rkuo2000/yolov7-pothole-reparam)<br>
 
+### Online NN Conversion Tool (客製化模型轉換工具)
+<iframe width="1024" height="576" src="https://www.youtube.com/embed/6cHC2cOKgQk" title="AMB82 Mini - 綫上AI 模型轉換工具" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
 ---
-## 4. AMB82 Mini 範例練習
+## 5. EdgeAI with LLM
+* [生成式AI 程式範例](https://github.com/rkuo2000/GenAI)<br>
 
-### AMB82 Mini - 人臉識別範例 
-<iframe width="1024" height="576" src="https://www.youtube.com/embed/GGOIQmMfeF8" title="AMB82 Mini - 人臉識別範例" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+### [Large Language Model](https://rkuo2000.github.io/AI-course/lecture/2024/03/21/LLM.html) (大型語言模型介紹)
 
-### AMB82 Mini - 音頻分類範例
-<iframe width="1024" height="576" src="https://www.youtube.com/embed/oi8ML6aJcvI" title="AMB82 Mini - 音頻分類" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+### Text-to-Text (LLM 程式範例)
+* [llm_server.py](https://github.com/rkuo2000/GenAI/blob/main/Text-to-Text/llm_server.py)
+* [llm_client.py](https://github.com/rkuo2000/GenAI/blob/main/Text-to-Text/llm_client.py)
+
+### Audio-to-Text
+* [whisper_server.py](https://github.com/rkuo2000/GenAI/blob/main/Audio-to-Text/whisper_server.py)
+* [whisper_llm_server.py](https://github.com/rkuo2000/GenAI/blob/main/Audio-to-Text/whisper_llm_server.py)
+* [post_audio.py](https://github.com/rkuo2000/GenAI/blob/main/Audio-to-Text/post_audio.py)
+
+### AMB82 Mini - 語音辨識範例
+* [AmebaPro2 whsiper server](https://github.com/rkuo2000/EdgeAI-MCU/blob/main/Arduino/AMB82-mini/src/AmebaPro2_whisper_server.py)
+* [RecordMP4_HTTP_Post_Audio.ino](https://github.com/rkuo2000/EdgeAI-MCU/blob/main/Arduino/AMB82-mini/RecordMP4_HTTP_Post_Audio/RecordMP4_HTTP_Post_Audio.ino)
+
+### AMB82 Mini - 語音交談範例
+* [AmebaPro2 whsiper llm_server](https://github.com/rkuo2000/EdgeAI-MCU/blob/main/Arduino/AMB82-mini/src/AmebaPro2_whisper_llm_server.py)
+* [RecordMP4_HTTP_Post_Audio.ino](https://github.com/rkuo2000/EdgeAI-MCU/blob/main/Arduino/AMB82-mini/RecordMP4_HTTP_Post_Audio/RecordMP4_HTTP_Post_Audio.ino)
+
+---
+## 6. EdgeAI with VLM
+
+### [Vision Language Model]()
+
+### Llava
+
+### Image-to-Text
+* [llava_server.py](https://github.com/rkuo2000/GenAI/blob/main/Image-to-Text/llava_server.py)
+* [post_imgtxt.py](https://github.com/rkuo2000/GenAI/blob/main/Image-to-Text/post_imgtxt.py) 
+
+## VLM using LLaVA 1.5
+
+### post image+text to llava_server
+* `python llava_server.py` (server)<br>
+* `python post_imgtxt.py` (client)<br>
+
+### post image+audio to whisper_llava_server
+
+#### Running VLM server
+* `python whisper_llava_server.py` (server)<br>
+
+#### Image & Audio
+**Download a picture:** Tainan_BeefSoup.jpg<br>
+<p><img width="50%" height="50%" src="https://github.com/rkuo2000/GenAI/blob/main/Image-to-Text/images/Tainan_BeefSoup.jpg?raw=true"></p>
+
+**Generate Audio file:** gTTS.mp3<br>
+* `python ../gTTS.py "這是什麼有名的台南美食?" zh` (TTS)<br>
+
+#### Send Image & Audio to VLM server
+* `python post_imgau.py` (client)<br>
+![](https://github.com/rkuo2000/GenAI/blob/main/assets/post_imgau.png?raw=true)
+
+#### VLM server's response
+* Whisper+LLaVA Server (SR + VLM)<br>
+![](https://github.com/rkuo2000/GenAI/blob/main/assets/whisper_llava_server.png?raw=true)
+
+### AMB82 Mini - 影像+語音交談範例
+* [AmebaPro2_whisper_llava_server.py](https://github.com/rkuo2000/EdgeAI-MCU/blob/main/Arduino/AMB82-mini/src/AmebaPro2_whisper_llava_server.py)<br>
+* [RecordMP4_CaptureJPG_HTTP_Post_AudioImage](https://github.com/rkuo2000/EdgeAI-MCU/tree/main/Arduino/AMB82-mini/RecordMP4_CaptureJPG_HTTP_Post_AudioImage)
