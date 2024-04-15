@@ -104,9 +104,13 @@
 
 ### [Vision Language Model]()
 
-### Image-to-Text
+### Image+Text
 * [llava_server.py](https://github.com/rkuo2000/GenAI/blob/main/Image-to-Text/llava_server.py)
-* [post_imgtxt.py](https://github.com/rkuo2000/GenAI/blob/main/Image-to-Text/post_imgtxt.py) 
+* [post_imgtxt.py](https://github.com/rkuo2000/GenAI/blob/main/Image-to-Text/post_imgtxt.py)
+
+### Image+Audio
+* [whisper_llava_server.py](https://github.com/rkuo2000/GenAI/blob/main/Image-to-Text/whisper_llava_server.py)
+* [post_imgau.py](https://github.com/rkuo2000/GenAI/blob/main/Image-to-Text/post_imgau.py) 
 
 ### AMB82 Mini - 影像+語音交談範例
 * [AmebaPro2_whisper_llava_server.py](https://github.com/rkuo2000/EdgeAI-MCU/blob/main/Arduino/AMB82-mini/src/AmebaPro2_whisper_llava_server.py)<br>
