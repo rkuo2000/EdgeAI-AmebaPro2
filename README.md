@@ -2,8 +2,6 @@
 * **[AI-lecture](https://rkuo2000.github.io/AI-course/)**<br>
 * **[EdgeAI-lecture](https://rkuo2000.github.io/EdgeAI-course/)**<br>
 
-<p><img width="50%" height="50%" src="https://www.amebaiot.com/wp-content/uploads/2023/03/amb82_mini.png"></p>
-
 ## 1. Introduction
 
 ### [AI 簡介](https://rkuo2000.github.io/AI-course/lecture/2023/12/01/AI-Brief.html)
@@ -12,6 +10,7 @@
 * [Colab 使用介紹](https://steam.oxxostudio.tw/category/python/info/online-editor.html)
 
 ### [EdgeAI MCU 介紹](https://rkuo2000.github.io/EdgeAI-course/lecture/2024/03/01/Edge-AI-MCU-Intro.html)
+<p><img width="50%" height="50%" src="https://www.amebaiot.com/wp-content/uploads/2023/03/amb82_mini.png"></p>
 
 ### [Ameba AIoT 影片](https://www.youtube.com/@amebaiot7033)
 
