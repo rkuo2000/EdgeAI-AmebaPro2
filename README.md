@@ -2,7 +2,7 @@
 
 ## 1. Introduction
 
-### [AI 簡介](https://rkuo2000.github.io/AI-course/lecture/2023/12/01/AI-Brief.html)
+### [AI 簡介](https://github.com/rkuo2000/EdgeAI-MCU/blob/main/2023-12-01-AI-Brief.md)
 
 * [Kaggle 使用介紹](https://rkuo2000.github.io/EdgeAI-course/lecture/2024/03/02/Kaggle-Tutorial.html)
 * [Colab 使用介紹](https://steam.oxxostudio.tw/category/python/info/online-editor.html)
