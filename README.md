@@ -100,19 +100,23 @@
 
 ### [Vision Language Model]()
 
-### Llava
-
 ### Image-to-Text
 * [llava_server.py](https://github.com/rkuo2000/GenAI/blob/main/Image-to-Text/llava_server.py)
 * [post_imgtxt.py](https://github.com/rkuo2000/GenAI/blob/main/Image-to-Text/post_imgtxt.py) 
 
-## VLM using LLaVA 1.5
+### AMB82 Mini - 影像+語音交談範例
+* [AmebaPro2_whisper_llava_server.py](https://github.com/rkuo2000/EdgeAI-MCU/blob/main/Arduino/AMB82-mini/src/AmebaPro2_whisper_llava_server.py)<br>
+* [RecordMP4_CaptureJPG_HTTP_Post_AudioImage](https://github.com/rkuo2000/EdgeAI-MCU/tree/main/Arduino/AMB82-mini/RecordMP4_CaptureJPG_HTTP_Post_AudioImage)
 
-### post image+text to llava_server
+---
+## GenAI/Image-to-Text
+
+### post Image+Text to LLaVA server
 * `python llava_server.py` (server)<br>
 * `python post_imgtxt.py` (client)<br>
 
-### post image+audio to whisper_llava_server
+---
+### Post Image+Audio to Whisper-LLaVA server
 
 #### Running VLM server
 * `python whisper_llava_server.py` (server)<br>
@@ -129,9 +133,5 @@
 ![](https://github.com/rkuo2000/GenAI/blob/main/assets/post_imgau.png?raw=true)
 
 #### VLM server's response
-* Whisper+LLaVA Server (SR + VLM)<br>
 ![](https://github.com/rkuo2000/GenAI/blob/main/assets/whisper_llava_server.png?raw=true)
 
-### AMB82 Mini - 影像+語音交談範例
-* [AmebaPro2_whisper_llava_server.py](https://github.com/rkuo2000/EdgeAI-MCU/blob/main/Arduino/AMB82-mini/src/AmebaPro2_whisper_llava_server.py)<br>
-* [RecordMP4_CaptureJPG_HTTP_Post_AudioImage](https://github.com/rkuo2000/EdgeAI-MCU/tree/main/Arduino/AMB82-mini/RecordMP4_CaptureJPG_HTTP_Post_AudioImage)
