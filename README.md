@@ -40,7 +40,7 @@
 [Audio_LoopbackTest](https://github.com/rkuo2000/EdgeAI-MCU/blob/main/Arduino/AMB82-mini/Audio_LoopbackTest/)<br>
 
 ---
-## 3. Image Classification
+## 3. EdgeAI Image Classification
 
 ### [Convolutional Neural Networks](https://rkuo2000.github.io/AI-course/lecture/2023/12/03/CNN.html) (卷積層神經網路介紹)
 
@@ -50,10 +50,10 @@
 [RTSP_ImageClassification.ino](https://github.com/rkuo2000/EdgeAI-MCU/blob/main/Arduino/AMB82-mini/RTSP_EmotionClassification/RTSP_EmotionClassification.ino)<br>
 
 ---
-## 4. Object Detection
+## 4. EdgeAI Object Detection
 
-### [Object Detection](https://rkuo2000.github.io/AI-course/lecture/2023/12/05/Object-Detection.html) (物件偵測介紹)
-### [Object Detection Exercises](https://rkuo2000.github.io/AI-course/lecture/2023/12/05/Object-Detection-Exercises.html) (物件偵測範例練習)
+### [Object Detection](https://rkuo2000.github.io/AI-course/lecture/2023/12/05/Object-Detection.html) (物件檢測介紹)
+### [Object Detection Exercises](https://rkuo2000.github.io/AI-course/lecture/2023/12/05/Object-Detection-Exercises.html) (物件檢測範例練習)
 
 ### [YOLOv7](https://github.com/WongKinYiu/yolov7)
 [YOLOv7: Trainable bag-of-freebies sets new state-of-the-art for real-time object detectors](https://arxiv.org/abs/2207.02696)<br>
@@ -72,7 +72,7 @@
 [RTPS_ObjectDetection_AudioClassification.ino](Arduino/AMB82-mini/RTSP_ObjectDetection_AudioClassification/RTSP_ObjectDetection_AudioClassification.ino)<br>
 <iframe width="1024" height="576" src="https://www.youtube.com/embed/cVvdnXiCAa4" title="AMB82 Mini - 使用SD 卡加載神經網絡模型" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
-### Pothole Detection (坑洞偵測範例)
+### Pothole Detection (坑洞檢測範例)
 **Kaggle:** [https://www.kaggle.com/code/rkuo2000/yolov7-pothole-detection](https://www.kaggle.com/code/rkuo2000/yolov7-pothole-detection)<br>
 **Kaggle:** [https://www.kaggle.com/code/rkuo2000/yolov7-pothole-v1-raw](https://www.kaggle.com/code/rkuo2000/yolov7-pothole-v1-raw)<br>
 **Kaggle:** [https://www.kaggle.com/code/rkuo2000/yolov7-pothole-reparam](https://www.kaggle.com/code/rkuo2000/yolov7-pothole-reparam)<br>
