@@ -1,6 +1,9 @@
 # EdgeAI-MCU
-* **[AI-lecture](https://rkuo2000.github.io/AI-course/)**<br>
-* **[EdgeAI-lecture](https://rkuo2000.github.io/EdgeAI-course/)**<br>
+* **[AI-lecture](https://rkuo2000.github.io/AI-course/)**
+* **[EdgeAI-lecture](https://rkuo2000.github.io/EdgeAI-course/)**
+  
+* **[AMB82-Mini 程式範例](https://github.com/rkuo2000/EdgeAI-MCU/tree/main/Arduino/AMB82-mini)**
+* **[生成式AI 程式範例](https://github.com/rkuo2000/GenAI/)**
 
 ## 1. Introduction
 
