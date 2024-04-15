@@ -22,8 +22,8 @@ VideoSetting config(CHANNEL);
 RTSP rtsp;
 StreamIO videoStreamer(1, 1);    // 1 Input Video -> 1 Output RTSP
 
-char ssid[] = "HITRON-DF90-5G";    // your network SSID (name)
-char pass[] = "0972211921";        // your network password
+char ssid[] = "your_ssid";    // your network SSID (name)
+char pass[] = "your_password";        // your network password
 int status = WL_IDLE_STATUS;
 
 void setup()
