@@ -1,6 +1,7 @@
 # EdgeAI-MCU
 * **[AI-lecture](https://rkuo2000.github.io/AI-course/)**<br>
 * **[EdgeAI-lecture](https://rkuo2000.github.io/EdgeAI-course/)**<br>
+![](https://github.com/rkuo2000/EdgeAI-MCU/blob/main/assets/EdgeAI_AMB82_Mini.jpg?raw=true)
 
 ## 1. Introduction
 
