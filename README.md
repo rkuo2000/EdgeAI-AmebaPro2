@@ -2,8 +2,6 @@
 * **[AI-lecture](https://rkuo2000.github.io/AI-course/)**<br>
 * **[EdgeAI-lecture](https://rkuo2000.github.io/EdgeAI-course/)**<br>
 
-![](https://github.com/rkuo2000/EdgeAI-MCU/blob/main/assets/EdgeAI_AMB82_Mini.jpg?raw=true)
-
 ## 1. Introduction
 
 ### [AI 簡介](https://rkuo2000.github.io/AI-course/lecture/2023/12/01/AI-Brief.html)
@@ -132,4 +130,12 @@
 * [AmebaPro2_whisper_llava_server.py](https://github.com/rkuo2000/EdgeAI-MCU/blob/main/Arduino/AMB82-mini/src/AmebaPro2_whisper_llava_server.py)<br>
 * [RecordMP4_CaptureJPG_HTTP_Post_AudioImage](https://github.com/rkuo2000/EdgeAI-MCU/tree/main/Arduino/AMB82-mini/RecordMP4_CaptureJPG_HTTP_Post_AudioImage)
 
+---
+## EdgeAI Projects
+
+### [Portable ChatGPT](https://github.com/rkuo2000/portable-ChatGPT)
+![](https://github.com/rkuo2000/EdgeAI-MCU/blob/main/assets/AMB82_Mini_PortableChatGPT.jpg?raw=true)
+
+### Self-Balanced-Car
+![](https://github.com/rkuo2000/EdgeAI-MCU/blob/main/assets/AMB82_Mini_SelfBalancedCar.jpg?raw=true)
 
