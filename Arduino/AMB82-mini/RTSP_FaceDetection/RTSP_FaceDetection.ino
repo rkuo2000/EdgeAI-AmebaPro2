@@ -42,8 +42,8 @@ RTSP rtsp;
 StreamIO videoStreamer(1, 1);
 StreamIO videoStreamerNN(1, 1);
 
-char ssid[] = "RKUO";   // your network SSID (name)
-char pass[] = "0972211921";       // your network password
+char ssid[] = "your_ssid";   // your network SSID (name)
+char pass[] = "your_password";       // your network password
 int status = WL_IDLE_STATUS;
 
 IPAddress ip;
