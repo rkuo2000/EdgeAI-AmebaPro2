@@ -21,25 +21,34 @@
 ---
 ## 2. AMB82 Mini 範例練習
 
-### AMB82 Mini 影像串流範例
+### 影像串流範例
 [RTSP_VideoOnly](https://github.com/rkuo2000/EdgeAI-MCU/blob/main/Arduino/AMB82-mini/RTSP_VideoOnly/)<br>
 <iframe width="1024" height="576" src="https://www.youtube.com/embed/OmAnWOmt6WQ" title="AMB82 Mini - RTSP 影片串流範例" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
-### AMB82 Mini 人臉檢測範例
+### 人臉檢測範例
 [RTSP_FaceDetection](https://github.com/rkuo2000/EdgeAI-MCU/blob/main/Arduino/AMB82-mini/RTSP_FaceDetection/)
 <iframe width="1024" height="576" src="https://www.youtube.com/embed/KD95JH6gVew" title="AMB82 Mini - 人臉檢測範例" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
-### AMB82 Mini - 人臉識別範例
+### 人臉識別範例
 [RTSP_FaceRecognition](https://github.com/rkuo2000/EdgeAI-MCU/blob/main/Arduino/AMB82-mini/RTSP_FaceRecognition/)
 <iframe width="1024" height="576" src="https://www.youtube.com/embed/GGOIQmMfeF8" title="AMB82 Mini - 人臉識別範例" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
-### AMB82 Mini - 音頻分類範例
+### 音頻分類範例
 [AudioClassification](https://github.com/rkuo2000/EdgeAI-MCU/blob/main/Arduino/AMB82-mini/AudioClassification/)<br>
 [YAMNet](https://codimd.mcl.math.ncu.edu.tw/s/hoOqEgBSf)<br>
 <iframe width="1024" height="576" src="https://www.youtube.com/embed/oi8ML6aJcvI" title="AMB82 Mini - 音頻分類" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
-### [AMB82 Mini - 音頻Loopback測試](https://www.amebaiot.com/en/amebapro2-arduino-audio-basic/)
+### [音頻Loopback測試](https://www.amebaiot.com/en/amebapro2-arduino-audio-basic/)
 [Audio_LoopbackTest](https://github.com/rkuo2000/EdgeAI-MCU/blob/main/Arduino/AMB82-mini/Audio_LoopbackTest/)<br>
+
+### 慣性感測範例
+[IMU MPU6050-DMP6v12](https://github.com/rkuo2000/EdgeAI-MCU/tree/main/Arduino/AMB82-mini/IMU_MPU6050_DMP6v12)<br>
+
+### 紅外線測距
+[IR_VL53L0X](https://github.com/rkuo2000/EdgeAI-MCU/tree/main/Arduino/AMB82-mini/IR_VL53L0X)<br>
+
+### 彩色TFTLCD
+[TFTLCD_ILI9341](https://github.com/rkuo2000/EdgeAI-MCU/tree/main/Arduino/AMB82-mini/TFTLCD_ILI9341)
 
 ---
 ## 3. EdgeAI Image Classification
