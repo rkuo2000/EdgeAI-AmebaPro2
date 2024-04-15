@@ -107,7 +107,7 @@
 ---
 ## 6. EdgeAI with VLM
 
-### [Vision Language Model]() (視覺語言模型介紹)
+### [Vision Language Model](https://rkuo2000.github.io/AI-course/lecture/2024/03/27/VLM.html) (視覺語言模型介紹)
 
 ### Image+Text
 * [llava_server.py](https://github.com/rkuo2000/GenAI/blob/main/Image-to-Text/llava_server.py)
@@ -121,28 +121,4 @@
 * [AmebaPro2_whisper_llava_server.py](https://github.com/rkuo2000/EdgeAI-MCU/blob/main/Arduino/AMB82-mini/src/AmebaPro2_whisper_llava_server.py)<br>
 * [RecordMP4_CaptureJPG_HTTP_Post_AudioImage](https://github.com/rkuo2000/EdgeAI-MCU/tree/main/Arduino/AMB82-mini/RecordMP4_CaptureJPG_HTTP_Post_AudioImage)
 
----
-### post Image+Text to LLaVA server
-* `python llava_server.py` (server)<br>
-* `python post_imgtxt.py` (client)<br>
-
----
-### Post Image+Audio to Whisper-LLaVA server
-
-#### Running VLM server
-* `python whisper_llava_server.py` (server)<br>
-
-#### Image & Audio
-**Download a picture:** Tainan_BeefSoup.jpg<br>
-<p><img width="50%" height="50%" src="https://github.com/rkuo2000/GenAI/blob/main/Image-to-Text/images/Tainan_BeefSoup.jpg?raw=true"></p>
-
-**Generate Audio file:** gTTS.mp3<br>
-* `python ../gTTS.py "這是什麼有名的台南美食?" zh` (TTS)<br>
-
-#### Send Image & Audio to VLM server
-* `python post_imgau.py` (client)<br>
-![](https://github.com/rkuo2000/GenAI/blob/main/assets/post_imgau.png?raw=true)
-
-#### VLM server's response
-![](https://github.com/rkuo2000/GenAI/blob/main/assets/whisper_llava_server.png?raw=true)
 
