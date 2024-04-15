@@ -20,28 +20,31 @@
 ## 2. AMB82 Mini 範例練習
 
 ### AMB82 Mini 影像串流範例
+[RTSP_VideoOnly](https://github.com/rkuo2000/EdgeAI-MCU/blob/main/Arduino/AMB82-mini/RTSP_VideoOnly/)<br>
 <iframe width="1024" height="576" src="https://www.youtube.com/embed/OmAnWOmt6WQ" title="AMB82 Mini - RTSP 影片串流範例" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 ### AMB82 Mini 人臉檢測範例
+[RTSP_FaceDetection](https://github.com/rkuo2000/EdgeAI-MCU/blob/main/Arduino/AMB82-mini/RTSP_FaceDetection/)
 <iframe width="1024" height="576" src="https://www.youtube.com/embed/KD95JH6gVew" title="AMB82 Mini - 人臉檢測範例" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
-### AMB82 Mini - 人臉識別範例 
+### AMB82 Mini - 人臉識別範例
+[RTSP_FaceRecognition](https://github.com/rkuo2000/EdgeAI-MCU/blob/main/Arduino/AMB82-mini/RTSP_FaceRecognition/)
 <iframe width="1024" height="576" src="https://www.youtube.com/embed/GGOIQmMfeF8" title="AMB82 Mini - 人臉識別範例" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 ### AMB82 Mini - 音頻分類範例
+[AudioClassification](https://github.com/rkuo2000/EdgeAI-MCU/blob/main/Arduino/AMB82-mini/AudioClassification/)<br>
 [YAMNet](https://codimd.mcl.math.ncu.edu.tw/s/hoOqEgBSf)<br>
-![](https://hackmd.mcl.math.ncu.edu.tw/uploads/upload_eb57d5e8ce690f0b7e22a749b658e97b.png)
 <iframe width="1024" height="576" src="https://www.youtube.com/embed/oi8ML6aJcvI" title="AMB82 Mini - 音頻分類" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 ### [AMB82 Mini - 音頻Loopback測試](https://www.amebaiot.com/en/amebapro2-arduino-audio-basic/)
-[Audio_LoopbackTest.ino](https://github.com/rkuo2000/EdgeAI-MCU/blob/main/Arduino/AMB82-mini/Audio_LoopbackTest/Audio_LoopbackTest.ino)<br>
+[Audio_LoopbackTest](https://github.com/rkuo2000/EdgeAI-MCU/blob/main/Arduino/AMB82-mini/Audio_LoopbackTest/)<br>
 
 ---
 ## 3. Image Classification
 
-### [Convolutional Neural Networks](https://rkuo2000.github.io/AI-course/lecture/2023/12/03/CNN.html)
+### [Convolutional Neural Networks](https://rkuo2000.github.io/AI-course/lecture/2023/12/03/CNN.html) (卷積層神經網路介紹)
 
-### [Image Classification](https://rkuo2000.github.io/AI-course/lecture/2023/12/04/Image-Classification.html)
+### [Image Classification](https://rkuo2000.github.io/AI-course/lecture/2023/12/04/Image-Classification.html) (影像分類介紹)
 
 ### AMB82 Mini 影像分類範例
 [RTSP_ImageClassification.ino](https://github.com/rkuo2000/EdgeAI-MCU/blob/main/Arduino/AMB82-mini/RTSP_EmotionClassification/RTSP_EmotionClassification.ino)<br>
@@ -49,8 +52,8 @@
 ---
 ## 4. Object Detection
 
-### [Object Detection](https://rkuo2000.github.io/AI-course/lecture/2023/12/05/Object-Detection.html)
-### [Object Detection Exercises](https://rkuo2000.github.io/AI-course/lecture/2023/12/05/Object-Detection-Exercises.html)
+### [Object Detection](https://rkuo2000.github.io/AI-course/lecture/2023/12/05/Object-Detection.html) (物件偵測介紹)
+### [Object Detection Exercises](https://rkuo2000.github.io/AI-course/lecture/2023/12/05/Object-Detection-Exercises.html) (物件偵測範例練習)
 
 ### [YOLOv7](https://github.com/WongKinYiu/yolov7)
 [YOLOv7: Trainable bag-of-freebies sets new state-of-the-art for real-time object detectors](https://arxiv.org/abs/2207.02696)<br>
@@ -62,6 +65,7 @@
 **Kaggle:** [https://www.kaggle.com/code/rkuo2000/yolov9](https://www.kaggle.com/code/rkuo2000/yolov9)<br>
 
 ### AMB82 Mini 物件偵測範例
+[]()<br>
 <iframe width="1024" height="576" src="https://www.youtube.com/embed/EvryVoQyqqk" title="AMB82 Mini -  物件偵測範例" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 ### AMB82 Mini SD卡加載模型範例
@@ -72,6 +76,7 @@
 **Kaggle:** [https://www.kaggle.com/code/rkuo2000/yolov7-pothole-detection](https://www.kaggle.com/code/rkuo2000/yolov7-pothole-detection)<br>
 **Kaggle:** [https://www.kaggle.com/code/rkuo2000/yolov7-pothole-v1-raw](https://www.kaggle.com/code/rkuo2000/yolov7-pothole-v1-raw)<br>
 **Kaggle:** [https://www.kaggle.com/code/rkuo2000/yolov7-pothole-reparam](https://www.kaggle.com/code/rkuo2000/yolov7-pothole-reparam)<br>
+**Arduino:** [Arduino/AMB82-mini/YOLOv7_Pothole](https://github.com/rkuo2000/EdgeAI-MCU/tree/main/Arduino/AMB82-mini/YOLOv7_Pothole)<br>
 
 ### Online NN Conversion Tool (客製化模型轉換工具)
 <iframe width="1024" height="576" src="https://www.youtube.com/embed/6cHC2cOKgQk" title="AMB82 Mini - 綫上AI 模型轉換工具" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
@@ -102,7 +107,7 @@
 ---
 ## 6. EdgeAI with VLM
 
-### [Vision Language Model]()
+### [Vision Language Model]() (視覺語言模型介紹)
 
 ### Image+Text
 * [llava_server.py](https://github.com/rkuo2000/GenAI/blob/main/Image-to-Text/llava_server.py)
