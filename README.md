@@ -33,6 +33,9 @@
 ![](https://hackmd.mcl.math.ncu.edu.tw/uploads/upload_eb57d5e8ce690f0b7e22a749b658e97b.png)
 <iframe width="1024" height="576" src="https://www.youtube.com/embed/oi8ML6aJcvI" title="AMB82 Mini - 音頻分類" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
+### [AMB82 Mini - 音頻Loopback測試](https://www.amebaiot.com/en/amebapro2-arduino-audio-basic/)
+[Audio_LoopbackTest.ino](https://github.com/rkuo2000/EdgeAI-MCU/blob/main/Arduino/AMB82-mini/Audio_LoopbackTest/Audio_LoopbackTest.ino)<br>
+
 ---
 ## 3. Image Classification
 
