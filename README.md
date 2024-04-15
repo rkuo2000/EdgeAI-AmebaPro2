@@ -137,6 +137,6 @@
 ### [Portable ChatGPT](https://github.com/rkuo2000/portable-ChatGPT)
 ![](https://github.com/rkuo2000/EdgeAI-MCU/blob/main/assets/AMB82_Mini_PortableChatGPT.jpg?raw=true)
 
-### Self-Balanced-Car
+### Self-Balanced Car
 ![](https://github.com/rkuo2000/EdgeAI-MCU/blob/main/assets/AMB82_Mini_SelfBalancedCar.jpg?raw=true)
 
