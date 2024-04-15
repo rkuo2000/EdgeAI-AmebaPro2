@@ -2,6 +2,8 @@
 * **[AI-lecture](https://rkuo2000.github.io/AI-course/)**<br>
 * **[EdgeAI-lecture](https://rkuo2000.github.io/EdgeAI-course/)**<br>
 
+<p><img width="50%" height="50%" src="https://www.amebaiot.com/wp-content/uploads/2023/03/amb82_mini.png"></p>
+
 ## 1. Introduction
 
 ### [AI 簡介](https://rkuo2000.github.io/AI-course/lecture/2023/12/01/AI-Brief.html)
