@@ -109,8 +109,6 @@
 * [RecordMP4_CaptureJPG_HTTP_Post_AudioImage](https://github.com/rkuo2000/EdgeAI-MCU/tree/main/Arduino/AMB82-mini/RecordMP4_CaptureJPG_HTTP_Post_AudioImage)
 
 ---
-## GenAI/Image-to-Text
-
 ### post Image+Text to LLaVA server
 * `python llava_server.py` (server)<br>
 * `python post_imgtxt.py` (client)<br>
