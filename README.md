@@ -5,6 +5,7 @@
 * **[AMB82-Mini 程式範例](https://github.com/rkuo2000/EdgeAI-MCU/tree/main/Arduino/AMB82-mini)**
 * **[生成式AI 程式範例](https://github.com/rkuo2000/GenAI/)**
 
+---
 ## 1. Introduction
 
 ### [AI 簡介](https://rkuo2000.github.io/AI-course/lecture/2023/12/01/AI-Brief.html)
