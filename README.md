@@ -2,7 +2,7 @@
 * **[AI-lecture](https://rkuo2000.github.io/AI-course/)**
 * **[EdgeAI-lecture](https://rkuo2000.github.io/EdgeAI-course/)**
   
-* **[AMB82-Mini 程式範例](https://github.com/rkuo2000/EdgeAI-MCU/tree/main/Arduino/AMB82-mini)**
+* **[AMB82-Mini 程式範例](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI)**
 * **[生成式AI 程式範例](https://github.com/rkuo2000/GenAI/)**
 
 ---
@@ -35,33 +35,33 @@
 ## 2. AMB82 Mini 範例練習
 
 ### 影像串流範例
-[RTSP_VideoOnly](https://github.com/rkuo2000/EdgeAI-MCU/blob/main/Arduino/AMB82-mini/RTSP_VideoOnly/)<br>
+[RTSP_VideoOnly]([https://github.com/rkuo2000/EdgeAI-MCU/blob/main/Arduino/AMB82-mini/](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI/RTSP_VideoOnly/)<br>
 <iframe width="1024" height="576" src="https://www.youtube.com/embed/OmAnWOmt6WQ" title="AMB82 Mini - RTSP 影片串流範例" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 ### 人臉檢測範例
-[RTSP_FaceDetection](https://github.com/rkuo2000/EdgeAI-MCU/blob/main/Arduino/AMB82-mini/RTSP_FaceDetection/)
+[RTSP_FaceDetection](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI/RTSP_FaceDetection/)
 <iframe width="1024" height="576" src="https://www.youtube.com/embed/KD95JH6gVew" title="AMB82 Mini - 人臉檢測範例" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 ### 人臉識別範例
-[RTSP_FaceRecognition](https://github.com/rkuo2000/EdgeAI-MCU/blob/main/Arduino/AMB82-mini/RTSP_FaceRecognition/)
+[RTSP_FaceRecognition](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI/RTSP_FaceRecognition/)
 <iframe width="1024" height="576" src="https://www.youtube.com/embed/GGOIQmMfeF8" title="AMB82 Mini - 人臉識別範例" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 ### 音頻分類範例
-[AudioClassification](https://github.com/rkuo2000/EdgeAI-MCU/blob/main/Arduino/AMB82-mini/AudioClassification/)<br>
+[AudioClassification](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI/AudioClassification/)<br>
 [YAMNet](https://codimd.mcl.math.ncu.edu.tw/s/hoOqEgBSf)<br>
 <iframe width="1024" height="576" src="https://www.youtube.com/embed/oi8ML6aJcvI" title="AMB82 Mini - 音頻分類" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 ### [音頻Loopback測試](https://www.amebaiot.com/en/amebapro2-arduino-audio-basic/)
-[Audio_LoopbackTest](https://github.com/rkuo2000/EdgeAI-MCU/blob/main/Arduino/AMB82-mini/Audio_LoopbackTest/)<br>
+[Audio_LoopbackTest](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI/Audio_LoopbackTest/)<br>
 
 ### 慣性感測範例
-[IMU MPU6050-DMP6v12](https://github.com/rkuo2000/EdgeAI-MCU/tree/main/Arduino/AMB82-mini/IMU_MPU6050_DMP6v12)<br>
+[IMU MPU6050-DMP6v12](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI/IMU_MPU6050_DMP6v12)<br>
 
 ### 紅外線測距
-[IR_VL53L0X](https://github.com/rkuo2000/EdgeAI-MCU/tree/main/Arduino/AMB82-mini/IR_VL53L0X)<br>
+[IR_VL53L0X](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI/IR_VL53L0X)<br>
 
 ### 彩色TFTLCD
-[TFTLCD_ILI9341](https://github.com/rkuo2000/EdgeAI-MCU/tree/main/Arduino/AMB82-mini/TFTLCD_ILI9341)
+[TFTLCD_ILI9341](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI/TFTLCD_ILI9341)
 
 ---
 ## 3. EdgeAI Image Classification
@@ -89,11 +89,11 @@
 **Kaggle:** [https://www.kaggle.com/code/rkuo2000/yolov9](https://www.kaggle.com/code/rkuo2000/yolov9)<br>
 
 ### AMB82 Mini 物件偵測範例
-[]()<br>
+[RTSP_ObjectDetectionLoop](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI/RTSP_ObjectDetectionLoop)<br>
 <iframe width="1024" height="576" src="https://www.youtube.com/embed/EvryVoQyqqk" title="AMB82 Mini -  物件偵測範例" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 ### AMB82 Mini SD卡加載模型範例
-[RTPS_ObjectDetection_AudioClassification.ino](Arduino/AMB82-mini/RTSP_ObjectDetection_AudioClassification/RTSP_ObjectDetection_AudioClassification.ino)<br>
+[RTPS_ObjectDetection_AudioClassification.ino](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI/RTSP_ObjectDetection_AudioClassification/)<br>
 <iframe width="1024" height="576" src="https://www.youtube.com/embed/cVvdnXiCAa4" title="AMB82 Mini - 使用SD 卡加載神經網絡模型" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 ### Pothole Detection (坑洞檢測範例)
@@ -121,12 +121,12 @@
 * [post_audio.py](https://github.com/rkuo2000/GenAI/blob/main/Audio-to-Text/post_audio.py)
 
 ### AMB82 Mini - 語音辨識範例
-* [AmebaPro2 whsiper server](https://github.com/rkuo2000/EdgeAI-MCU/blob/main/Arduino/AMB82-mini/src/AmebaPro2_whisper_server.py)
-* [RecordMP4_HTTP_Post_Audio.ino](https://github.com/rkuo2000/EdgeAI-MCU/blob/main/Arduino/AMB82-mini/RecordMP4_HTTP_Post_Audio/RecordMP4_HTTP_Post_Audio.ino)
+* [AmebaPro2 whisper server](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI/src/AmebaPro2_whisper_server.py)
+* [RecordMP4_HTTP_Post_Audio.ino](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI/RecordMP4_HTTP_Post_Audio/)
 
 ### AMB82 Mini - 語音交談範例
-* [AmebaPro2 whsiper llm_server](https://github.com/rkuo2000/EdgeAI-MCU/blob/main/Arduino/AMB82-mini/src/AmebaPro2_whisper_llm_server.py)
-* [RecordMP4_HTTP_Post_Audio.ino](https://github.com/rkuo2000/EdgeAI-MCU/blob/main/Arduino/AMB82-mini/RecordMP4_HTTP_Post_Audio/RecordMP4_HTTP_Post_Audio.ino)
+* [AmebaPro2 whisper llm_server](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI/src/AmebaPro2_whisper_llm_server.py)
+* [RecordMP4_HTTP_Post_Audio.ino](hhttps://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI/RecordMP4_HTTP_Post_Audio/)
 
 ---
 ## 6. EdgeAI with VLM
@@ -143,7 +143,7 @@
 
 ### AMB82 Mini - 影像+語音交談範例
 * [AmebaPro2_whisper_llava_server.py](https://github.com/rkuo2000/EdgeAI-MCU/blob/main/Arduino/AMB82-mini/src/AmebaPro2_whisper_llava_server.py)<br>
-* [RecordMP4_CaptureJPG_HTTP_Post_AudioImage](https://github.com/rkuo2000/EdgeAI-MCU/tree/main/Arduino/AMB82-mini/RecordMP4_CaptureJPG_HTTP_Post_AudioImage)
+* [RecordMP4_CaptureJPG_HTTP_Post_AudioImage](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI/RecordMP4_CaptureJPG_HTTP_Post_AudioImage)
 
 ---
 ## EdgeAI Projects
@@ -151,6 +151,4 @@
 ### [Portable ChatGPT](https://github.com/rkuo2000/portable-ChatGPT)
 ![](https://github.com/rkuo2000/EdgeAI-MCU/blob/main/assets/AMB82_Mini_PortableChatGPT.jpg?raw=true)
 
-### Self-Balanced Car
-![](https://github.com/rkuo2000/EdgeAI-MCU/blob/main/assets/AMB82_Mini_SelfBalancedCar.jpg?raw=true)
 
