@@ -115,11 +115,6 @@
 * [llm_server.py](https://github.com/rkuo2000/GenAI/blob/main/Text-to-Text/llm_server.py)
 * [llm_client.py](https://github.com/rkuo2000/GenAI/blob/main/Text-to-Text/llm_client.py)
 
-### Audio-to-Text
-* [whisper_server.py](https://github.com/rkuo2000/GenAI/blob/main/Audio-to-Text/whisper_server.py)
-* [whisper_llm_server.py](https://github.com/rkuo2000/GenAI/blob/main/Audio-to-Text/whisper_llm_server.py)
-* [post_audio.py](https://github.com/rkuo2000/GenAI/blob/main/Audio-to-Text/post_audio.py)
-
 ### AMB82 Mini - 語音辨識範例
 * [AmebaPro2 whisper server](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI/src/AmebaPro2_whisper_server.py)
 * [RecordMP4_HTTP_Post_Audio.ino](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI/RecordMP4_HTTP_Post_Audio/)
