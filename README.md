@@ -96,12 +96,6 @@
 [RTPS_ObjectDetection_AudioClassification.ino](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI/RTSP_ObjectDetection_AudioClassification/)<br>
 <iframe width="1024" height="576" src="https://www.youtube.com/embed/cVvdnXiCAa4" title="AMB82 Mini - 使用SD 卡加載神經網絡模型" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
-### Pothole Detection (坑洞檢測範例)
-**Kaggle:** [https://www.kaggle.com/code/rkuo2000/yolov7-pothole-detection](https://www.kaggle.com/code/rkuo2000/yolov7-pothole-detection)<br>
-**Kaggle:** [https://www.kaggle.com/code/rkuo2000/yolov7-pothole-v1-raw](https://www.kaggle.com/code/rkuo2000/yolov7-pothole-v1-raw)<br>
-**Kaggle:** [https://www.kaggle.com/code/rkuo2000/yolov7-pothole-reparam](https://www.kaggle.com/code/rkuo2000/yolov7-pothole-reparam)<br>
-**Arduino:** [Arduino/AMB82-mini/YOLOv7_Pothole](https://github.com/rkuo2000/EdgeAI-MCU/tree/main/Arduino/AMB82-mini/YOLOv7_Pothole)<br>
-
 ### Online NN Conversion Tool (客製化模型轉換工具)
 <iframe width="1024" height="576" src="https://www.youtube.com/embed/6cHC2cOKgQk" title="AMB82 Mini - 綫上AI 模型轉換工具" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
