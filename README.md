@@ -18,6 +18,8 @@
 
 ### Realtek AMB82-mini
 <p><img width="50%" height="50%" src="https://www.amebaiot.com/wp-content/uploads/2023/03/amb82_mini.png"></p>
+
+### AMB82-mini Pinout Diagram
 <p><img width="50%" height="50%" src="https://github.com/rkuo2000/EdgeAI-MCU/blob/main/assets/AMB82-MINI_pinout.png?raw=true"></p>
 
 #### [RTL8735B](https://www.amebaiot.com/en/amebapro2/):
