@@ -43,19 +43,17 @@
 
 ### 人臉檢測範例
 [RTSP_FaceDetection](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI/RTSP_FaceDetection/)
-<iframe width="1024" height="576" src="https://www.youtube.com/embed/KD95JH6gVew" title="AMB82 Mini - 人臉檢測範例" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+[![](https://markdown-videos-api.jorgenkh.no/youtube/KD95JH6gVew)](https://youtu.be/KD95JH6gVew)
 
 ### 人臉識別範例
 [RTSP_FaceRecognition](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI/RTSP_FaceRecognition/)
-<iframe width="1024" height="576" src="https://www.youtube.com/embed/GGOIQmMfeF8" title="AMB82 Mini - 人臉識別範例" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+[![](https://markdown-videos-api.jorgenkh.no/youtube/GGOIQmMfeF8)](https://youtu.be/GGOIQmMfeF8)
 
 ### 音頻分類範例
 [AudioClassification](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI/AudioClassification/)<br>
 [YAMNet](https://codimd.mcl.math.ncu.edu.tw/s/hoOqEgBSf)<br>
-<iframe width="1024" height="576" src="https://www.youtube.com/embed/oi8ML6aJcvI" title="AMB82 Mini - 音頻分類" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-
-### [音頻Loopback測試](https://www.amebaiot.com/en/amebapro2-arduino-audio-basic/)
-[Audio_LoopbackTest](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI/Audio_LoopbackTest/)<br>
+[![](https://markdown-videos-api.jorgenkh.no/youtube/oi8ML6aJcvI)](https://youtu.be/oi8ML6aJcvI)
 
 ### 慣性感測範例
 [IMU MPU6050-DMP6v12](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI/IMU_MPU6050_DMP6v12)<br>
@@ -67,7 +65,7 @@
 [TFTLCD_ILI9341](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI/TFTLCD_ILI9341)
 
 ---
-## 3. EdgeAI Image Classification
+## 5. EdgeAI Image Classification
 
 ### [Convolutional Neural Networks](https://rkuo2000.github.io/AI-course/lecture/2023/12/03/CNN.html) (卷積層神經網路介紹)
 
@@ -77,7 +75,7 @@
 [RTSP_ImageClassification.ino](https://github.com/rkuo2000/EdgeAI-MCU/blob/main/Arduino/AMB82-mini/RTSP_EmotionClassification/RTSP_EmotionClassification.ino)<br>
 
 ---
-## 4. EdgeAI Object Detection
+## 6. EdgeAI Object Detection
 
 ### [Object Detection](https://rkuo2000.github.io/AI-course/lecture/2023/12/05/Object-Detection.html) (物件檢測介紹)
 ### [Object Detection Exercises](https://rkuo2000.github.io/AI-course/lecture/2023/12/05/Object-Detection-Exercises.html) (物件檢測範例練習)
@@ -97,13 +95,13 @@
 
 ### AMB82 Mini SD卡加載模型範例
 [RTPS_ObjectDetection_AudioClassification.ino](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI/RTSP_ObjectDetection_AudioClassification/)<br>
-<iframe width="1024" height="576" src="https://www.youtube.com/embed/cVvdnXiCAa4" title="AMB82 Mini - 使用SD 卡加載神經網絡模型" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+[![](https://markdown-videos-api.jorgenkh.no/youtube/cVvdnXiCAa4)](https://youtu.be/cVvdnXiCAa4)
 
 ### Online NN Conversion Tool (客製化模型轉換工具)
-<iframe width="1024" height="576" src="https://www.youtube.com/embed/6cHC2cOKgQk" title="AMB82 Mini - 綫上AI 模型轉換工具" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+[![](https://markdown-videos-api.jorgenkh.no/youtube/6cHC2cOKgQk)](https://youtu.be/6cHC2cOKgQk)
 
 ---
-## 5. EdgeAI with LLM
+## 7. EdgeAI with LLM
 * [生成式AI 程式範例](https://github.com/rkuo2000/GenAI)<br>
 
 ### [Large Language Model](https://rkuo2000.github.io/AI-course/lecture/2024/03/21/LLM.html) (大型語言模型介紹)
@@ -121,7 +119,7 @@
 * [RecordMP4_HTTP_Post_Audio.ino](hhttps://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI/RecordMP4_HTTP_Post_Audio/)
 
 ---
-## 6. EdgeAI with VLM
+## 8. EdgeAI with VLM
 
 ### [Vision Language Model](https://rkuo2000.github.io/AI-course/lecture/2024/03/27/VLM.html) (視覺語言模型介紹)
 
