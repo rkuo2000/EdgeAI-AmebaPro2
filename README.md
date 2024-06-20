@@ -14,14 +14,15 @@
 
 ---
 ## 2. AMB82-mini Introduction
+
+### [RTL8735B](https://www.amebaiot.com/en/amebapro2/):
+32-bit Arm v8M, up to 500MHz, 768KB ROM, 512KB RAM, 16MB Flash (MCM embedded DDR2/DDR3L up to 128MB)<br>
+802.11 a/b/g/n WiFi 2.4GHz/5GHz, BLE 5.1, *NN Engine 0.4 TOPS*, Crypto Engine, Audo Codec, ...<br>
+
 <p><img width="50%" height="50%" src="https://www.amebaiot.com/wp-content/uploads/2023/03/amb82_mini.png"></p>
 
 ### AMB82-mini Pinout Diagram
 <p><img width="50%" height="50%" src="https://github.com/rkuo2000/EdgeAI-MCU/blob/main/assets/AMB82-MINI_pinout.png?raw=true"></p>
-
-#### [RTL8735B](https://www.amebaiot.com/en/amebapro2/):
-32-bit Arm v8M, up to 500MHz, 768KB ROM, 512KB RAM, 16MB Flash (MCM embedded DDR2/DDR3L up to 128MB)<br>
-802.11 a/b/g/n WiFi 2.4GHz/5GHz, BLE 5.1, *NN Engine 0.4 TOPS*, Crypto Engine, Audo Codec, ...<br>
 
 * [Ameba Arduino](https://www.amebaiot.com/en/ameba-arduino-summary/)
 
