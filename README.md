@@ -62,7 +62,7 @@
 [IR_VL53L0X](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI/IR_VL53L0X)<br>
 
 ### 彩色TFTLCD
-[TFTLCD_ILI9341](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI/TFTLCD_ILI9341)
+[Camera_TFTLCD](https://github.com/rkuo2000/Arduino/blob/master/examples/AMB82-MINI/Camera_TFTLCD/Camera_TFTLCD.ino)
 
 ---
 ## 5. EdgeAI Image Classification
