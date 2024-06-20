@@ -18,6 +18,7 @@
 
 ### Realtek AMB82-mini
 <p><img width="50%" height="50%" src="https://www.amebaiot.com/wp-content/uploads/2023/03/amb82_mini.png"></p>
+<p><img width="50%" height="50%" src="https://www.amebaiot.com/wp-content/uploads/2023/03/amb82_mini.png"></p>
 
 #### [RTL8735B](https://www.amebaiot.com/en/amebapro2/):
 32-bit Arm v8M, up to 500MHz, 768KB ROM, 512KB RAM, 16MB Flash (MCM embedded DDR2/DDR3L up to 128MB)<br>
@@ -29,14 +30,15 @@
 * [Ameba AIoT 影片](https://www.youtube.com/@amebaiot7033)
 * Preferences = https://raw.githubusercontent.com/ambiot/ambpro2_arduino/dev/Arduino_package/package_realtek_amebapro2_early_index.json<br>
 
-<iframe width="1024" height="576" src="https://www.youtube.com/embed/-jQDpDFX2ao" title="AMB82 Mini - 入門教學" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+[![](https://markdown-videos-api.jorgenkh.no/youtube/-jQDpDFX2ao)](https://youtu.be/-jQDpDFX2ao)
 
 ---
 ## 2. AMB82 Mini 範例練習
 
 ### 影像串流範例
 [RTSP_VideoOnly]([https://github.com/rkuo2000/EdgeAI-MCU/blob/main/Arduino/AMB82-mini/](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI/RTSP_VideoOnly/)<br>
-<iframe width="1024" height="576" src="https://www.youtube.com/embed/OmAnWOmt6WQ" title="AMB82 Mini - RTSP 影片串流範例" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+[![](https://markdown-videos-api.jorgenkh.no/youtube/OmAnWOmt6WQ)](https://youtu.be/OmAnWOmt6WQ)
 
 ### 人臉檢測範例
 [RTSP_FaceDetection](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI/RTSP_FaceDetection/)
