@@ -10,13 +10,10 @@
 
 ### [AI 簡介](https://rkuo2000.github.io/AI-course/lecture/2023/12/01/AI-Brief.html)
 
-* [Kaggle 使用介紹](https://rkuo2000.github.io/EdgeAI-course/lecture/2024/03/02/Kaggle-Tutorial.html)
-* [Colab 使用介紹](https://steam.oxxostudio.tw/category/python/info/online-editor.html)
+### [EdgeAI MCU 簡介](https://rkuo2000.github.io/EdgeAI-course/lecture/2024/03/01/Edge-AI-MCU-Intro.html)
 
 ---
-## EdgeAI MCU 介紹
-
-### Realtek AMB82-mini
+## 2. AMB82-mini Introduction
 <p><img width="50%" height="50%" src="https://www.amebaiot.com/wp-content/uploads/2023/03/amb82_mini.png"></p>
 
 ### AMB82-mini Pinout Diagram
@@ -27,16 +24,18 @@
 802.11 a/b/g/n WiFi 2.4GHz/5GHz, BLE 5.1, *NN Engine 0.4 TOPS*, Crypto Engine, Audo Codec, ...<br>
 
 * [Ameba Arduino](https://www.amebaiot.com/en/ameba-arduino-summary/)
-* [Amebapro2 AMB82-mini Arduino Example Guides](https://www.amebaiot.com/en/amebapro2-amb82-mini-arduino-peripherals-examples)
-* [Amebapro2 AMB82-mini Arduino getting started](https://www.amebaiot.com/en/amebapro2-amb82-mini-arduino-getting-started/)
-* [Ameba AIoT 影片](https://www.youtube.com/@amebaiot7033)
-* Preferences = https://raw.githubusercontent.com/ambiot/ambpro2_arduino/dev/Arduino_package/package_realtek_amebapro2_early_index.json<br>
 
+---
+## 3. [Arduino IDE使用介紹](https://www.amebaiot.com/en/amebapro2-amb82-mini-arduino-getting-started/)
+* Preferences = https://raw.githubusercontent.com/ambiot/ambpro2_arduino/dev/Arduino_package/package_realtek_amebapro2_early_index.json<br>
+* [Ameba AIoT 影片](https://www.youtube.com/@amebaiot7033)
+  
 [![](https://markdown-videos-api.jorgenkh.no/youtube/-jQDpDFX2ao)](https://youtu.be/-jQDpDFX2ao)
 
 ---
-## 2. AMB82 Mini 範例練習
-
+## 4. AMB82 Mini 範例練習
+* [Amebapro2 AMB82-mini Arduino Example Guides](https://www.amebaiot.com/en/amebapro2-amb82-mini-arduino-peripherals-examples)
+  
 ### 影像串流範例
 [RTSP_VideoOnly]([https://github.com/rkuo2000/EdgeAI-MCU/blob/main/Arduino/AMB82-mini/](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI/RTSP_VideoOnly/)<br>
 
