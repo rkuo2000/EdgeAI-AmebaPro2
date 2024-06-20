@@ -75,7 +75,7 @@
 
 ### AMB82 Mini 影像分類範例
 [RTSP_ImageClassification.ino](https://github.com/rkuo2000/EdgeAI-MCU/blob/main/Arduino/AMB82-mini/RTSP_EmotionClassification/RTSP_EmotionClassification.ino)<br>
-[![](https://markdown-videos-api.jorgenkh.no/youtube/7YxshRJLCSk)](https://youtu.be/7YxshRJLCSk)
+[![](https://markdown-videos-api.jorgenkh.no/youtube/c3XGkc9ShwQ&t=52s)](https://youtu.be/c3XGkc9ShwQ&t=52s)
 
 ---
 ## 6. EdgeAI Object Detection
