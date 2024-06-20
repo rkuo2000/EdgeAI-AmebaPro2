@@ -67,9 +67,9 @@
 ---
 ## 5. EdgeAI Image Classification
 
-### [Convolutional Neural Networks](https://rkuo2000.github.io/AI-course/lecture/2023/12/03/CNN.html) (卷積層神經網路介紹)
+### [卷積層神經網路介紹](https://rkuo2000.github.io/AI-course/lecture/2023/12/03/CNN.html)
 
-### [Image Classification](https://rkuo2000.github.io/AI-course/lecture/2023/12/04/Image-Classification.html) (影像分類介紹)
+### [影像分類介紹](https://rkuo2000.github.io/AI-course/lecture/2023/12/04/Image-Classification.html)
 
 ### AMB82 Mini 影像分類範例
 [RTSP_ImageClassification.ino](https://github.com/rkuo2000/EdgeAI-MCU/blob/main/Arduino/AMB82-mini/RTSP_EmotionClassification/RTSP_EmotionClassification.ino)<br>
@@ -78,8 +78,8 @@
 ---
 ## 6. EdgeAI Object Detection
 
-### [Object Detection](https://rkuo2000.github.io/AI-course/lecture/2023/12/05/Object-Detection.html) (物件檢測介紹)
-### [Object Detection Exercises](https://rkuo2000.github.io/AI-course/lecture/2023/12/05/Object-Detection-Exercises.html) (物件檢測範例練習)
+### [物件檢測介紹](https://rkuo2000.github.io/AI-course/lecture/2023/12/05/Object-Detection.html)
+### [物件檢測範例練習](https://rkuo2000.github.io/AI-course/lecture/2023/12/05/Object-Detection-Exercises.html)
 
 ### [YOLOv7](https://github.com/WongKinYiu/yolov7)
 [YOLOv7: Trainable bag-of-freebies sets new state-of-the-art for real-time object detectors](https://arxiv.org/abs/2207.02696)<br>
