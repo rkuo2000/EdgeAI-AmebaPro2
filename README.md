@@ -88,6 +88,11 @@
 ![](https://learnopencv.com/wp-content/uploads/2024/02/feature-1.gif)
 **Kaggle:** [https://www.kaggle.com/code/rkuo2000/yolov9](https://www.kaggle.com/code/rkuo2000/yolov9)<br>
 
+---
+### YOLOv10
+[https://github.com/THU-MIG/yolov10](https://github.com/THU-MIG/yolov10)<br>
+
+---
 ### AMB82 Mini 物件偵測範例
 [RTSP_ObjectDetectionLoop](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI/RTSP_ObjectDetectionLoop)<br>
 [![](https://markdown-videos-api.jorgenkh.no/youtube/EvryVoQyqqk)](https://youtu.be/EvryVoQyqqk)
