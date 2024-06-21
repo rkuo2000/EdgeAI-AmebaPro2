@@ -1,9 +1,6 @@
 # EdgeAI-MCU
 * **[AI-lecture](https://rkuo2000.github.io/AI-course/)**
 * **[EdgeAI-lecture](https://rkuo2000.github.io/EdgeAI-course/)**
-  
-* **[AMB82-Mini 程式範例](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI)**
-* **[生成式AI 程式範例](https://github.com/rkuo2000/GenAI/)**
 
 ---
 ## 1. Introduction
@@ -25,7 +22,8 @@
 <p><img width="50%" height="50%" src="https://github.com/rkuo2000/EdgeAI-MCU/blob/main/assets/AMB82-MINI_pinout.png?raw=true"></p>
 
 * [Ameba Arduino](https://www.amebaiot.com/en/ameba-arduino-summary/)
-
+* [AMB82-Mini 程式範例](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI)
+  
 ---
 ## 3. [Arduino IDE使用介紹](https://www.amebaiot.com/en/amebapro2-amb82-mini-arduino-getting-started/)
 * Preferences : 
