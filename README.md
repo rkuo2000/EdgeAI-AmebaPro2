@@ -85,12 +85,13 @@
 
 ### [YOLOv9](https://github.com/WongKinYiu/yolov9)
 [YOLOv9: Learning What You Want to Learn Using Programmable Gradient Information](https://arxiv.org/abs/2402.13616)<br>
-![](https://learnopencv.com/wp-content/uploads/2024/02/feature-1.gif)
 **Kaggle:** [https://www.kaggle.com/code/rkuo2000/yolov9](https://www.kaggle.com/code/rkuo2000/yolov9)<br>
+![](https://learnopencv.com/wp-content/uploads/2024/02/feature-1.gif)
 
 ---
 ### YOLOv10
-[https://github.com/THU-MIG/yolov10](https://github.com/THU-MIG/yolov10)<br>
+**Paper:**　[YOLOv10: Real-Time End-to-End Object Detection](https://arxiv.org/abs/2405.14458)<br>
+**Github:** [https://github.com/THU-MIG/yolov10](https://github.com/THU-MIG/yolov10)<br>
 
 ---
 ### AMB82 Mini 物件偵測範例
