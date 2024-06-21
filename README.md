@@ -77,7 +77,6 @@
 ## 6. EdgeAI Object Detection
 
 ### [物件檢測介紹](https://rkuo2000.github.io/AI-course/lecture/2023/12/05/Object-Detection.html)
-### [物件檢測範例練習](https://rkuo2000.github.io/AI-course/lecture/2023/12/05/Object-Detection-Exercises.html)
 
 ### [YOLOv7](https://github.com/WongKinYiu/yolov7)
 [YOLOv7: Trainable bag-of-freebies sets new state-of-the-art for real-time object detectors](https://arxiv.org/abs/2207.02696)<br>
