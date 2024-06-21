@@ -106,13 +106,8 @@
 
 ---
 ## 7. EdgeAI with LLM
-* [生成式AI 程式範例](https://github.com/rkuo2000/GenAI)<br>
 
 ### [Large Language Model](https://rkuo2000.github.io/AI-course/lecture/2024/03/21/LLM.html) (大型語言模型介紹)
-
-### Text-to-Text (LLM 程式範例)
-* [llm_server.py](https://github.com/rkuo2000/GenAI/blob/main/Text-to-Text/llm_server.py)
-* [llm_client.py](https://github.com/rkuo2000/GenAI/blob/main/Text-to-Text/llm_client.py)
 
 ### AMB82 Mini - 語音辨識範例
 * [AmebaPro2 whisper server](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI/src/AmebaPro2_whisper_server.py)
@@ -125,15 +120,7 @@
 ---
 ## 8. EdgeAI with VLM
 
-### [Vision Language Model](https://rkuo2000.github.io/AI-course/lecture/2024/03/27/VLM.html) (視覺語言模型介紹)
-
-### Image+Text
-* [llava_server.py](https://github.com/rkuo2000/GenAI/blob/main/Image-to-Text/llava_server.py)
-* [post_imgtxt.py](https://github.com/rkuo2000/GenAI/blob/main/Image-to-Text/post_imgtxt.py)
-
-### Image+Audio
-* [whisper_llava_server.py](https://github.com/rkuo2000/GenAI/blob/main/Image-to-Text/whisper_llava_server.py)
-* [post_imgau.py](https://github.com/rkuo2000/GenAI/blob/main/Image-to-Text/post_imgau.py) 
+### [Vision Language Model](https://rkuo2000.github.io/AI-course/lecture/2024/03/27/VLM.html) (視覺語言模型介紹) 
 
 ### AMB82 Mini - 影像+語音交談範例
 * [AmebaPro2_whisper_llava_server.py](https://github.com/rkuo2000/EdgeAI-MCU/blob/main/Arduino/AMB82-mini/src/AmebaPro2_whisper_llava_server.py)<br>
