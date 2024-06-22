@@ -26,7 +26,7 @@
   
 ---
 ## 3. [Arduino IDE使用介紹](https://www.amebaiot.com/en/amebapro2-amb82-mini-arduino-getting-started/)
-* Preferences : 
+* Preferences : `https://raw.githubusercontent.com/ambiot/ambpro2_arduino/dev/Arduino_package/package_realtek_amebapro2_early_index.json`
   
 * [Ameba AIoT 影片](https://www.youtube.com/@amebaiot7033)
   
