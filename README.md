@@ -53,6 +53,9 @@
 [YAMNet](https://codimd.mcl.math.ncu.edu.tw/s/hoOqEgBSf)<br>
 [![](https://markdown-videos-api.jorgenkh.no/youtube/oi8ML6aJcvI)](https://youtu.be/oi8ML6aJcvI)
 
+### 動作偵測
+[![](https://markdown-videos-api.jorgenkh.no/youtube/g_ZP023XCIw)](https://youtu.be/g_ZP023XCIw)
+
 ### 慣性感測範例
 [IMU MPU6050-DMP6v12](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI/IMU_MPU6050_DMP6v12)<br>
 
@@ -78,21 +81,6 @@
 
 ### [物件檢測介紹](https://rkuo2000.github.io/AI-course/lecture/2023/12/05/Object-Detection.html)
 
-### [YOLOv7](https://github.com/WongKinYiu/yolov7)
-[YOLOv7: Trainable bag-of-freebies sets new state-of-the-art for real-time object detectors](https://arxiv.org/abs/2207.02696)<br>
-**Kaggle:** [https://www.kaggle.com/code/rkuo2000/yolov7](https://www.kaggle.com/code/rkuo2000/yolov7)<br>
-
-### [YOLOv9](https://github.com/WongKinYiu/yolov9)
-[YOLOv9: Learning What You Want to Learn Using Programmable Gradient Information](https://arxiv.org/abs/2402.13616)<br>
-**Kaggle:** [https://www.kaggle.com/code/rkuo2000/yolov9](https://www.kaggle.com/code/rkuo2000/yolov9)<br>
-![](https://learnopencv.com/wp-content/uploads/2024/02/feature-1.gif)
-
----
-### YOLOv10
-**Paper:**　[YOLOv10: Real-Time End-to-End Object Detection](https://arxiv.org/abs/2405.14458)<br>
-**Github:** [https://github.com/THU-MIG/yolov10](https://github.com/THU-MIG/yolov10)<br>
-
----
 ### AMB82 Mini 物件偵測範例
 [RTSP_ObjectDetectionLoop](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI/RTSP_ObjectDetectionLoop)<br>
 [![](https://markdown-videos-api.jorgenkh.no/youtube/EvryVoQyqqk)](https://youtu.be/EvryVoQyqqk)
