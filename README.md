@@ -128,4 +128,17 @@
 ### [Portable ChatGPT](https://github.com/rkuo2000/portable-ChatGPT)
 [![](https://markdown-videos-api.jorgenkh.no/youtube/7rfmXPqyLF0)](https://youtu.be/7rfmXPqyLF0)
 
+### Vaccum Robot
+[![](https://markdown-videos-api.jorgenkh.no/youtube/YHR3ZOmtcyU)](https://youtu.be/YHR3ZOmtcyU)
+
+### RoboCar (voice-control, BLE remote-control, line-notify, object-detection)
+[![](https://markdown-videos-api.jorgenkh.no/youtube/vr_V1QnVMts)](https://youtu.be/vr_V1QnVMts)
+
+### AI Door-Bell
+[![](https://markdown-videos-api.jorgenkh.no/youtube/IumI-uAtkRU)](https://youtu.be/IumI-uAtkRU)
+
+### Portable LLM/VLM Demo
+[![](https://markdown-videos-api.jorgenkh.no/youtube/3PnHSE_8rRM)](https://youtu.be/3PnHSE_8rRM)
+
+
 
