@@ -1,16 +1,13 @@
-# EdgeAI-MCU
-* **[AI-lecture](https://rkuo2000.github.io/AI-course/)**
-* **[EdgeAI-lecture](https://rkuo2000.github.io/EdgeAI-course/)**
+# EdgeAI AMB82-mini
 
----
-## 1. Introduction
+## 1. AI 介紹
 
 ### [AI 簡介](https://rkuo2000.github.io/AI-course/lecture/2023/12/01/AI-Brief.html)
 
-### [EdgeAI MCU 簡介](https://rkuo2000.github.io/EdgeAI-course/lecture/2024/03/01/Edge-AI-MCU-Intro.html)
+### [AI 硬體介紹](https://rkuo2000.github.io/AI-course/lecture/2024/08/01/AI-Hardwares.html)
 
 ---
-## 2. AMB82-mini Introduction
+## 2. AMB82-mini 介紹
 
 ### [RTL8735B](https://www.amebaiot.com/en/amebapro2/):
 32-bit Arm v8M, up to 500MHz, 768KB ROM, 512KB RAM, 16MB Flash (MCM embedded DDR2/DDR3L up to 128MB)<br>
@@ -33,13 +30,40 @@
 [![](https://markdown-videos-api.jorgenkh.no/youtube/-jQDpDFX2ao)](https://youtu.be/-jQDpDFX2ao)
 
 ---
-## 4. AMB82 Mini 範例練習
+### Arduino 範例練習
+* Blinky
+* GPIO button
+
+---
+## 4. 感測器範例練習
+
+### 紅外線測距
+**Datasheet**: [VL53L0X - Time-of-Flight ranging sensor]()<br>
+[IR_VL53L0X](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI/IR_VL53L0X)<br>
+
+---
+### 慣性感測範例
+**[慣性元件介紹](https://rkuo2000.github.io/EdgeAI-course/lecture/2024/05/24/IMU.html)**<br>
+
+[IMU MPU6050-DMP6v12](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI/IMU_MPU6050_DMP6v12)<br>
+
+---
+## 5. Motion Detection 範例練習
 * [Amebapro2 AMB82-mini Arduino Example Guides](https://www.amebaiot.com/en/amebapro2-amb82-mini-arduino-peripherals-examples)
-  
+
+### 動作偵測 
+[![](https://markdown-videos-api.jorgenkh.no/youtube/g_ZP023XCIw)](https://youtu.be/g_ZP023XCIw)
+
+---
+## 5. Streaming 範例練習
+
 ### 影像串流範例
 [RTSP_VideoOnly](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI/RTSP_VideoOnly/)<br>
 [![](https://markdown-videos-api.jorgenkh.no/youtube/OmAnWOmt6WQ)](https://youtu.be/OmAnWOmt6WQ)
 
+### 
+---
+## 5. Detection
 ### 人臉檢測範例
 [RTSP_FaceDetection](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI/RTSP_FaceDetection/)<br>
 [![](https://markdown-videos-api.jorgenkh.no/youtube/KD95JH6gVew)](https://youtu.be/KD95JH6gVew)
@@ -53,14 +77,8 @@
 [YAMNet](https://codimd.mcl.math.ncu.edu.tw/s/hoOqEgBSf)<br>
 [![](https://markdown-videos-api.jorgenkh.no/youtube/oi8ML6aJcvI)](https://youtu.be/oi8ML6aJcvI)
 
-### 動作偵測
-[![](https://markdown-videos-api.jorgenkh.no/youtube/g_ZP023XCIw)](https://youtu.be/g_ZP023XCIw)
 
-### 慣性感測範例
-[IMU MPU6050-DMP6v12](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI/IMU_MPU6050_DMP6v12)<br>
 
-### 紅外線測距
-[IR_VL53L0X](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI/IR_VL53L0X)<br>
 
 ### 彩色TFTLCD
 [Camera_TFTLCD](https://github.com/rkuo2000/Arduino/blob/master/examples/AMB82-MINI/Camera_TFTLCD/Camera_TFTLCD.ino)
