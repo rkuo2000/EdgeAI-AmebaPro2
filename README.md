@@ -27,10 +27,16 @@
 <p><img width="50%" height="50%" src="https://github.com/rkuo2000/EdgeAI-MCU/blob/main/assets/AMB82-MINI_pinout.png?raw=true"></p>
 
 ---
-## 3. [Arduino IDE使用介紹](https://www.amebaiot.com/en/amebapro2-amb82-mini-arduino-getting-started/)
+## 3. Arduino IDE使用介紹
+
+### [Getting Started](https://www.amebaiot.com/en/amebapro2-amb82-mini-arduino-getting-started/)
+* First, connect AMB82 MINI to the computer via Micro USB:
+![](https://www.amebaiot.com/wp-content/uploads/2022/12/amb82-mini/P03.png)
+
 * Preferences : `https://raw.githubusercontent.com/ambiot/ambpro2_arduino/dev/Arduino_package/package_realtek_amebapro2_early_index.json`
-  
-* [Ameba AIoT 影片](https://www.youtube.com/@amebaiot7033)
+
+---
+### [Ameba AIoT 影片](https://www.youtube.com/@amebaiot7033)
   
 [![](https://markdown-videos-api.jorgenkh.no/youtube/-jQDpDFX2ao)](https://youtu.be/-jQDpDFX2ao)
 
