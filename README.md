@@ -18,9 +18,10 @@
 
 <p><img width="50%" height="50%" src="https://www.amebaiot.com/wp-content/uploads/2023/03/amb82_mini.png"></p>
 
-* [Ameba Arduino](https://www.amebaiot.com/en/ameba-arduino-summary/)
+---
+### [Ameba Arduino](https://www.amebaiot.com/en/ameba-arduino-summary/)
 
-* [AMB82-Mini 程式範例](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI)
+![](https://github.com/rkuo2000/EdgeAI-AMB82-mini/blob/main/assets/AMB82-mini_info?raw=true)
 
 ---
 ### AMB82-mini Pinout Diagram
@@ -30,6 +31,7 @@
 ## 3. Arduino IDE使用介紹
 
 ### [Getting Started](https://www.amebaiot.com/en/amebapro2-amb82-mini-arduino-getting-started/)
+
 * First, connect AMB82 MINI to the computer via Micro USB:
 ![](https://www.amebaiot.com/wp-content/uploads/2022/12/amb82-mini/P03.png)
 
@@ -44,6 +46,9 @@
 ### Arduino 範例練習
 * Blinky
 * GPIO button
+
+---
+### [AMB82-Mini 程式範例](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI)
 
 ---
 ## 4. 感測器範例練習
