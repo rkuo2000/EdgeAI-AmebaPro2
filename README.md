@@ -36,7 +36,7 @@
 
 ### 下載與安裝 Arduino IDE 
 **Download [Arduino IDE 2.3.2](https://www.arduino.cc/en/software)** <br>
-![](https://github.com/rkuo2000/EdgeAI-AMB82-mini/blob/main/assets/AMB82-mini_Arduio_IDE_download.png?raw=true)
+<p><img width="50%" height="50%" src="https://github.com/rkuo2000/EdgeAI-AMB82-mini/blob/main/assets/AMB82-mini_Arduio_IDE_download.png?raw=true"></p>
 
 ---
 ### 設定 Arduino IDE
