@@ -138,14 +138,6 @@
 * [RecordMP4_CaptureJPG_HTTP_Post_AudioImage](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI/RecordMP4_CaptureJPG_HTTP_Post_AudioImage)
 
 ---
-## 13.檢索增強生成 (RAG)
-
-### [Retrieval-Augmented Generation](https://rkuo2000.github.io/AI-course/lecture/2024/05/04/RAG.html)
-
-* [AmebaPro2_Whisper_LlamaIndex_RAG_server.py](https://github.com/rkuo2000/EdgeAI-MCU/blob/main/Arduino/AmebaPro2_Whisper_LlamaIndex_RAG_server.py)<br>
-* [RecordMP4_HTTP_Post_Audio](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI/RecordMP4_HTTP_Post_Audio)
-
----
 ## EdgeAI 微控制專題實作
 
 ### [Portable ChatGPT](https://github.com/rkuo2000/portable-ChatGPT)
