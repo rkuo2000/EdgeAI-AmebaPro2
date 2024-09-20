@@ -38,7 +38,7 @@
 ## 4. 感測器範例練習
 
 ### 紅外線測距
-**Datasheet**: [VL53L0X - Time-of-Flight ranging sensor]()<br>
+**Datasheet**: [VL53L0X - Time-of-Flight ranging sensor](https://github.com/rkuo2000/EdgeAI-AMB82-mini/blob/main/assets/vl53l0x.pdf)<br>
 [IR_VL53L0X](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI/IR_VL53L0X)<br>
 
 ---
@@ -55,15 +55,20 @@
 [![](https://markdown-videos-api.jorgenkh.no/youtube/g_ZP023XCIw)](https://youtu.be/g_ZP023XCIw)
 
 ---
-## 5. Streaming 範例練習
+## 6. Streaming 範例練習
 
 ### 影像串流範例
 [RTSP_VideoOnly](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI/RTSP_VideoOnly/)<br>
 [![](https://markdown-videos-api.jorgenkh.no/youtube/OmAnWOmt6WQ)](https://youtu.be/OmAnWOmt6WQ)
 
-### 
+### 彩色TFTLCD
+[Camera_TFTLCD](https://github.com/rkuo2000/Arduino/blob/master/examples/AMB82-MINI/Camera_TFTLCD/Camera_TFTLCD.ino)
+
 ---
-## 5. Detection
+## 7. 人臉辨識與識別
+
+### [人臉辨識與識別介紹](https://rkuo2000.github.io/AI-course/lecture/2024/08/07/Face-Recognition.html)
+
 ### 人臉檢測範例
 [RTSP_FaceDetection](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI/RTSP_FaceDetection/)<br>
 [![](https://markdown-videos-api.jorgenkh.no/youtube/KD95JH6gVew)](https://youtu.be/KD95JH6gVew)
@@ -72,32 +77,29 @@
 [RTSP_FaceRecognition](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI/RTSP_FaceRecognition/)<br>
 [![](https://markdown-videos-api.jorgenkh.no/youtube/GGOIQmMfeF8)](https://youtu.be/GGOIQmMfeF8)
 
+---
+## 8. 音頻
+
 ### 音頻分類範例
 [AudioClassification](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI/AudioClassification/)<br>
 [YAMNet](https://codimd.mcl.math.ncu.edu.tw/s/hoOqEgBSf)<br>
 [![](https://markdown-videos-api.jorgenkh.no/youtube/oi8ML6aJcvI)](https://youtu.be/oi8ML6aJcvI)
 
-
-
-
-### 彩色TFTLCD
-[Camera_TFTLCD](https://github.com/rkuo2000/Arduino/blob/master/examples/AMB82-MINI/Camera_TFTLCD/Camera_TFTLCD.ino)
-
 ---
-## 5. EdgeAI Image Classification
+## 9. 影像分類 (Image Classification)
 
-### [卷積層神經網路介紹](https://rkuo2000.github.io/AI-course/lecture/2023/12/03/CNN.html)
+### [卷積層神經網路介紹](https://rkuo2000.github.io/AI-course/lecture/2024/08/03/CNN.html)
 
-### [影像分類介紹](https://rkuo2000.github.io/AI-course/lecture/2023/12/04/Image-Classification.html)
+### [影像分類介紹](https://rkuo2000.github.io/AI-course/lecture/2024/08/04/Image-Classification.html)
 
-### AMB82 Mini 影像分類範例
+### 影像分類範例
 [RTSP_ImageClassification.ino](https://github.com/rkuo2000/EdgeAI-MCU/blob/main/Arduino/AMB82-mini/RTSP_EmotionClassification/RTSP_EmotionClassification.ino)<br>
 [![](https://markdown-videos-api.jorgenkh.no/youtube/c3XGkc9ShwQ)](https://youtu.be/c3XGkc9ShwQ)
 
 ---
-## 6. EdgeAI Object Detection
+## 10. 物件偵測 (Object Detection)
 
-### [物件檢測介紹](https://rkuo2000.github.io/AI-course/lecture/2023/12/05/Object-Detection.html)
+### [物件檢測介紹](https://rkuo2000.github.io/AI-course/lecture/2024/08/05/Object-Detection.html)
 
 ### AMB82 Mini 物件偵測範例
 [RTSP_ObjectDetectionLoop](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI/RTSP_ObjectDetectionLoop)<br>
