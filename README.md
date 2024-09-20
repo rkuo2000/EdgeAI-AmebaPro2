@@ -44,6 +44,8 @@
 
 ---
 ### 選定開發板 AMB82-MINI
+Tools > Board Manager > AMB82 package > 4.0.8-build20240805<br>
+![](https://github.com/rkuo2000/EdgeAI-AMB82-mini/blob/main/assets/AMB82-mini_Arduino_IDE_BoardManager.png?raw=true)
 
 ---
 ### [Getting Started](https://www.amebaiot.com/en/amebapro2-amb82-mini-arduino-getting-started/)
