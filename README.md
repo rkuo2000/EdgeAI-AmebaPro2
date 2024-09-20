@@ -10,7 +10,7 @@
 ## 2. AMB82-mini 介紹
 官方賣場：[ICshopping : Realtek AMB82-mini AI Camera (Ameba RTL8735B) $799 NTD](https://www.icshop.com.tw/products/368030501864)<br>
 ![](https://github.com/rkuo2000/EdgeAI-AMB82-mini/blob/main/assets/AMB82-mini.png?raw=true)
-![](https://github.com/rkuo2000/EdgeAI-AMB82-mini/blob/main/assets/AMB82-mini_pack.png?raw=true)
+![](https://github.com/rkuo2000/EdgeAI-AMB82-mini/blob/main/assets/AMB82-mini_kit.png?raw=true)
 
 ---
 ### [RTL8735B](https://www.amebaiot.com/en/amebapro2/):
@@ -22,7 +22,7 @@
 ---
 ### [Ameba Arduino](https://www.amebaiot.com/en/ameba-arduino-summary/)
 
-![](https://github.com/rkuo2000/EdgeAI-AMB82-mini/blob/main/assets/AMB82-mini_info?raw=true)
+![](https://github.com/rkuo2000/EdgeAI-AMB82-mini/blob/main/assets/AMB82-mini_Arduino.png?raw=true)
 
 ---
 ### AMB82-mini Pinout Diagram
