@@ -33,6 +33,7 @@
 
 ---
 ## 3. Arduino IDE使用介紹
+[![](https://markdown-videos-api.jorgenkh.no/youtube/-jQDpDFX2ao)](https://youtu.be/-jQDpDFX2ao)
 
 ### 下載 [Arduino IDE 2.3.2](https://www.arduino.cc/en/software) ＆ 安裝
 <p><img width="50%" height="50%" src="https://github.com/rkuo2000/EdgeAI-AMB82-mini/blob/main/assets/AMB82-mini_Arduio_IDE_download.png?raw=true"></p>
