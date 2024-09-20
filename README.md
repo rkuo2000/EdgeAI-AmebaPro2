@@ -131,6 +131,11 @@ Tools > Board Manager > AMB82 package > 4.0.8-build20240805<br>
 
 **Sketch:** [Camera_TFTLCD](https://github.com/rkuo2000/Arduino/blob/master/examples/AMB82-MINI/Camera_TFTLCD/Camera_TFTLCD.ino)<br>
 
+**Exmples/AmebaSPI:** <br>
+* Camera_2_Lcd
+* Camera_2_Lcd_JPEGDEC
+* LCD_Screen_ILI9341_TFT
+  
 ---
 ## 7. 人臉辨識與識別
 
