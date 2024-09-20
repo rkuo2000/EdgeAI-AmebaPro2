@@ -44,7 +44,8 @@
 
 ---
 ### 執行Arduino IDE 與偏好設定
-**Preferences**加上 `https://raw.githubusercontent.com/ambiot/ambpro2_arduino/dev/Arduino_package/package_realtek_amebapro2_early_index.json` <br>
+**Preferences**加上 `https://github.com/ambiot/ambpro2_arduino/raw/main/Arduino_package/package_realtek_amebapro2_index.json`<br>
+
 ![](https://github.com/rkuo2000/EdgeAI-AMB82-mini/blob/main/assets/AMB82-mini_Arduino_IDE_preference.png?raw=true)
 
 ---
