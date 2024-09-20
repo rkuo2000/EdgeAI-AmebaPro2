@@ -114,7 +114,7 @@ Tools > Board Manager > AMB82 package > 4.0.8-build20240805<br>
 
 **[SPI - LCD Screen ILI9341 TFT](https://www.amebaiot.com/en/amebapro2-arduino-spi-lcd/)** <br>
 
-#### pin name list:
+#### Interface signal names:
 * MOSI: Standard SPI Pin
 * MISO: Standard SPI Pin
 * SLK: Standard SPI Pin
