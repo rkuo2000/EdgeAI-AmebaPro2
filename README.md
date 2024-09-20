@@ -50,12 +50,13 @@
 ---
 ### 選定開發板 AMB82-MINI
 Tools > Board Manager > AMB82 package > 4.0.8-build20240805<br>
-![](https://github.com/rkuo2000/EdgeAI-AMB82-mini/blob/main/assets/AMB82-mini_Arduino_IDE_BoardManager.png?raw=true)
+<p><img width="75%" height="75%" src="https://github.com/rkuo2000/EdgeAI-AMB82-mini/blob/main/assets/AMB82-mini_Arduino_IDE_BoardManager.png?raw=true"></p>
 
 ---
 ### [Getting Started](https://www.amebaiot.com/en/amebapro2-amb82-mini-arduino-getting-started/)
 首先將AMB82-mini板子用MicroUSB線 連接至電腦的USB port<br>
-<p><img width="50%" height="50%" src="https://www.amebaiot.com/wp-content/uploads/2022/12/amb82-mini/P03.png"></p>
+
+<p><img width="75%" height="75%" src="https://www.amebaiot.com/wp-content/uploads/2022/12/amb82-mini/P03.png"></p>
 
 ---
 ### Arduino examples 範例練習
