@@ -37,7 +37,7 @@
 ### [Getting Started](https://www.amebaiot.com/en/amebapro2-amb82-mini-arduino-getting-started/)
 
 * First, connect AMB82 MINI to the computer via Micro USB:
-![](https://www.amebaiot.com/wp-content/uploads/2022/12/amb82-mini/P03.png)
+<p><img width="50%" height="50%" src="https://www.amebaiot.com/wp-content/uploads/2022/12/amb82-mini/P03.png"></p>
 
 * Preferences : `https://raw.githubusercontent.com/ambiot/ambpro2_arduino/dev/Arduino_package/package_realtek_amebapro2_early_index.json`
 
