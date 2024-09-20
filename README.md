@@ -108,8 +108,9 @@ Tools > Board Manager > AMB82 package > 4.0.8-build20240805<br>
 [RTSP_VideoOnly](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI/RTSP_VideoOnly/)<br>
 [![](https://markdown-videos-api.jorgenkh.no/youtube/OmAnWOmt6WQ)](https://youtu.be/OmAnWOmt6WQ)
 
+---
 ### 彩色TFTLCD
-![]([)](https://www.amebaiot.com/wp-content/uploads/2022/07/QVGA-LCD-1.jpg)
+![](https://www.amebaiot.com/wp-content/uploads/2022/07/QVGA-LCD-1.jpg)
 **[SPI - LCD Screen ILI9341 TFT](https://www.amebaiot.com/en/amebapro2-arduino-spi-lcd/)**<br>
 
 #### pin name list:
@@ -123,12 +124,11 @@ Tools > Board Manager > AMB82 package > 4.0.8-build20240805<br>
 * VCC: Connected to 3V or 5V, depends on its spec.
 * GND: Connected to GND.
 
+---
 #### AMB82 MINI and QVGA TFT LCD Wiring Diagram:<br>
 ![](https://www.amebaiot.com/wp-content/uploads/2023/01/spi/lcdP01.png)
 
 **examples:** [Camera_TFTLCD](https://github.com/rkuo2000/Arduino/blob/master/examples/AMB82-MINI/Camera_TFTLCD/Camera_TFTLCD.ino)<br>
-
-
 
 ---
 ## 7. 人臉辨識與識別
