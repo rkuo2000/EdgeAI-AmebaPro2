@@ -49,6 +49,7 @@
 
 ---
 ## 5. Motion Detection 範例練習
+
 * [Amebapro2 AMB82-mini Arduino Example Guides](https://www.amebaiot.com/en/amebapro2-amb82-mini-arduino-peripherals-examples)
 
 ### 動作偵測 
@@ -113,9 +114,9 @@
 [![](https://markdown-videos-api.jorgenkh.no/youtube/6cHC2cOKgQk)](https://youtu.be/6cHC2cOKgQk)
 
 ---
-## 7. EdgeAI with LLM
+## 11. 大型語言模型範例 (LLM)
 
-### [Large Language Model](https://rkuo2000.github.io/AI-course/lecture/2024/03/21/LLM.html) (大型語言模型介紹)
+### [大型語言模型範例介紹](https://rkuo2000.github.io/AI-course/lecture/2024/08/15/LLM.html) 
 
 ### AMB82 Mini - 語音辨識範例
 * [AmebaPro2 Whisper server](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI/src/AmebaPro2_Whisper_server.py)
@@ -126,16 +127,16 @@
 * [RecordMP4_HTTP_Post_Audio.ino](hhttps://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI/RecordMP4_HTTP_Post_Audio/)
 
 ---
-## 8. EdgeAI with VLM
+## 12. 視覺語言模型 (VLM)
 
-### [Vision Language Model](https://rkuo2000.github.io/AI-course/lecture/2024/03/27/VLM.html) (視覺語言模型介紹) 
+### [視覺語言模型介紹](https://rkuo2000.github.io/AI-course/lecture/2024/08/16/VLM.html) 
 
 ### AMB82 Mini - 影像+語音交談範例
 * [AmebaPro2_whisper_llava_server.py](https://github.com/rkuo2000/EdgeAI-MCU/blob/main/Arduino/AMB82-mini/src/AmebaPro2_whisper_llava_server.py)<br>
 * [RecordMP4_CaptureJPG_HTTP_Post_AudioImage](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI/RecordMP4_CaptureJPG_HTTP_Post_AudioImage)
 
 ---
-## 9. RAG (檢索增強生成）
+## 13.檢索增強生成 (RAG)
 
 ### [Retrieval-Augmented Generation](https://rkuo2000.github.io/AI-course/lecture/2024/05/04/RAG.html)
 
@@ -143,7 +144,7 @@
 * [RecordMP4_HTTP_Post_Audio](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI/RecordMP4_HTTP_Post_Audio)
 
 ---
-## EdgeAI Projects
+## EdgeAI 微控制專題實作
 
 ### [Portable ChatGPT](https://github.com/rkuo2000/portable-ChatGPT)
 [![](https://markdown-videos-api.jorgenkh.no/youtube/7rfmXPqyLF0)](https://youtu.be/7rfmXPqyLF0)
