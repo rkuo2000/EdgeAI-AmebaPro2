@@ -34,13 +34,16 @@
 ---
 ## 3. Arduino IDE使用介紹
 
-### 下載 [Arduino IDE 2.3.2](https://www.arduino.cc/en/software)
+### 下載 [Arduino IDE 2.3.2](https://www.arduino.cc/en/software) ＆ 安裝
 <p><img width="50%" height="50%" src="https://github.com/rkuo2000/EdgeAI-AMB82-mini/blob/main/assets/AMB82-mini_Arduio_IDE_download.png?raw=true"></p>
 
 ---
-### 設定 Arduino IDE
-**Preferences**: `https://raw.githubusercontent.com/ambiot/ambpro2_arduino/dev/Arduino_package/package_realtek_amebapro2_early_index.json`
+### 執行Arduino IDE 與偏好設定
+**Preferences**加上 `https://raw.githubusercontent.com/ambiot/ambpro2_arduino/dev/Arduino_package/package_realtek_amebapro2_early_index.json` <br>
 ![](https://github.com/rkuo2000/EdgeAI-AMB82-mini/blob/main/assets/AMB82-mini_Arduino_IDE_preference.png?raw=true)
+
+---
+### 選定開發板 AMB82-MINI
 
 ---
 ### [Getting Started](https://www.amebaiot.com/en/amebapro2-amb82-mini-arduino-getting-started/)
