@@ -109,7 +109,26 @@ Tools > Board Manager > AMB82 package > 4.0.8-build20240805<br>
 [![](https://markdown-videos-api.jorgenkh.no/youtube/OmAnWOmt6WQ)](https://youtu.be/OmAnWOmt6WQ)
 
 ### 彩色TFTLCD
-[Camera_TFTLCD](https://github.com/rkuo2000/Arduino/blob/master/examples/AMB82-MINI/Camera_TFTLCD/Camera_TFTLCD.ino)
+![]([)](https://www.amebaiot.com/wp-content/uploads/2022/07/QVGA-LCD-1.jpg)
+**[SPI - LCD Screen ILI9341 TFT](https://www.amebaiot.com/en/amebapro2-arduino-spi-lcd/)**<br>
+
+#### pin name list:
+* MOSI: Standard SPI Pin
+* MISO: Standard SPI Pin
+* SLK: Standard SPI Pin
+* CS: Standard SPI Pin
+* RESET: Used to reboot LCD.
+* D/C: Data/Command. When it is at LOW, the signal transmitted are commands, otherwise the data transmitted are data.
+* LED (or BL): Adapt the screen backlight. Can be controlled by PWM or connected to VCC for 100% backlight.
+* VCC: Connected to 3V or 5V, depends on its spec.
+* GND: Connected to GND.
+
+#### AMB82 MINI and QVGA TFT LCD Wiring Diagram:<br>
+![](https://www.amebaiot.com/wp-content/uploads/2023/01/spi/lcdP01.png)
+
+**examples:** [Camera_TFTLCD](https://github.com/rkuo2000/Arduino/blob/master/examples/AMB82-MINI/Camera_TFTLCD/Camera_TFTLCD.ino)<br>
+
+
 
 ---
 ## 7. 人臉辨識與識別
