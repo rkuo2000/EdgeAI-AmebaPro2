@@ -80,7 +80,7 @@ Tools > Board Manager > AMB82 package > 4.0.8-build20240805<br>
 
 ### 紅外線測距模組
 **[VL53L0X v2](https://www.ruten.com.tw/item/show?21910113673958)** <br>
-![](https://esphome.io/_images/vl53l0x.png)
+<p><img width="50%" height="50%" src="https://esphome.io/_images/vl53l0x.png"></p>
 
 **Datasheet**: [VL53L0X - Time-of-Flight ranging sensor](https://github.com/rkuo2000/EdgeAI-AMB82-mini/blob/main/assets/vl53l0x.pdf)<br>\
 **Sketch:** [IR_VL53L0X](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI/IR_VL53L0X)<br>
