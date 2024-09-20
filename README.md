@@ -34,12 +34,19 @@
 ---
 ## 3. Arduino IDE使用介紹
 
-### [Getting Started](https://www.amebaiot.com/en/amebapro2-amb82-mini-arduino-getting-started/)
+### Arduino IDE 2.3.2 下載與安裝
+**Download [Arduino IDE 2.3.2](https://www.arduino.cc/en/software)** <br>
+![]()
 
-* First, connect AMB82 MINI to the computer via Micro USB:
+---
+### [Getting Started](https://www.amebaiot.com/en/amebapro2-amb82-mini-arduino-getting-started/)
+首先將AMB82-mini板子用MicroUSB線 連接至電腦的USB port<br>
 <p><img width="50%" height="50%" src="https://www.amebaiot.com/wp-content/uploads/2022/12/amb82-mini/P03.png"></p>
 
-* Preferences : `https://raw.githubusercontent.com/ambiot/ambpro2_arduino/dev/Arduino_package/package_realtek_amebapro2_early_index.json`
+---
+### 設定 Arduino IDE
+Preferences : `https://raw.githubusercontent.com/ambiot/ambpro2_arduino/dev/Arduino_package/package_realtek_amebapro2_early_index.json`
+![](https://github.com/rkuo2000/EdgeAI-AMB82-mini/blob/main/assets/AMB82-mini_Arduino_IDE_preference.png?raw=true)
 
 ---
 ### [Ameba AIoT 影片](https://www.youtube.com/@amebaiot7033)
