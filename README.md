@@ -135,7 +135,7 @@ Tools > Board Manager > AMB82 package > 4.0.8-build20240805<br>
 **Exmples/AmebaSPI:** <br>
 * LCD_Screen_ILI9341_TFT : LCD Draw Tests<br>
 * Camera_2_Lcd : press button to allow Camera output to TFT-LCD<br>
-![]()
+![](https://github.com/rkuo2000/EdgeAI-AMB82-mini/blob/main/assets/AMB82-mini-examples_button_TFTLCD_JpgDec.png?raw=true)
 
 * Camera_2_Lcd_JPEGDEC : Camera output saved to SDcard, then Jpeg Decoder to read file & decode to TFT-LCD<br>
 ![](https://github.com/rkuo2000/EdgeAI-AMB82-mini/blob/main/assets/AMB82-mini_Camera-to-TFTLCD_JpgDecoder.png?raw=true)
