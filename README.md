@@ -80,13 +80,13 @@ Tools > Board Manager > AMB82 package > 4.0.8-build20240805<br>
 
 ### 紅外線測距
 **Datasheet**: [VL53L0X - Time-of-Flight ranging sensor](https://github.com/rkuo2000/EdgeAI-AMB82-mini/blob/main/assets/vl53l0x.pdf)<br>\
-**範例:** [IR_VL53L0X](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI/IR_VL53L0X)<br>
+**Sketch:** [IR_VL53L0X](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI/IR_VL53L0X)<br>
 
 ---
 ### 慣性感測範例
 
 **[慣性元件介紹](https://rkuo2000.github.io/EdgeAI-course/lecture/2024/05/24/IMU.html)** <br>
-**範例:** [IMU MPU6050-DMP6v12](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI/IMU_MPU6050_DMP6v12)<br>
+**Sketch:** [IMU MPU6050-DMP6v12](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI/IMU_MPU6050_DMP6v12)<br>
 
 ---
 ## 5. Motion Detection 範例練習
