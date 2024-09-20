@@ -15,7 +15,6 @@
 
 <p><img width="50%" height="50%" src="https://www.amebaiot.com/wp-content/uploads/2023/03/amb82_mini.png"></p>
 
----
 * [Ameba Arduino](https://www.amebaiot.com/en/ameba-arduino-summary/)
 
 * [AMB82-Mini 程式範例](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI)
