@@ -138,7 +138,7 @@
 * [RecordMP4_CaptureJPG_HTTP_Post_AudioImage](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI/RecordMP4_CaptureJPG_HTTP_Post_AudioImage)
 
 ---
-## EdgeAI 微控制專題實作
+## 13. EdgeAI 微控制器專題實作
 
 ### [Portable ChatGPT](https://github.com/rkuo2000/portable-ChatGPT)
 [![](https://markdown-videos-api.jorgenkh.no/youtube/7rfmXPqyLF0)](https://youtu.be/7rfmXPqyLF0)
