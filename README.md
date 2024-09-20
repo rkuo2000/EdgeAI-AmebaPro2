@@ -69,6 +69,9 @@ Tools > Board Manager > AMB82 package > 4.0.8-build20240805<br>
 
 ---
 ### [AMB82-Mini 程式範例](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI)
+1. 瀏覽器打開 https://github.com/rkuo2000/Arduino, 並點[Code]下載 .zip <br>
+2. 解壓縮.zip, 並將Arduino
+3. copy Arduino to Documents/Arduino
 
 ---
 ## 4. 感測器範例練習
