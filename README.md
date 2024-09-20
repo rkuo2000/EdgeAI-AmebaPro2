@@ -110,8 +110,9 @@ Tools > Board Manager > AMB82 package > 4.0.8-build20240805<br>
 
 ---
 ### 彩色TFTLCD
-![](https://www.amebaiot.com/wp-content/uploads/2022/07/QVGA-LCD-1.jpg)
-**[SPI - LCD Screen ILI9341 TFT](https://www.amebaiot.com/en/amebapro2-arduino-spi-lcd/)**<br>
+<p><img width="50%" height="50%" src="https://www.amebaiot.com/wp-content/uploads/2022/07/QVGA-LCD-1.jpg"></p>
+
+**[SPI - LCD Screen ILI9341 TFT](https://www.amebaiot.com/en/amebapro2-arduino-spi-lcd/)** <br>
 
 #### pin name list:
 * MOSI: Standard SPI Pin
