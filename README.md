@@ -129,7 +129,7 @@ Tools > Board Manager > AMB82 package > 4.0.8-build20240805<br>
 #### AMB82 MINI and QVGA TFT LCD Wiring Diagram:<br>
 ![](https://www.amebaiot.com/wp-content/uploads/2023/01/spi/lcdP01.png)
 
-**examples:** [Camera_TFTLCD](https://github.com/rkuo2000/Arduino/blob/master/examples/AMB82-MINI/Camera_TFTLCD/Camera_TFTLCD.ino)<br>
+**Sketch:** [Camera_TFTLCD](https://github.com/rkuo2000/Arduino/blob/master/examples/AMB82-MINI/Camera_TFTLCD/Camera_TFTLCD.ino)<br>
 
 ---
 ## 7. 人臉辨識與識別
