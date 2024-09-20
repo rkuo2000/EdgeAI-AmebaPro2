@@ -8,6 +8,7 @@
 
 ---
 ## 2. AMB82-mini 介紹
+![](https://github.com/rkuo2000/EdgeAI-AMB82-mini/blob/main/assets/AMB82-mini.png?raw=true)
 
 ### [RTL8735B](https://www.amebaiot.com/en/amebapro2/):
 32-bit Arm v8M, up to 500MHz, 768KB ROM, 512KB RAM, 16MB Flash (MCM embedded DDR2/DDR3L up to 128MB)<br>
