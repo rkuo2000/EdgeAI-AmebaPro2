@@ -87,7 +87,7 @@ Tools > Board Manager > AMB82 package > 4.0.8-build20240805<br>
 ---
 ### 慣性感測模組
 **[MPU6050](https://www.ruten.com.tw/item/show?22428017261803)** <br>
-![]()
+![](https://github.com/rkuo2000/EdgeAI-AMB82-mini/blob/main/assets/MPU6050.png?raw=true)
 
 **[慣性元件介紹](https://rkuo2000.github.io/EdgeAI-course/lecture/2024/05/24/IMU.html)** <br>
 **Sketch:** [IMU MPU6050-DMP6v12](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI/IMU_MPU6050_DMP6v12)<br>
