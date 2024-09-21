@@ -1,4 +1,9 @@
 # EdgeAI AMB82-mini
+```
+教材網址：https://github.com/rkuo2000/EdgeAI-AMB82-mini
+程式範例：https://github.com/rkuo2000/Arduino
+```
+
 自強基金會 WiFi 
 ```
 SSID: TCFSTWIFI.ALL
