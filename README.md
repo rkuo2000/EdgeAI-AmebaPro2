@@ -84,7 +84,7 @@ Tools > Board Manager > AMB82 package > 4.0.7<br>
 <p><img width="50%" height="50%" src="https://github.com/rkuo2000/EdgeAI-AMB82-mini/blob/main/assets/AMB82-mini_Arduino_Sketch_Download_ZIP.png?raw=true"></p>
 1. 瀏覽器打開 https://github.com/rkuo2000/Arduino, 點[Code]並選 [Download ZIP]
 
-2. 解壓縮.zip, 並將Arduino
+2. 解壓縮.zip, 並extract examples
    
 3. 複製Arduino 至 Documents/Arduino
 
