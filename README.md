@@ -96,7 +96,8 @@ const int ledPin = LED_BUILTIN;    // the number of the LED pin
 ## 4. 感測器範例練習
 
 ### 紅外線測距模組
-**[VL53L0X v2](https://www.ruten.com.tw/item/show?21910113673958)** <br>
+**[VL53L0X v2](https://www.ruten.com.tw/item/show?22425810394279)** <br>
+**[VL53L1X v2](https://www.ruten.com.tw/item/show?22425810394279)** <br>
 <p><img width="50%" height="50%" src="https://esphome.io/_images/vl53l0x.png"></p>
 
 **Datasheet**: [VL53L0X - Time-of-Flight ranging sensor](https://github.com/rkuo2000/EdgeAI-AMB82-mini/blob/main/assets/vl53l0x.pdf)<br>\
