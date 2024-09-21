@@ -79,6 +79,12 @@ Tools > Board Manager > AMB82 package > 4.0.7<br>
   
 ![](https://github.com/rkuo2000/EdgeAI-AMB82-mini/blob/main/assets/AMB82-mini_Arduino_examples_02.Digital_Button.png?raw=true)
 
+修改程式碼：<br>
+```
+const int buttonPin = 1;  // the number of the pushbutton pin
+const int ledPin = LED_BUILTIN;    // the number of the LED pin
+```
+
 ---
 ### [AMB82-Mini 程式範例](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI)
 <p><img width="50%" height="50%" src="https://github.com/rkuo2000/EdgeAI-AMB82-mini/blob/main/assets/AMB82-mini_Arduino_Sketch_Download_ZIP.png?raw=true"></p>
