@@ -227,7 +227,7 @@ const int ledPin = LED_BUILTIN;    // the number of the LED pin
 * [RecordMP4_CaptureJPG_HTTP_Post_AudioImage](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI/RecordMP4_CaptureJPG_HTTP_Post_AudioImage)
 
 ---
-## 13. EdgeAI 微控制器專題實作
+## 13.AMB82-mini 專題實作
 
 ### [Portable ChatGPT](https://github.com/rkuo2000/portable-ChatGPT)
 [![](https://markdown-videos-api.jorgenkh.no/youtube/7rfmXPqyLF0)](https://youtu.be/7rfmXPqyLF0)
