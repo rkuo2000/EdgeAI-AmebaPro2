@@ -60,7 +60,7 @@ Pass: 035623116
 
 ---
 ### 選定開發板 AMB82-MINI
-Tools > Board Manager > AMB82 package > 4.0.8-build20240805<br>
+Tools > Board Manager > AMB82 package > 4.0.7<br>
 <p><img width="75%" height="75%" src="https://github.com/rkuo2000/EdgeAI-AMB82-mini/blob/main/assets/AMB82-mini_Arduino_IDE_BoardManager.png?raw=true"></p>
 
 ---
