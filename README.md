@@ -34,7 +34,7 @@ Pass: 035623116
 
 ---
 ### AMB82-mini Pinout Diagram
-<p><img width="50%" height="50%" src="https://github.com/rkuo2000/EdgeAI-MCU/blob/main/assets/AMB82-MINI_pinout.png?raw=true"></p>
+<p><img src="https://github.com/rkuo2000/EdgeAI-MCU/blob/main/assets/AMB82-MINI_pinout.png?raw=true"></p>
 
 ---
 ### [Ameba Arduino](https://www.amebaiot.com/en/ameba-arduino-summary/)
