@@ -121,7 +121,7 @@ Tools > Board Manager > AMB82 package > 4.0.8-build20240805<br>
 
 ---
 ### 彩色TFTLCD
-![](https://github.com/rkuo2000/EdgeAI-AMB82-mini/blob/main/assets/AMB82-mini_SPI_TFTLCD.jpg?raw=true)
+![](https://github.com/rkuo2000/EdgeAI-AMB82-mini/blob/main/assets/AMB82-mini_button_SPI_TFTLCD.jpg?raw=true)
 
 **[SPI - LCD Screen ILI9341 TFT](https://www.amebaiot.com/en/amebapro2-arduino-spi-lcd/)** <br>
 
