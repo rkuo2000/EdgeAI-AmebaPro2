@@ -1,4 +1,9 @@
 # EdgeAI AMB82-mini
+自強基金會 WiFi 
+```
+SSID: TCFSTWIFI.ALL
+Pass: 035623116
+```
 
 ## 1. AI 介紹
 
