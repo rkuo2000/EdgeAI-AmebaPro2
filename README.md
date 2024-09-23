@@ -94,6 +94,7 @@ const int ledPin = LED_BUILTIN;    // the number of the LED pin
 
 ---
 ## 4. 感測器範例練習
+Serial-monitor baud rate = `115200`<br>
 
 ### 紅外線測距模組
 **[VL53L0X v2](https://www.ruten.com.tw/item/show?22425810394279)** <br>
@@ -113,21 +114,20 @@ const int ledPin = LED_BUILTIN;    // the number of the LED pin
 **Sketch:** [IMU MPU6050-DMP6v12](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI/IMU_MPU6050_DMP6v12)<br>
 
 ---
-## 5. Motion Detection 範例練習
+## 5. 影像串流範例練習
+
+### 影像串流
+[RTSP_VideoOnly](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI/RTSP_VideoOnly/)<br>
+[![](https://markdown-videos-api.jorgenkh.no/youtube/OmAnWOmt6WQ)](https://youtu.be/OmAnWOmt6WQ)
 
 * [Amebapro2 AMB82-mini Arduino Example Guides](https://www.amebaiot.com/en/amebapro2-amb82-mini-arduino-peripherals-examples)
 
-### 動作偵測
+### 動作偵測 (motion detection)
 [![](https://markdown-videos-api.jorgenkh.no/youtube/g_ZP023XCIw)](https://youtu.be/g_ZP023XCIw)
 
 ---
 ## 6. Streaming 範例練習
 
-### 影像串流範例
-[RTSP_VideoOnly](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI/RTSP_VideoOnly/)<br>
-[![](https://markdown-videos-api.jorgenkh.no/youtube/OmAnWOmt6WQ)](https://youtu.be/OmAnWOmt6WQ)
-
----
 ### 彩色TFTLCD
 ![](https://github.com/rkuo2000/EdgeAI-AMB82-mini/blob/main/assets/AMB82-mini_button_SPI_TFTLCD.jpg?raw=true)
 
