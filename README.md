@@ -229,8 +229,6 @@ Serial-monitor baud rate = `115200`<br>
 ---
 ## 13.AMB82-mini 專題實作
 
-### [Portable ChatGPT](https://github.com/rkuo2000/portable-ChatGPT)
-[![](https://markdown-videos-api.jorgenkh.no/youtube/7rfmXPqyLF0)](https://youtu.be/7rfmXPqyLF0)
 
 ### Vaccum Robot
 [![](https://markdown-videos-api.jorgenkh.no/youtube/YHR3ZOmtcyU)](https://youtu.be/YHR3ZOmtcyU)
@@ -245,5 +243,6 @@ Serial-monitor baud rate = `115200`<br>
 ### Portable LLM/VLM Demo
 [![](https://markdown-videos-api.jorgenkh.no/youtube/3PnHSE_8rRM)](https://youtu.be/3PnHSE_8rRM)
 
-
+### [Portable ChatGPT](https://github.com/rkuo2000/portable-ChatGPT)
+[![](https://markdown-videos-api.jorgenkh.no/youtube/7rfmXPqyLF0)](https://youtu.be/7rfmXPqyLF0)
 
