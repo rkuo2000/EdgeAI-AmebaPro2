@@ -122,10 +122,16 @@ Serial-monitor baud rate = `115200`<br>
 
 * [Amebapro2 AMB82-mini Arduino Example Guides](https://www.amebaiot.com/en/amebapro2-amb82-mini-arduino-peripherals-examples)
 
+---
 ### [動作偵測 (motion detection)](https://www.amebaiot.com/en/amebapro2-arduino-video-motion/)
 **Examples:** AmebaMultimedia / MotionDetection / LoopPostProcessing.ino<br>
-修改ssid, passwd, 後燒錄到AMB82-mini<br>
+* 修改ssid, passwd, 後燒錄到AMB82-mini,
+* 按reset後程式即開始運行, 用serial-monitor 查看顯示串流網址
+* 啟動手機或電腦上之VLC player, 設定RTSP串流網址
+![](https://www.amebaiot.com/wp-content/uploads/2023/01/video/motionP06.png)
 
+---
+### Motion Detection + Line Notify
 [![](https://markdown-videos-api.jorgenkh.no/youtube/g_ZP023XCIw)](https://youtu.be/g_ZP023XCIw)
 
 ---
