@@ -117,12 +117,15 @@ Serial-monitor baud rate = `115200`<br>
 ## 5. 影像串流範例練習
 
 ### 影像串流
-[RTSP_VideoOnly](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI/RTSP_VideoOnly/)<br>
+**Sketch**: [RTSP_VideoOnly](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI/RTSP_VideoOnly/)<br>
 [![](https://markdown-videos-api.jorgenkh.no/youtube/OmAnWOmt6WQ)](https://youtu.be/OmAnWOmt6WQ)
 
 * [Amebapro2 AMB82-mini Arduino Example Guides](https://www.amebaiot.com/en/amebapro2-amb82-mini-arduino-peripherals-examples)
 
-### 動作偵測 (motion detection)
+### [動作偵測 (motion detection)](https://www.amebaiot.com/en/amebapro2-arduino-video-motion/)
+**Examples:** AmebaMultimedia / MotionDetection / LoopPostProcessing.ino<br>
+修改ssid, passwd, 後燒錄到AMB82-mini<br>
+
 [![](https://markdown-videos-api.jorgenkh.no/youtube/g_ZP023XCIw)](https://youtu.be/g_ZP023XCIw)
 
 ---
