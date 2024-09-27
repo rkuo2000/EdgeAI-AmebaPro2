@@ -170,7 +170,7 @@ Audio & Mic<br>
 
 ### 音頻環回測試
 **Examples:** AmebaMultimedia / Audio /LoopbackTest<br>
-![]()
+![](https://github.com/rkuo2000/EdgeAI-AMB82-mini/blob/main/assets/AMB82-mini_button_audiojack.jpeg?raw=true)
 
 ---
 ### 音頻串流範例
@@ -188,6 +188,8 @@ Audio & Mic<br>
 
 [YAMNet](https://codimd.mcl.math.ncu.edu.tw/s/hoOqEgBSf)<br>
 [![](https://markdown-videos-api.jorgenkh.no/youtube/oi8ML6aJcvI)](https://youtu.be/oi8ML6aJcvI)
+
+![](https://github.com/rkuo2000/EdgeAI-AMB82-mini/blob/main/assets/AMB82-mini_TFTLCD_button_audiojack.jpeg?raw=true)
 
 ---
 ## 8. 人臉辨識與識別
