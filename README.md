@@ -168,14 +168,14 @@ Serial-monitor baud rate = `115200`<br>
 ## 7. 音頻應用 
 Audio & Mic<br>
 
+### 音頻環回測試
+**Examples:** AmebaMultimedia / Audio /LoopbackTest<br>
+![]()
+
+---
 ### 音頻串流範例
 [RTSP Audio Stream](https://www.amebaiot.com/en/amebapro2-arduino-audio-rtsp/)<br>
 **Examples:** AmebaMultimedia / Audio / RTSPAudioStream<br>
-
----
-### 音頻偵測範例
-**Examples:** AmebaMultimedia / Audio
-https://www.amebaiot.com/en/amebapro2-arduino-audio-rtp/
 
 ---
 ### MP4錄音範例
