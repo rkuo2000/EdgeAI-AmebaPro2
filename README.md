@@ -114,34 +114,12 @@ Serial-monitor baud rate = `115200`<br>
 **Sketch:** [IMU MPU6050-DMP6v12](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI/IMU_MPU6050_DMP6v12)<br>
 
 ---
-## 5. 影像串流範例練習
+## 5.彩色顯示器 TFTLCD
 
-### 影像串流
-**Sketch**: [RTSP_VideoOnly](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI/RTSP_VideoOnly/)<br>
-[![](https://markdown-videos-api.jorgenkh.no/youtube/OmAnWOmt6WQ)](https://youtu.be/OmAnWOmt6WQ)
-
-* [Amebapro2 AMB82-mini Arduino Example Guides](https://www.amebaiot.com/en/amebapro2-amb82-mini-arduino-peripherals-examples)
-
----
-### [動作偵測 (motion detection)](https://www.amebaiot.com/en/amebapro2-arduino-video-motion/)
-**Examples:** AmebaMultimedia / MotionDetection / LoopPostProcessing.ino<br>
-* 修改ssid, passwd, 後燒錄到AMB82-mini,
-* 按reset後程式即開始運行, 用serial-monitor 查看顯示串流網址
-* 啟動手機或電腦上之VLC player, 設定RTSP串流網址
-![](https://www.amebaiot.com/wp-content/uploads/2023/01/video/motionP06.png)
-
----
-### Motion Detection + Line Notify
-[![](https://markdown-videos-api.jorgenkh.no/youtube/g_ZP023XCIw)](https://youtu.be/g_ZP023XCIw)
-
----
-## 6. Streaming 範例練習
-
-### 彩色TFTLCD
+### AMB82-mini + ILI9341 TFT-LCD
 ![](https://github.com/rkuo2000/EdgeAI-AMB82-mini/blob/main/assets/AMB82-mini_button_SPI_TFTLCD.jpg?raw=true)
 
 **[SPI - LCD Screen ILI9341 TFT](https://www.amebaiot.com/en/amebapro2-arduino-spi-lcd/)** <br>
-
 
 #### Interface signal names:
 * MOSI: Standard SPI Pin
@@ -166,10 +144,32 @@ Serial-monitor baud rate = `115200`<br>
 * Camera_2_Lcd_JPEGDEC : Camera output, saved to SDcard, then Jpeg Decoder to read to TFT-LCD
 
 ---
-## 7. 音頻
+## 6. 影像串流範例練習
+
+### 影像串流
+**Sketch**: [RTSP_VideoOnly](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI/RTSP_VideoOnly/)<br>
+[![](https://markdown-videos-api.jorgenkh.no/youtube/OmAnWOmt6WQ)](https://youtu.be/OmAnWOmt6WQ)
+
+* [Amebapro2 AMB82-mini Arduino Example Guides](https://www.amebaiot.com/en/amebapro2-amb82-mini-arduino-peripherals-examples)
+
+---
+### [動作偵測 (motion detection)](https://www.amebaiot.com/en/amebapro2-arduino-video-motion/)
+**Examples:** AmebaMultimedia / MotionDetection / LoopPostProcessing.ino<br>
+* 修改ssid, passwd, 後燒錄到AMB82-mini,
+* 按reset後程式即開始運行, 用serial-monitor 查看顯示串流網址
+* 啟動手機或電腦上之VLC player, 設定RTSP串流網址
+![](https://www.amebaiot.com/wp-content/uploads/2023/01/video/motionP06.png)
+
+---
+### Motion Detection + Line Notify
+[![](https://markdown-videos-api.jorgenkh.no/youtube/g_ZP023XCIw)](https://youtu.be/g_ZP023XCIw)
+
+---
+## 7. 音頻分類 
 
 ### 音頻分類範例
 [AudioClassification](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI/AudioClassification/)<br>
+
 [YAMNet](https://codimd.mcl.math.ncu.edu.tw/s/hoOqEgBSf)<br>
 [![](https://markdown-videos-api.jorgenkh.no/youtube/oi8ML6aJcvI)](https://youtu.be/oi8ML6aJcvI)
 
