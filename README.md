@@ -155,9 +155,17 @@ Serial-monitor baud rate = `115200`<br>
 * LCD_Screen_ILI9341_TFT : LCD Draw Tests
 * Camera_2_Lcd : Camera output , then Jpeg Decoder to TFT-LCD
 * Camera_2_Lcd_JPEGDEC : Camera output, saved to SDcard, then Jpeg Decoder to read to TFT-LCD
-  
+
 ---
-## 7. 人臉辨識與識別
+## 7. 音頻
+
+### 音頻分類範例
+[AudioClassification](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI/AudioClassification/)<br>
+[YAMNet](https://codimd.mcl.math.ncu.edu.tw/s/hoOqEgBSf)<br>
+[![](https://markdown-videos-api.jorgenkh.no/youtube/oi8ML6aJcvI)](https://youtu.be/oi8ML6aJcvI)
+
+---
+## 8. 人臉辨識與識別
 
 ### [人臉辨識與識別介紹](https://rkuo2000.github.io/AI-course/lecture/2024/08/07/Face-Recognition.html)
 
@@ -168,14 +176,6 @@ Serial-monitor baud rate = `115200`<br>
 ### 人臉識別範例
 [RTSP_FaceRecognition](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI/RTSP_FaceRecognition/)<br>
 [![](https://markdown-videos-api.jorgenkh.no/youtube/GGOIQmMfeF8)](https://youtu.be/GGOIQmMfeF8)
-
----
-## 8. 音頻
-
-### 音頻分類範例
-[AudioClassification](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI/AudioClassification/)<br>
-[YAMNet](https://codimd.mcl.math.ncu.edu.tw/s/hoOqEgBSf)<br>
-[![](https://markdown-videos-api.jorgenkh.no/youtube/oi8ML6aJcvI)](https://youtu.be/oi8ML6aJcvI)
 
 ---
 ## 9. 影像分類 (Image Classification)
@@ -227,10 +227,10 @@ Serial-monitor baud rate = `115200`<br>
 * [RecordMP4_CaptureJPG_HTTP_Post_AudioImage](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI/RecordMP4_CaptureJPG_HTTP_Post_AudioImage)
 
 ---
-## 13.AMB82-mini 專題實作
-
+## 13.AMB82-mini 應用專題實作
 
 ### Vaccum Robot
+(trash classification, IR collision detection)
 [![](https://markdown-videos-api.jorgenkh.no/youtube/YHR3ZOmtcyU)](https://youtu.be/YHR3ZOmtcyU)
 
 ### RoboCar 
