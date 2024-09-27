@@ -165,10 +165,26 @@ Serial-monitor baud rate = `115200`<br>
 [![](https://markdown-videos-api.jorgenkh.no/youtube/g_ZP023XCIw)](https://youtu.be/g_ZP023XCIw)
 
 ---
-## 7. 音頻分類 
+## 7. 音頻應用 
+Audio & Mic<br>
 
+### 音頻串流範例
+[RTSP Audio Stream](https://www.amebaiot.com/en/amebapro2-arduino-audio-rtsp/)<br>
+**Examples:** AmebaMultimedia / Audio / RTSPAudioStream<br>
+
+---
+### 音頻偵測範例
+**Examples:** AmebaMultimedia / Audio
+https://www.amebaiot.com/en/amebapro2-arduino-audio-rtp/
+
+---
+### MP4錄音範例
+[Multimedia - MP4 Recording](https://www.amebaiot.com/en/amebapro2-arduino-video-mp4/)<br>
+**Examples:** AmebaMultimedia / RecordMP4 / AudioOnly<br>
+
+---
 ### 音頻分類範例
-[AudioClassification](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI/AudioClassification/)<br>
+**Examples:** [AmebaNN / AudioClassification](https://www.amebaiot.com/en/amebapro2-arduino-neuralnework-audio-classification/)<br>
 
 [YAMNet](https://codimd.mcl.math.ncu.edu.tw/s/hoOqEgBSf)<br>
 [![](https://markdown-videos-api.jorgenkh.no/youtube/oi8ML6aJcvI)](https://youtu.be/oi8ML6aJcvI)
