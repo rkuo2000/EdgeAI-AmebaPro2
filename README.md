@@ -265,7 +265,7 @@ Audio & Mic<br>
 ## 13.AMB82-mini 應用專題實作
 
 ### Vaccum Robot
-(trash classification, IR collision detection)
+(trash classification, IR collision detection)<br>
 [![](https://markdown-videos-api.jorgenkh.no/youtube/YHR3ZOmtcyU)](https://youtu.be/YHR3ZOmtcyU)
 
 ### RoboCar 
