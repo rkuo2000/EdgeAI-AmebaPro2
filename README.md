@@ -242,7 +242,7 @@ Audio & Mic<br>
 ---
 ## 11. 大型語言模型範例 (LLM)
 
-### [大型語言模型範例介紹](https://rkuo2000.github.io/AI-course/lecture/2024/08/15/LLM.html) 
+### [大型語言模型介紹](https://rkuo2000.github.io/AI-course/lecture/2024/08/15/LLM.html) 
 
 ### AMB82 Mini - 語音辨識範例
 * [AmebaPro2 Whisper server](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI/src/AmebaPro2_Whisper_server.py)
