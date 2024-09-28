@@ -19,6 +19,11 @@ Pass: 035623116
 ---
 ## 2. 開發板介紹
 
+### RTL8735B晶片簡介
+32-bit Arm v8M, up to 500MHz, 768KB ROM, 512KB RAM, 16MB Flash (MCM embedded DDR2/DDR3L up to 128MB)<br>
+802.11 a/b/g/n WiFi 2.4GHz/5GHz, BLE 5.1, *NN Engine 0.4 TOPS*, Crypto Engine, Audio Codec, ...<br>
+
+---
 ### [HUB 8735 Ultra](https://www.ruten.com.tw/item/show?22434411139868)
 ![](http://winstouch.com.tw/Util/GetPicture.aspx?PicturePath=/UploadFile/IMG_17188933653479.jpg&QueryWidth=400)
 <iframe width="677" height="630" src="https://www.youtube.com/embed/-_NMUnY0kK4" title="20240418國產IC開發方案 HUB 8735 ultra 線上分享會" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
@@ -28,18 +33,7 @@ Pass: 035623116
 ![](https://github.com/rkuo2000/EdgeAI-AMB82-mini/blob/main/assets/AMB82-mini.png?raw=true)
 ![](https://github.com/rkuo2000/EdgeAI-AMB82-mini/blob/main/assets/AMB82-mini_kit.png?raw=true)
 
----
-### [RTL8735B](https://www.amebaiot.com/en/amebapro2/):
-* **[User Manual](https://www.amebaiot.com/?s2member_file_download=AMB82-Mini_Hardware_User_Guide_0V3_20230303.pdf)** <br>
-* **[Datasheet](https://www.amebaiot.com/datasheet-download-amb82-mini/)** <br>
-
-32-bit Arm v8M, up to 500MHz, 768KB ROM, 512KB RAM, 16MB Flash (MCM embedded DDR2/DDR3L up to 128MB)<br>
-802.11 a/b/g/n WiFi 2.4GHz/5GHz, BLE 5.1, *NN Engine 0.4 TOPS*, Crypto Engine, Audio Codec, ...<br>
-
 <p><img width="50%" height="50%" src="https://www.amebaiot.com/wp-content/uploads/2023/03/amb82_mini.png"></p>
-
----
-### AMB82-mini Pinout Diagram
 <p><img src="https://github.com/rkuo2000/EdgeAI-MCU/blob/main/assets/AMB82-MINI_pinout.png?raw=true"></p>
 
 ---
