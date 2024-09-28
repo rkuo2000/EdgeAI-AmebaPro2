@@ -257,7 +257,7 @@ Serial_monitor: `REG=RKUO`<br>
 
 ---
 ### [物件檢測介紹](https://rkuo2000.github.io/AI-course/lecture/2024/08/05/Object-Detection.html)
-**Kaggle:** <br>
+**Kaggle範例:** <br>
 * [YOLOv7 Facemask detection](https://www.kaggle.com/code/rkuo2000/yolov7-facemask-detection)
 * [YOLOv7 Pothole detection](https://www.kaggle.com/code/rkuo2000/yolov7-pothole)
 * [YOLOv7 Sushi detection](https://www.kaggle.com/code/rkuo2000/yolov7-sushi-detection)
@@ -281,7 +281,7 @@ Serial_monitor: `REG=RKUO`<br>
 ---
 ## 11. 大型語言模型範例 (LLM)
 
-### [大型語言模型介紹](https://rkuo2000.github.io/AI-course/lecture/2024/08/15/LLM.html) 
+* **[大型語言模型介紹](https://rkuo2000.github.io/AI-course/lecture/2024/08/15/LLM.html)**
 
 ---
 ### 語音辨識範例
@@ -307,15 +307,16 @@ Download [ffmpeg-master-latest-win64-gpl.zip](https://github.com/BtbN/FFmpeg-Bui
 ---
 ## 12. 視覺語言模型 (VLM)
 
-### [視覺語言模型介紹](https://rkuo2000.github.io/AI-course/lecture/2024/08/16/VLM.html) 
+* **[視覺語言模型介紹](https://rkuo2000.github.io/AI-course/lecture/2024/08/16/VLM.html)** 
 
+---
 ### 影像+語音交談範例
 * [AmebaPro2_whisper_llava_server.py](https://github.com/rkuo2000/EdgeAI-MCU/blob/main/Arduino/AMB82-mini/src/AmebaPro2_whisper_llava_server.py)
   
 * [RecordMP4_CaptureJPG_HTTP_Post_AudioImage](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI/RecordMP4_CaptureJPG_HTTP_Post_AudioImage)
 
 ---
-## 13. AmebaPro2 應用專題實作
+## 12. AmebaPro2 應用專題實作
 
 ### Vaccum Robot
 (trash classification, IR collision detection)<br>
