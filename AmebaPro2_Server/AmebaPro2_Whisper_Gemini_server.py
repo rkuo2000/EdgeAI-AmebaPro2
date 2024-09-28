@@ -15,7 +15,7 @@ from pydantic import BaseModel
 import uvicorn
 import base64
 
-GOOGLE_API_KEY="AIzaSyCnRzbxgrMX1GjIHnN7U6EQVM8YKy9Ikw4" ## https://aistudio.google.com/app/apikey
+GOOGLE_API_KEY="xxxxxxxxxxxxxxxxxxxx" ## https://aistudio.google.com/app/apikey
 genai.configure(api_key=GOOGLE_API_KEY)
 
 import whisper
