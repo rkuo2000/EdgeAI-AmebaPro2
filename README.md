@@ -218,6 +218,7 @@ Serial_monitor: `REG=RKUO`<br>
 
 ---
 ## 9. 影像分類 (Image Classification)
+**[Kaggle平台使用介紹](https://rkuo2000.github.io/AI-course/lecture/2024/08/02/Kaggle-Intro.html)**<br>
 
 ### [卷積層神經網路介紹](https://rkuo2000.github.io/AI-course/lecture/2024/08/03/CNN.html)
 
