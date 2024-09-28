@@ -200,10 +200,12 @@ Audio & Mic<br>
 
 ### [人臉檢測範例](https://www.amebaiot.com/en/amebapro2-arduino-neuralnework-face-detection/)
 **Examples:** AmebaNN / RTSPFaceDetection<br>
+
 [![](https://markdown-videos-api.jorgenkh.no/youtube/KD95JH6gVew)](https://youtu.be/KD95JH6gVew)
 
 ### [人臉識別範例](https://www.amebaiot.com/en/amebapro2-arduino-neuralnework-face-recognition/)
 **Examples:** AmebaNN / RTSPFaceRecognition<br>
+
 [![](https://markdown-videos-api.jorgenkh.no/youtube/GGOIQmMfeF8)](https://youtu.be/GGOIQmMfeF8)
 
 Serial_monitor: `REG=RKUO`<br>
@@ -214,7 +216,6 @@ Serial_monitor: `REG=RKUO`<br>
 * Enter the command **BACKUP** to save a copy of registered faces to flash.
 * If a backup exists, enter the command **RESTORE** to load registered faces from flash.
 * Enter the command **RESET** to forget all previously registered faces. 
-
 
 ---
 ## 9. 影像分類 (Image Classification)
@@ -316,8 +317,7 @@ Download [ffmpeg-master-latest-win64-gpl.zip](https://github.com/BtbN/FFmpeg-Bui
 ### Portable LLM/VLM Demo
 [![](https://markdown-videos-api.jorgenkh.no/youtube/3PnHSE_8rRM)](https://youtu.be/3PnHSE_8rRM)
 
-### [Portable ChatGPT](https://github.com/rkuo2000/portable-ChatGPT)
+### Portable ChatGPT
 [![](https://markdown-videos-api.jorgenkh.no/youtube/7rfmXPqyLF0)](https://youtu.be/7rfmXPqyLF0)
 
----
 ### Portable Gemini
