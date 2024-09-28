@@ -28,7 +28,7 @@ Pass: 035623116
 ![](http://winstouch.com.tw/Util/GetPicture.aspx?PicturePath=/UploadFile/IMG_17188933653479.jpg&QueryWidth=400)
 ![](http://winstouch.com.tw/Util/GetPicture.aspx?PicturePath=/UploadFile/IMG_172407964226684.jpg&QueryWidth=800)
 
-<iframe width="677" height="630" src="https://www.youtube.com/embed/-_NMUnY0kK4" title="20240418國產IC開發方案 HUB 8735 ultra 線上分享會" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+[![](https://markdown-videos-api.jorgenkh.no/youtube/-_NMUnY0kK4)](https://youtu.be/-_NMUnY0kK4)
 
 **[https://github.com/ideashatch/HUB-8735](https://github.com/ideashatch/HUB-8735)** <br>
 
