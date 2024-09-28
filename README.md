@@ -38,10 +38,8 @@ Pass: 035623116
 ![](https://github.com/rkuo2000/EdgeAI-AMB82-mini/blob/main/assets/AMB82-mini_kit.png?raw=true)
 <p><img src="https://github.com/rkuo2000/EdgeAI-MCU/blob/main/assets/AMB82-MINI_pinout.png?raw=true"></p>
 
----
-### [Ameba Arduino](https://www.amebaiot.com/en/ameba-arduino-summary/)
+**[Ameba Arduino](https://www.amebaiot.com/en/ameba-arduino-summary/)** <br>
 
-![](https://github.com/rkuo2000/EdgeAI-AMB82-mini/blob/main/assets/AMB82-mini_Arduino.png?raw=true)
 
 ---
 ## 3. Arduino IDE使用介紹
