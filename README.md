@@ -209,6 +209,13 @@ Audio & Mic<br>
 Serial_monitor: `REG=RKUO`<br>
 <p><img width="50%" height="50%" src="https://github.com/rkuo2000/EdgeAI-AMB82-mini/blob/main/assets/FaceRecognition_REG_RKUO.jpeg?raw=true"></p>
 
+* Enter the command **REG=Name** to give the targeted face a name.
+* Enter the command **DEL=Name** to delete a certain registered face. For example, `DEL=SAM`
+* Enter the command **BACKUP** to save a copy of registered faces to flash.
+* If a backup exists, enter the command **RESTORE** to load registered faces from flash.
+* Enter the command **RESET** to forget all previously registered faces. 
+
+
 ---
 ## 9. 影像分類 (Image Classification)
 
