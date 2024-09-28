@@ -206,6 +206,7 @@ Audio & Mic<br>
 **Examples:** AmebaNN / RTSPFaceRecognition<br>
 [![](https://markdown-videos-api.jorgenkh.no/youtube/GGOIQmMfeF8)](https://youtu.be/GGOIQmMfeF8)
 
+Serial_monitor: `REG=RKUO`<br>
 <p><img width="50%" height="50%" src="https://github.com/rkuo2000/EdgeAI-AMB82-mini/blob/main/assets/FaceRecognition_REG_RKUO.jpeg?raw=true"></p>
 
 ---
