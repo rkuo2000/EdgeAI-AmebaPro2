@@ -229,6 +229,15 @@ Serial_monitor: `REG=RKUO`<br>
 [![](https://markdown-videos-api.jorgenkh.no/youtube/c3XGkc9ShwQ)](https://youtu.be/c3XGkc9ShwQ)
 
 ---
+### 模型檔案轉換
+**垃圾回收辨識：** [kaggle.com/rkuo2000/garbage-cnn](https://www.kaggle.com/code/rkuo2000/garbage-cnn)<br>
+
+1. 修改成 model.save('garbage_cnn.h5', include_optimizer=False) # for AMB82-mini
+2. 重新訓練模型 Run.all
+3. 下載garbage_cnn.h5
+4. [Amebapro2 AI convert model](https://www.amebaiot.com/en/amebapro2-ai-convert-model/)
+
+---
 ## 10. 物件偵測 (Object Detection)
 
 ### [物件檢測介紹](https://rkuo2000.github.io/AI-course/lecture/2024/08/05/Object-Detection.html)
