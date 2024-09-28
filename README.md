@@ -202,6 +202,7 @@ Audio & Mic<br>
 
 ### [人臉辨識與識別介紹](https://rkuo2000.github.io/AI-course/lecture/2024/08/07/Face-Recognition.html)
 
+---
 ### [人臉檢測範例](https://www.amebaiot.com/en/amebapro2-arduino-neuralnework-face-detection/)
 **Examples:** AmebaNN / RTSPFaceDetection<br>
 
@@ -251,9 +252,10 @@ Serial_monitor: `REG=RKUO`<br>
 ---
 ## 10. 物件偵測 (Object Detection)
 
-### Dataset
+### Public Dataset
 **[Roboflow](https://universe.roboflow.com/)** <br>
 
+---
 ### [物件檢測介紹](https://rkuo2000.github.io/AI-course/lecture/2024/08/05/Object-Detection.html)
 **Kaggle:** <br>
 * [YOLOv7 Facemask detection](https://www.kaggle.com/code/rkuo2000/yolov7-facemask-detection)
@@ -262,14 +264,17 @@ Serial_monitor: `REG=RKUO`<br>
 * [YOLOv7 refrigeratoryfood](https://www.kaggle.com/code/rkuo2000/yolov7-refrigeratoryfood)<br>
 * [YOLOv7 reparm](https://www.kaggle.com/code/rkuo2000/yolov7-reparam)<br>
 
+---
 ### AMB82 Mini 物件偵測範例
 [RTSP_ObjectDetectionLoop](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI/RTSP_ObjectDetectionLoop)<br>
 [![](https://markdown-videos-api.jorgenkh.no/youtube/EvryVoQyqqk)](https://youtu.be/EvryVoQyqqk)
 
+---
 ### AMB82 Mini SD卡加載模型範例
 [RTPS_ObjectDetection_AudioClassification.ino](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI/RTSP_ObjectDetection_AudioClassification/)<br>
 [![](https://markdown-videos-api.jorgenkh.no/youtube/cVvdnXiCAa4)](https://youtu.be/cVvdnXiCAa4)
 
+---
 ### Online NN Conversion Tool (客製化模型轉換工具)
 [![](https://markdown-videos-api.jorgenkh.no/youtube/6cHC2cOKgQk)](https://youtu.be/6cHC2cOKgQk)
 
@@ -278,14 +283,15 @@ Serial_monitor: `REG=RKUO`<br>
 
 ### [大型語言模型介紹](https://rkuo2000.github.io/AI-course/lecture/2024/08/15/LLM.html) 
 
-### AMB82 Mini - 語音辨識範例
+---
+### 語音辨識範例
 #### ffmpeg.exe is needed for Windows to run Whisper!
 * [AmebaPro2 Whisper server](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI/src/AmebaPro2_Whisper_server.py)
   
 * [RecordMP4_HTTP_Post_Audio.ino](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI/RecordMP4_HTTP_Post_Audio/)
 
 ---
-### AMB82 Mini - 語音交談範例
+### 語音交談範例
 #### ffmpeg.exe is needed for Windows to run Whisper!
 Download [ffmpeg-master-latest-win64-gpl.zip](https://github.com/BtbN/FFmpeg-Builds/releases/download/latest/ffmpeg-master-latest-win64-gpl.zip), extract & put ffmpeg.exe into  where you run Whisper server.<br>
 
@@ -303,13 +309,13 @@ Download [ffmpeg-master-latest-win64-gpl.zip](https://github.com/BtbN/FFmpeg-Bui
 
 ### [視覺語言模型介紹](https://rkuo2000.github.io/AI-course/lecture/2024/08/16/VLM.html) 
 
-### AMB82 Mini - 影像+語音交談範例
+### 影像+語音交談範例
 * [AmebaPro2_whisper_llava_server.py](https://github.com/rkuo2000/EdgeAI-MCU/blob/main/Arduino/AMB82-mini/src/AmebaPro2_whisper_llava_server.py)
   
 * [RecordMP4_CaptureJPG_HTTP_Post_AudioImage](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI/RecordMP4_CaptureJPG_HTTP_Post_AudioImage)
 
 ---
-## 13.AMB82-mini 應用專題實作
+## 13. AmebaPro2 應用專題實作
 
 ### Vaccum Robot
 (trash classification, IR collision detection)<br>
