@@ -173,17 +173,20 @@ Audio & Mic<br>
 
 ### 音頻環回測試
 **Examples:** AmebaMultimedia / Audio /LoopbackTest<br>
+
 ![](https://github.com/rkuo2000/EdgeAI-AMB82-mini/blob/main/assets/AMB82-mini_button_audiojack.jpeg?raw=true)
 
 ---
 ### 音頻串流範例
-[RTSP Audio Stream](https://www.amebaiot.com/en/amebapro2-arduino-audio-rtsp/)<br>
 **Examples:** AmebaMultimedia / Audio / RTSPAudioStream<br>
+
+[RTSP Audio Stream](https://www.amebaiot.com/en/amebapro2-arduino-audio-rtsp/)<br>
 
 ---
 ### MP4錄音範例
-[Multimedia - MP4 Recording](https://www.amebaiot.com/en/amebapro2-arduino-video-mp4/)<br>
 **Examples:** AmebaMultimedia / RecordMP4 / AudioOnly<br>
+
+[Multimedia - MP4 Recording](https://www.amebaiot.com/en/amebapro2-arduino-video-mp4/)<br>
 
 ---
 ### 音頻分類範例
@@ -220,7 +223,7 @@ Serial_monitor: `REG=RKUO`<br>
 
 ---
 ## 9. 影像分類 (Image Classification)
-**[Kaggle平台使用介紹](https://rkuo2000.github.io/AI-course/lecture/2024/08/02/Kaggle-Intro.html)**<br>
+**[Kaggle平台使用介紹](https://rkuo2000.github.io/AI-course/lecture/2024/08/02/Kaggle-Intro.html)** <br>
 
 ### [卷積層神經網路介紹](https://rkuo2000.github.io/AI-course/lecture/2024/08/03/CNN.html)
 
@@ -242,11 +245,10 @@ Serial_monitor: `REG=RKUO`<br>
 6. provide one test picture (.jpg), and upload
 
 ---
-### Dataset
-**[Roboflow](https://universe.roboflow.com/)<br>**
-
----
 ## 10. 物件偵測 (Object Detection)
+
+### Dataset
+**[Roboflow](https://universe.roboflow.com/)** <br>
 
 ### [物件檢測介紹](https://rkuo2000.github.io/AI-course/lecture/2024/08/05/Object-Detection.html)
 **Kaggle:** <br>
@@ -298,7 +300,8 @@ Download [ffmpeg-master-latest-win64-gpl.zip](https://github.com/BtbN/FFmpeg-Bui
 ### [視覺語言模型介紹](https://rkuo2000.github.io/AI-course/lecture/2024/08/16/VLM.html) 
 
 ### AMB82 Mini - 影像+語音交談範例
-* [AmebaPro2_whisper_llava_server.py](https://github.com/rkuo2000/EdgeAI-MCU/blob/main/Arduino/AMB82-mini/src/AmebaPro2_whisper_llava_server.py)<br>
+* [AmebaPro2_whisper_llava_server.py](https://github.com/rkuo2000/EdgeAI-MCU/blob/main/Arduino/AMB82-mini/src/AmebaPro2_whisper_llava_server.py)
+  
 * [RecordMP4_CaptureJPG_HTTP_Post_AudioImage](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI/RecordMP4_CaptureJPG_HTTP_Post_AudioImage)
 
 ---
