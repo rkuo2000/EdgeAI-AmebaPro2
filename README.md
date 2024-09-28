@@ -307,3 +307,11 @@ Serial_monitor: `REG=RKUO`<br>
 ### [Portable ChatGPT](https://github.com/rkuo2000/portable-ChatGPT)
 [![](https://markdown-videos-api.jorgenkh.no/youtube/7rfmXPqyLF0)](https://youtu.be/7rfmXPqyLF0)
 
+---
+### Portable Gemini
+* 下載 [AmebaPro2_Whisper_Gemini_server.py](https://github.com/rkuo2000/Arduino/blob/master/examples/AMB82-MINI/src/AmebaPro2_Whisper_Gemini_server.py)
+* 到 https://aistudio.google.com/app/apikey 取得API_Key 填入GOOGLE_API_KEY
+* 再執行AmebaPro2_Whisper_Gemini_server.py
+* 修改 RecordMP4_HTTP_Post_Audio.ino server IP位址, 再燒錄AMB82-mini
+* reset AMB82-mini, 按鍵兩秒後即可錄音詢問Gemini (Gemini-1.5-Flash) 
+  
