@@ -236,8 +236,9 @@ Serial_monitor: `REG=RKUO`<br>
 2. 重新訓練模型 Run.all
 3. 下載garbage_cnn.h5
 4. [Amebapro2 AI convert model](https://www.amebaiot.com/en/amebapro2-ai-convert-model/)
-
-
+5. zip garbage_cnn.h5, and upload
+6. provide one test picture (.jpg), and upload
+   
 ---
 ## 10. 物件偵測 (Object Detection)
 
