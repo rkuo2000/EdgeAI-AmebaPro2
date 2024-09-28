@@ -17,8 +17,14 @@ Pass: 035623116
 ### [AI 硬體介紹](https://rkuo2000.github.io/AI-course/lecture/2024/08/01/AI-Hardwares.html)
 
 ---
-## 2. AMB82-mini 介紹
-官方賣場：[ICshopping : Realtek AMB82-mini AI Camera (Ameba RTL8735B) $799 NTD](https://www.icshop.com.tw/products/368030501864)<br>
+## 2. 開發板介紹
+
+### [HUB 8735 Ultra](https://www.ruten.com.tw/item/show?22434411139868)
+![](http://winstouch.com.tw/Util/GetPicture.aspx?PicturePath=/UploadFile/IMG_17188933653479.jpg&QueryWidth=400)
+<iframe width="677" height="630" src="https://www.youtube.com/embed/-_NMUnY0kK4" title="20240418國產IC開發方案 HUB 8735 ultra 線上分享會" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+---
+### [AMB82-mini](https://www.icshop.com.tw/products/368030501864)
 ![](https://github.com/rkuo2000/EdgeAI-AMB82-mini/blob/main/assets/AMB82-mini.png?raw=true)
 ![](https://github.com/rkuo2000/EdgeAI-AMB82-mini/blob/main/assets/AMB82-mini_kit.png?raw=true)
 
