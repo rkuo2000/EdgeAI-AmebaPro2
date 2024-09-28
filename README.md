@@ -25,21 +25,20 @@ Pass: 035623116
 
 ---
 ### [HUB 8735 Ultra](https://www.ruten.com.tw/item/show?22434411139868)
+#### [https://github.com/ideashatch/HUB-8735](https://github.com/ideashatch/HUB-8735)
+
 ![](http://winstouch.com.tw/Util/GetPicture.aspx?PicturePath=/UploadFile/IMG_17188933653479.jpg&QueryWidth=400)
 ![](http://winstouch.com.tw/Util/GetPicture.aspx?PicturePath=/UploadFile/IMG_172407964226684.jpg&QueryWidth=800)
 
 [![](https://markdown-videos-api.jorgenkh.no/youtube/-_NMUnY0kK4)](https://youtu.be/-_NMUnY0kK4)
 
-**[https://github.com/ideashatch/HUB-8735](https://github.com/ideashatch/HUB-8735)** <br>
-
 ---
 ### [AMB82-mini](https://www.icshop.com.tw/products/368030501864)
+#### [Ameba Arduino](https://www.amebaiot.com/en/ameba-arduino-summary/)
+
 ![](https://github.com/rkuo2000/EdgeAI-AMB82-mini/blob/main/assets/AMB82-mini.png?raw=true)
 ![](https://github.com/rkuo2000/EdgeAI-AMB82-mini/blob/main/assets/AMB82-mini_kit.png?raw=true)
 <p><img src="https://github.com/rkuo2000/EdgeAI-MCU/blob/main/assets/AMB82-MINI_pinout.png?raw=true"></p>
-
-**[Ameba Arduino](https://www.amebaiot.com/en/ameba-arduino-summary/)** <br>
-
 
 ---
 ## 3. Arduino IDE使用介紹
