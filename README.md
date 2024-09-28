@@ -271,13 +271,25 @@ Serial_monitor: `REG=RKUO`<br>
 ### [大型語言模型介紹](https://rkuo2000.github.io/AI-course/lecture/2024/08/15/LLM.html) 
 
 ### AMB82 Mini - 語音辨識範例
+#### ffmpeg.exe is needed for Windows to run Whisper!
 * [AmebaPro2 Whisper server](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI/src/AmebaPro2_Whisper_server.py)
+  
 * [RecordMP4_HTTP_Post_Audio.ino](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI/RecordMP4_HTTP_Post_Audio/)
 
+---
 ### AMB82 Mini - 語音交談範例
-* [AmebaPro2 Whisper LLM_server](https://github.com/rkuo2000/Arduino/blob/master/examples/AMB82-MINI/src/AmebaPro2_Whisper_LLM_server.py)
-* [RecordMP4_HTTP_Post_Audio.ino](hhttps://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI/RecordMP4_HTTP_Post_Audio/)
+#### ffmpeg.exe is needed for Windows to run Whisper!
+Download [ffmpeg-master-latest-win64-gpl.zip](https://github.com/BtbN/FFmpeg-Builds/releases/download/latest/ffmpeg-master-latest-win64-gpl.zip), extract & put ffmpeg.exe into  where you run Whisper server.<br>
 
+#### [AmebaPro2 Whisper LLM_server](https://github.com/rkuo2000/Arduino/blob/master/examples/AMB82-MINI/src/AmebaPro2_Whisper_LLM_server.py)
+
+#### [AmebaPro2_Whisper_Gemini_server](https://github.com/rkuo2000/Arduino/blob/master/examples/AMB82-MINI/src/AmebaPro2_Whisper_Gemini_server.py) 
+* 到 https://aistudio.google.com/app/apikey 取得API_Key 填入GOOGLE_API_KEY, 再執行AmebaPro2_Whisper_Gemini_server.py
+
+#### [RecordMP4_HTTP_Post_Audio.ino](hhttps://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI/RecordMP4_HTTP_Post_Audio/)
+* 修改server IP位址 in RecordMP4_HTTP_Post_Audio.ino server IP位址, then 燒錄到 AMB82-MINI
+* reset AMB82-MINI 來啟動, 按鍵兩秒後即可錄音詢問 LLM/Gemini
+  
 ---
 ## 12. 視覺語言模型 (VLM)
 
@@ -309,9 +321,3 @@ Serial_monitor: `REG=RKUO`<br>
 
 ---
 ### Portable Gemini
-* 下載 [AmebaPro2_Whisper_Gemini_server.py](https://github.com/rkuo2000/Arduino/blob/master/examples/AMB82-MINI/src/AmebaPro2_Whisper_Gemini_server.py)
-* 到 https://aistudio.google.com/app/apikey 取得API_Key 填入GOOGLE_API_KEY
-* 再執行AmebaPro2_Whisper_Gemini_server.py
-* 修改 RecordMP4_HTTP_Post_Audio.ino server IP位址, 再燒錄AMB82-mini
-* reset AMB82-mini, 按鍵兩秒後即可錄音詢問Gemini (Gemini-1.5-Flash) 
-  
