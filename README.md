@@ -206,6 +206,8 @@ Audio & Mic<br>
 **Examples:** AmebaNN / RTSPFaceRecognition<br>
 [![](https://markdown-videos-api.jorgenkh.no/youtube/GGOIQmMfeF8)](https://youtu.be/GGOIQmMfeF8)
 
+![](https://github.com/rkuo2000/EdgeAI-AMB82-mini/blob/main/assets/FaceRecognition_REG_RKUO.jpeg?raw=true)
+
 ---
 ## 9. 影像分類 (Image Classification)
 
