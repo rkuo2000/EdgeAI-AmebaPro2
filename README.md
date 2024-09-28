@@ -207,7 +207,7 @@ Audio & Mic<br>
 
 [![](https://markdown-videos-api.jorgenkh.no/youtube/KD95JH6gVew)](https://youtu.be/KD95JH6gVew)
 
-![](https://www.amebaiot.com/wp-content/uploads/2023/01/neuralnetwork/facedetectP06.png)
+<p><img width="50%" height="50%" src="https://www.amebaiot.com/wp-content/uploads/2023/01/neuralnetwork/facedetectP06.png"></p>
 
 ---
 ### [人臉識別範例](https://www.amebaiot.com/en/amebapro2-arduino-neuralnework-face-recognition/)
