@@ -43,20 +43,18 @@ Pass: 035623116
 ---
 ## 3. Arduino IDE使用介紹
 
-### [Ameba AIoT 影片](https://www.youtube.com/@amebaiot7033)
-
-[![](https://markdown-videos-api.jorgenkh.no/youtube/-jQDpDFX2ao)](https://youtu.be/-jQDpDFX2ao)
-
----
-### 下載 [Arduino IDE 2.3.2](https://www.arduino.cc/en/software) ＆ 安裝
+### [Arduino IDE 2.3.2](https://www.arduino.cc/en/software) 下載 & 安裝
 <p><img width="50%" height="50%" src="https://github.com/rkuo2000/EdgeAI-AMB82-mini/blob/main/assets/AMB82-mini_Arduio_IDE_download.png?raw=true"></p>
 
 ---
-### 執行Arduino IDE 與偏好設定
-**Preferences**加上 `https://github.com/ambiot/ambpro2_arduino/raw/main/Arduino_package/package_realtek_amebapro2_index.json`<br>
+### 偏好設定 (Preferences)
+**Hub8735 ultra** = `https://raw.githubusercontent.com/ideashatch/HUB-8735/main/amebapro2_arduino/Arduino_package/ideasHatch.json`<br>
+**AMB832-mini** = `https://github.com/ambiot/ambpro2_arduino/raw/main/Arduino_package/package_realtek_amebapro2_index.json`<br>
 
 ![](https://github.com/rkuo2000/EdgeAI-AMB82-mini/blob/main/assets/AMB82-mini_Arduino_IDE_preference.png?raw=true)
 
+### [Ameba AIoT 影片](https://www.youtube.com/@amebaiot7033)
+[![](https://markdown-videos-api.jorgenkh.no/youtube/-jQDpDFX2ao)](https://youtu.be/-jQDpDFX2ao)
 ---
 ### 選定開發板 AMB82-MINI
 Tools > Board Manager > AMB82 package > 4.0.7<br>
