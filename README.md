@@ -336,3 +336,13 @@ Download [ffmpeg-master-latest-win64-gpl.zip](https://github.com/BtbN/FFmpeg-Bui
 [![](https://markdown-videos-api.jorgenkh.no/youtube/7rfmXPqyLF0)](https://youtu.be/7rfmXPqyLF0)
 
 ### Portable Gemini with a clound LLM (Gemini-1.5-flash)
+**step 1.** running AmebaPro2_Gemini_server.py <br>
+![](https://github.com/rkuo2000/EdgeAI-AmebaPro2/raw/main/assets/AmebaPro2_Gemini_server_running.jpg)
+
+**Step 2.** running `HTTP_Post_ImageText_TFTLCD.ino` <br>
+press button for 2 seconds, when Blue-LED is on, it starts capturing image and send to Gemini<br>
+![](https://github.com/rkuo2000/EdgeAI-AmebaPro2/raw/main/assets/portable_Gemini_button_to_send_image.jpg)
+
+**Step 3.** AmebaPro2 Gemini server will pass image, text to Gemini, and reply the recieved result.text<br>
+(AmebaPro2 Gemini server will add ", please answer briefly." to the prompt)<br>
+![](https://github.com/rkuo2000/EdgeAI-AmebaPro2/raw/main/assets/portable_Gemini_display_result.jpg)
