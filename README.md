@@ -335,8 +335,9 @@ Download [ffmpeg-master-latest-win64-gpl.zip](https://github.com/BtbN/FFmpeg-Bui
 ### Portable ChatGPT with a local LLM
 [![](https://markdown-videos-api.jorgenkh.no/youtube/7rfmXPqyLF0)](https://youtu.be/7rfmXPqyLF0)
 
-### Portable Gemini with a clound LLM (Gemini-1.5-flash)
-**step 1.** running [AmebaPro2_Gemini_server.py](https://github.com/rkuo2000/EdgeAI-AmebaPro2/blob/main/AmebaPro2_server/AmebaPro2_Gemini_server.py) <br>
+---
+### Portable Gemini with Google cloud LLM 
+**step 1.** running [AmebaPro2_Gemini_server.py](https://github.com/rkuo2000/EdgeAI-AmebaPro2/blob/main/AmebaPro2_server/AmebaPro2_Gemini_server.py) `Gemini-1.5-flash`<br>
 ![](https://github.com/rkuo2000/EdgeAI-AmebaPro2/raw/main/assets/AmebaPro2_Gemini_server_running.png)
 
 **Step 2.** running [HTTP_Post_ImageText_TFTLCD.ino](https://github.com/rkuo2000/Arduino/blob/master/examples/AMB82-MINI/HTTP_Post_ImageText_TFTLCD/HTTP_Post_ImageText_TFTLCD.ino) <br>
