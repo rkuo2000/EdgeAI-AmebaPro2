@@ -2,6 +2,10 @@
 ## PC needs ffmpeg.exe 
 
 ## To run a client: HTTP_Post_ImageText.ino
+### HTTP_Post_Image.ino
+### HTTP_Post_ImageAudio.ino
+### HTTP_Post_ImageText.ino
+### HTTP_Post_ImageText_TFTLCD.ino
 
 # pip install git+https://github.com/openai/whisper.git
 # pip install fastapi uvicorn
