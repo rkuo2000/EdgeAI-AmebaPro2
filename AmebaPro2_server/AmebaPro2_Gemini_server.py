@@ -47,7 +47,8 @@ async def post_imgtxt(data: Base64TextImage):
 
         # Gemini
         img = Image.open("output.jpg")
-        prompt = text
+        inst = ", please answer briefly."
+        prompt = text + inst
         model = genai.GenerativeModel("gemini-1.5-flash")
         result = model.generate_content( [prompt, img] )
         header1="User: "        
