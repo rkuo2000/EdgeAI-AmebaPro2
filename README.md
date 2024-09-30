@@ -343,6 +343,6 @@ Download [ffmpeg-master-latest-win64-gpl.zip](https://github.com/BtbN/FFmpeg-Bui
 press button for 2 seconds, when Blue-LED is on, it starts capturing image and send to Gemini<br>
 ![](https://github.com/rkuo2000/EdgeAI-AmebaPro2/raw/main/assets/portable_Gemini_button_to_send_image.jpg)
 
-**Step 3.** AmebaPro2 Gemini server will pass image, text to Gemini, and reply the recieved result.text<br>
+**Step 3.** `AmebaPro2_Gemini_server` will pass the image & text to Gemini, and reply the recieved result.text<br>
 (AmebaPro2 Gemini server will add `, please answer briefly.` to the prompt)<br>
 ![](https://github.com/rkuo2000/EdgeAI-AmebaPro2/raw/main/assets/portable_Gemini_display_result.jpg)
