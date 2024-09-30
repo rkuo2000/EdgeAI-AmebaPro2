@@ -337,7 +337,7 @@ Download [ffmpeg-master-latest-win64-gpl.zip](https://github.com/BtbN/FFmpeg-Bui
 
 ### Portable Gemini with a clound LLM (Gemini-1.5-flash)
 **step 1.** running [AmebaPro2_Gemini_server.py](https://github.com/rkuo2000/EdgeAI-AmebaPro2/blob/main/AmebaPro2_server/AmebaPro2_Gemini_server.py) <br>
-![](https://github.com/rkuo2000/EdgeAI-AmebaPro2/raw/main/assets/AmebaPro2_Gemini_server_running.jpg)
+![](https://github.com/rkuo2000/EdgeAI-AmebaPro2/raw/main/assets/AmebaPro2_Gemini_server_running.png)
 
 **Step 2.** running [HTTP_Post_ImageText_TFTLCD.ino](https://github.com/rkuo2000/Arduino/blob/master/examples/AMB82-MINI/HTTP_Post_ImageText_TFTLCD/HTTP_Post_ImageText_TFTLCD.ino) <br>
 press button for 2 seconds, when Blue-LED is on, it starts capturing image and send to Gemini<br>
