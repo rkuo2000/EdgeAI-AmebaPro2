@@ -329,10 +329,10 @@ Download [ffmpeg-master-latest-win64-gpl.zip](https://github.com/BtbN/FFmpeg-Bui
 ### AI Door-Bell
 [![](https://markdown-videos-api.jorgenkh.no/youtube/IumI-uAtkRU)](https://youtu.be/IumI-uAtkRU)
 
-### Portable LLM/VLM Demo
+### Portable Chatbot with a local LLM/VLM models
 [![](https://markdown-videos-api.jorgenkh.no/youtube/3PnHSE_8rRM)](https://youtu.be/3PnHSE_8rRM)
 
-### Portable ChatGPT
+### Portable ChatGPT with a local LLM
 [![](https://markdown-videos-api.jorgenkh.no/youtube/7rfmXPqyLF0)](https://youtu.be/7rfmXPqyLF0)
 
-### Portable Gemini
+### Portable Gemini with a clound LLM (Gemini-1.5-flash)
