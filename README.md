@@ -280,6 +280,48 @@ required in kaggle for AmebaPro2
 * [YOLOv7 reparm](https://www.kaggle.com/code/rkuo2000/yolov7-reparam)<br>
 
 ---
+### YOLOv7-Pytorch模型訓練與轉換
+
+#### 模型訓練： [kaggle.com/rkuo2000/yolov7-pothole](https://www.kaggle.com/code/rkuo2000/yolov7-pothole)
+1) repro [https://github.com/WongKinYiu/yolov7](https://github.com/WongKinYiu/yolov7)
+2) create pothole.yaml
+`%%writefile data/pothole.yaml`<br>
+```
+train: ./Datasets/pothole/train/images
+val:  ./Datasets/pothole/valid/images
+test: ./Datasets/pothole/test/images
+
+# Classes
+nc: 1  # number of classes
+names: ['pothole']  # class names
+```
+
+3) YOLOv7-Tiny Fixed Resolution Training
+```
+!sed -i "s/nc: 80/nc: 1/" cfg/training/yolov7-tiny.yaml
+!sed -i "s/IDetect/Detect/" cfg/training/yolov7-tiny.yaml
+```
+
+#### 模型轉換：[AMB82 AI Model Conversion](https://www.amebaiot.com/en/amebapro2-ai-convert-model/)
+1. Download `best.pt` from [kaggle.com/rkuo2000/yolov7-pothole](https://www.kaggle.com/code/rkuo2000/yolov7-pothole)
+2. Compress best.pt to `best.zip`
+3. Go to [Amebapro2 AI convert model](https://www.amebaiot.com/en/amebapro2-ai-convert-model/), fill up your E-mail
+4. Upload best.zip
+5. Upload one (.jpg) test picture (EX. pothole_test.jpg from [Pothole dataset](https://www.kaggle.com/datasets/apoorvchaudhary/pothole))
+6. Email will be sent to you for the link of `network_binary.nb`
+
+#### 程式範例：RTSP_YOLOv7_Pothole_Detection.ino
+1. click the recieved Email link to download `network_binary.nb`
+2. create NN_MDL folder in SDcard, save network_binary.nb under NN_MDL folder, and rename it to `yolov7_tiny.nb`
+3. plugin SDcard back to AMB82-MINI
+4. modify Sketch RTSP_YOLOv7_Pothole_Detection.ino 
+   1) modify SSID and PASSWD
+   2) modify ObjDet.modelSelect(OBJECT_DETECTION, CUSTOMIZED_YOLOV7TINY, NA_MODEL, NA_MODEL);
+5. burn code into board AMB82-MINI, and run it with VLC player streaming
+<p><img width="75%" height="75%" src="https://github.com/rkuo2000/EdgeAI-AmebaPro2/raw/main/assets/RTSP_YOLOv7_Pothole.png"><img width="25%" height="25%" src="https://github.com/rkuo2000/EdgeAI-AmebaPro2/raw/main/assets/RTSP_YOLOv7_Pothole_VLCplayer.jpeg"></p>
+
+   
+---
 ### AMB82 Mini 物件偵測範例
 [RTSP_ObjectDetectionLoop](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI/RTSP_ObjectDetectionLoop)<br>
 [![](https://markdown-videos-api.jorgenkh.no/youtube/EvryVoQyqqk)](https://youtu.be/EvryVoQyqqk)
