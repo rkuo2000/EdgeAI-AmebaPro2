@@ -264,7 +264,7 @@ required in kaggle for AmebaPro2
 5. burn code into board AMB82-MINI, and run it with VLC player streaming
 <p>
   <img width="50%" height="50%" src="https://github.com/rkuo2000/EdgeAI-AmebaPro2/raw/main/assets/RTSP_GarbageClassification.png">
-  <img width="50%" height="50%" src="https://github.com/rkuo2000/EdgeAI-AmebaPro2/raw/main/assets/RTSP_GarbageClassification_VLCplayer.png">
+  <img width="50%" height="50%" src="https://github.com/rkuo2000/EdgeAI-AmebaPro2/raw/main/assets/RTSP_GarbageClassification_VLCplayer.jpeg">
 </p>
 
 ---
