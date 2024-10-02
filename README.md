@@ -254,7 +254,7 @@ required in kaggle for AmebaPro2
 5. Upload one (.jpg) test picture (EX. glass100.jpg from [Garbage dataset](https://www.kaggle.com/datasets/asdasdasasdas/garbage-classification))
 6. Email will be sent to you for the link of `network_binary.nb`
 
-#### 程式執行：Sketch: RTSP_GarbageClassification.ino
+#### 程式範例：RTSP_GarbageClassification.ino
 1. click the recieved Email link to download `network_binary.nb`
 2. create NN_MDL folder in SDcard, save network_binary.nb under NN_MDL folder, and rename it to `imgclassification.nb`
 3. plugin SDcard back to AMB82-MINI
