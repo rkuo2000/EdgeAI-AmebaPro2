@@ -239,15 +239,30 @@ Serial_monitor: `REG=RKUO`<br>
 [![](https://markdown-videos-api.jorgenkh.no/youtube/c3XGkc9ShwQ)](https://youtu.be/c3XGkc9ShwQ)
 
 ---
-### 模型檔案轉換
-**垃圾回收辨識：** [kaggle.com/rkuo2000/garbage-cnn](https://www.kaggle.com/code/rkuo2000/garbage-cnn)<br>
+### 模型檔案訓練與轉換
 
-1. 修改成 model.save('garbage_cnn.h5', include_optimizer=False) # for AMB82-mini
-2. 重新訓練模型 Run.all
-3. 下載garbage_cnn.h5
-4. [Amebapro2 AI convert model](https://www.amebaiot.com/en/amebapro2-ai-convert-model/)
-5. zip garbage_cnn.h5, and upload
-6. provide one test picture (.jpg), and upload
+#### 模型訓練： [kaggle.com/rkuo2000/garbage-cnn](https://www.kaggle.com/code/rkuo2000/garbage-cnn)
+required in kaggle for AmebaPro2
+1) pip install tensorflow==2.14.1
+2) model.save('garbage_cnn.h5', include_optimizer=False)
+
+#### 模型轉換：[AMB82 AI Model Conversion](https://www.amebaiot.com/en/amebapro2-ai-convert-model/)
+1. Download garbage_cnn.h5 from [kaggle.com/rkuo2000/garbage-cnn](https://www.kaggle.com/code/rkuo2000/garbage-cnn) `Output`
+2. Compress garbage_cnn.h5 to garbage_cnn.zip
+3. Go to [Amebapro2 AI convert model](https://www.amebaiot.com/en/amebapro2-ai-convert-model/), fill up your E-mail
+4. Upload garbage_cnn.zip
+5. Upload one (.jpg) test picture (EX. glass100.jpg from [Garbage dataset](https://www.kaggle.com/datasets/asdasdasasdas/garbage-classification))
+6. Email will be sent to you for the link of `network_binary.nb`
+
+#### 程式執行：Sketch: RTSP_GarbageClassification.ino
+1. click the recieved Email link to download `network_binary.nb`
+2. create NN_MDL folder in SDcard, save network_binary.nb under NN_MDL folder, and rename it to `imgclassification.nb`
+3. plugin SDcard back to AMB82-MINI
+4. modify Sketch RTSP_GarbageClassification.ino 
+   1) modify SSID and PASSWD
+   2) modify imgclass.modelSelect (change DEFAULT_IMGCLASS to CUSTOMIZED_IMGCLASS)
+5. burn code into board AMB82-MINI, and run it with VLC player streaming
+![]()
 
 ---
 ## 10. 物件偵測 (Object Detection)
