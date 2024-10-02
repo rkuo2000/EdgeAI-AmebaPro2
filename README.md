@@ -262,7 +262,7 @@ required in kaggle for AmebaPro2
    1) modify SSID and PASSWD
    2) modify imgclass.modelSelect (change DEFAULT_IMGCLASS to CUSTOMIZED_IMGCLASS)
 5. burn code into board AMB82-MINI, and run it with VLC player streaming
-![](https://github.com/rkuo2000/EdgeAI-AmebaPro2/blob/main/assets/RTSP_GarbageClassification.png?raw=true)
+<p><img width="50%" height="50%" src="https://github.com/rkuo2000/EdgeAI-AmebaPro2/raw/main/assets/RTSP_GarbageClassification.png"></p>
 
 ---
 ## 10. 物件偵測 (Object Detection)
