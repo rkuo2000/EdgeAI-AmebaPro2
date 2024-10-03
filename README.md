@@ -190,6 +190,7 @@ Audio & Mic<br>
 * copy `libraries/MP3_Player` to ~/.arduino15/packages/realtek/hardware/AmebaPro2/4.0.7/libraries
 
 Upload & Reset to run<br>
+
 <p><img width="50%" height="50%" src="https://github.com/rkuo2000/EdgeAI-AmebaPro2/raw/main/assets/AMB82-mini_Aout_jack_TFTLCD.jpg></p>
 
 ---
