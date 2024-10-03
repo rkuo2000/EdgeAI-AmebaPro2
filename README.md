@@ -4,8 +4,8 @@
 ```
 
 ```
-LLM服務器程式： AmebaPro2_server (.py)
-Arduino程式範例： Arduino/AMB82-mini (.ino)
+LLM服務器程式範例： AmebaPro2_server (.py)
+Arduino 程式範例： Arduino/AMB82-mini (.ino)
 ```
 
 自強基金會 WiFi 
