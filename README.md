@@ -180,8 +180,16 @@ Audio & Mic<br>
 
 ---
 ### MP3 play to AOUT
-**Skatch:** [MP3_Player]()<br>
+**Skatch:** [MP3_Player](https://github.com/rkuo2000/EdgeAI-AmebaPro2/blob/main/Arduino/AMB82-mini/MP3_Player/MP3_Player.ino)<br>
+* store a song.mp3 onto SDcard
 
+安裝 **[Hub8735 ultra](https://raw.githubusercontent.com/ideashatch/HUB-8735/main/amebapro2_arduino/Arduino_package/ideasHatch.json)** <br>
+* cd ~/.arduino15/packages/ideasHatch/hardware/AmebaPro2/4.0.13-Release/
+* copy `variants/common_libs/MP3_Player.a` to ~/.arduino15/packages/realtek/hardware/AmebaPro2/4.0.7/variants/common_libs
+* edit `platform.txt` (~/.arduino15/packages/realtek/hardware/AmebaPro2/4.0.7/platform.txt) to add "{com_lib.path}/MP3_Player.a" into Ameba archive list (compiler.ameba.ar.list) 
+* copy `libraries/MP3_Player` to ~/.arduino15/packages/realtek/hardware/AmebaPro2/4.0.7/libraries
+
+Compile & Reset to run<br>
 
 ---
 ### 音頻串流範例
