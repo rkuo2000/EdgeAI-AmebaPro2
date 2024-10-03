@@ -1,7 +1,9 @@
 # EdgeAI AmebaPro2
 ```
 教材網址：https://github.com/rkuo2000/EdgeAI-AmebaPro2
+```
 
+```
 程式範例：AmebaPro2_server (.py)
 程式範例：Arduino/AMB82-mini (.ino)
 ```
