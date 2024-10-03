@@ -189,7 +189,8 @@ Audio & Mic<br>
 * edit `platform.txt` (~/.arduino15/packages/realtek/hardware/AmebaPro2/4.0.7/platform.txt) to add "{com_lib.path}/MP3_Player.a" into Ameba archive list (compiler.ameba.ar.list) 
 * copy `libraries/MP3_Player` to ~/.arduino15/packages/realtek/hardware/AmebaPro2/4.0.7/libraries
 
-Compile & Reset to run<br>
+Upload & Reset to run<br>
+![](https://github.com/rkuo2000/EdgeAI-AmebaPro2/raw/main/assets/AMB82-mini_Aout_MP3_Player.jpg)
 
 ---
 ### 音頻串流範例
