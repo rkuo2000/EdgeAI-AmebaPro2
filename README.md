@@ -179,7 +179,7 @@ Audio & Mic<br>
 ![](https://github.com/rkuo2000/EdgeAI-AMB82-mini/blob/main/assets/AMB82-mini_button_audiojack.jpeg?raw=true)
 
 ---
-### MP3 play to AOUT
+### MP3 播放
 **Skatch:** [MP3_Player](https://github.com/rkuo2000/EdgeAI-AmebaPro2/blob/main/Arduino/AMB82-mini/MP3_Player/MP3_Player.ino)<br>
 * store a song.mp3 onto SDcard
 
@@ -190,7 +190,7 @@ Audio & Mic<br>
 * copy `libraries/MP3_Player` to ~/.arduino15/packages/realtek/hardware/AmebaPro2/4.0.7/libraries
 
 Upload & Reset to run<br>
-![](https://github.com/rkuo2000/EdgeAI-AmebaPro2/raw/main/assets/AMB82-mini_Aout_MP3_Player.jpg)
+<p><img width="50%" height="50%" src="https://github.com/rkuo2000/EdgeAI-AmebaPro2/raw/main/assets/AMB82-mini_Aout_MP3_Player.jpg"></p>
 
 ---
 ### 音頻串流範例
