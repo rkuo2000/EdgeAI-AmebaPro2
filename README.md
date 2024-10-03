@@ -86,12 +86,10 @@ const int ledPin = LED_BUILTIN;    // the number of the LED pin
 ```
 
 ---
-### [AMB82-Mini 程式範例](https://github.com/rkuo2000/Arduino/tree/master/examples/AMB82-MINI)
-<p><img width="50%" height="50%" src="https://github.com/rkuo2000/EdgeAI-AMB82-mini/blob/main/assets/AMB82-mini_Arduino_Sketch_Download_ZIP.png?raw=true"></p>
+### [AMB82-Mini 程式範例](https://github.com/rkuo2000/EdgeAI-AmebaPro2/tree/main/Arduino/AMB82-mini)
 
-1. 瀏覽器打開 https://github.com/rkuo2000/Arduino, 點[Code]並選 [Download ZIP]
-2. 解壓縮.zip, 並extract examples
-3. 放入 Documents/Arduino
+1. 瀏覽器打開 [EdgeAI-AmebaPro2](https://github.com/rkuo2000/EdgeAI-AmebaPro2/), 點[Code]並選 [Download ZIP]
+2. 解壓縮.zip, 並將 Arduino/AMB82-mini 複製到 Documents/Arduino底下 
 
 ---
 ## 4. 感測器範例練習
@@ -177,6 +175,11 @@ Audio & Mic<br>
 ![](https://github.com/rkuo2000/EdgeAI-AMB82-mini/blob/main/assets/AMB82-mini_button_audiojack.jpeg?raw=true)
 
 ---
+### MP3 play to AOUT
+**Skatch:** [MP3_Player]()<br>
+
+
+---
 ### 音頻串流範例
 **Examples:** AmebaMultimedia / Audio / RTSPAudioStream<br>
 
@@ -239,7 +242,7 @@ Serial_monitor: `REG=RKUO`<br>
 [![](https://markdown-videos-api.jorgenkh.no/youtube/c3XGkc9ShwQ)](https://youtu.be/c3XGkc9ShwQ)
 
 ---
-### 模型檔案訓練與轉換
+### Garbage模型訓練與檔案轉換
 
 #### 模型訓練： [kaggle.com/rkuo2000/garbage-cnn](https://www.kaggle.com/code/rkuo2000/garbage-cnn)
 required in kaggle for AmebaPro2
@@ -280,7 +283,7 @@ required in kaggle for AmebaPro2
 * [YOLOv7 reparm](https://www.kaggle.com/code/rkuo2000/yolov7-reparam)<br>
 
 ---
-### YOLOv7-Pytorch模型訓練與轉換
+### Pothole模型訓練與檔案轉換
 
 #### 模型訓練： [kaggle.com/rkuo2000/yolov7-pothole](https://www.kaggle.com/code/rkuo2000/yolov7-pothole)
 1) repro [https://github.com/WongKinYiu/yolov7](https://github.com/WongKinYiu/yolov7)
