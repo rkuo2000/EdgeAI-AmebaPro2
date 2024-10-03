@@ -3,10 +3,9 @@
 教材網址：https://github.com/rkuo2000/EdgeAI-AmebaPro2
 ```
 
-```
-程式範例：AmebaPro2_server (.py)
-程式範例：Arduino/AMB82-mini (.ino)
-```
+**程式範例：** <br>
+* `AmebaPro2_server (.py)`
+* `Arduino/AMB82-mini (.ino)`
 
 自強基金會 WiFi 
 ```
