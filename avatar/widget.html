@@ -121,7 +121,7 @@
     const params = new URLSearchParams(location.search);
     // 接受服務根網址與 OpenAI 相容 API 網址（含 /v1）。
     const ollamaBase = (params.get('ollama') || '').trim().replace(/\/+$/, '').replace(/\/v1$/, '');
-    const ollamaModel = params.get('llmmodel') || 'gemma4:128k';
+    const ollamaModel = params.get('llmmodel') || 'gemma4:e4b';
 
     function ollamaLLM() {
       let ready = false;
