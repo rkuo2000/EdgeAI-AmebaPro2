@@ -45,7 +45,7 @@ window.KB = [
   { q: '你會記得我嗎',       kw: '記得 記憶 名字 記住 忘記 隱私 存哪',
     a: '陪伴模式下會！名字和最近的對話存在你自己瀏覽器的 localStorage，不會上傳到任何伺服器；想清掉就跟我說「忘記我」。' },
   { q: '開發板是什麼',      kw: 'AMB82-mini RTL8735B',
-    a: '我們使用 Realtek RTL8735B 晶片的 AMB82-mini 開發板，具備 32-bit Arm v8M 處理器、768KB ROM、512KB RAM、16MB Flash、802.11 a/b/g/n WiFi、BLE 5.1 以及 NN Engine 0.4 TOPS AI加速器。' },
+    a: '使用 Realtek RTL8735B 晶片的 AMB82-mini 開發板，具備 32-bit Arm v8M 處理器、768KB ROM、512KB RAM、16MB Flash、802.11 a/b/g/n WiFi、BLE 5.1 以及 NN Engine 0.4 TOPS AI加速器。' },
   { q: '如何安裝開發環境',   kw: 'Arduino IDE 開發環境 安裝 配置 Board Manager',
     a: '需要安裝 Arduino IDE 2.3.10，並添加 Board Manager URL：HUB8735 Ultra 用 https://raw.githubusercontent.com/ideashatch/HUB-8735/main/amebapro2_arduino/Arduino_package/ideasHatch.json，AMB82-mini 主要用 https://github.com/Ameba-AIoT/ameba-arduino-pro2/raw/main/Arduino_package/package_realtek_amebapro2_index.json。然後安裝 Realtek Ameba Boards 4.1.0-build20260213。' },
   { q: '課程涵蓋哪些主題',   kw: '課程 主題 學習',
