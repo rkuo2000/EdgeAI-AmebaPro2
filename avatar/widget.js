@@ -173,7 +173,7 @@
   $('btn-llm').onclick = async () => {
     try {
       await ensureLLM();
-      show('AI 已接手回答，會參考 index.html 教材內容，也可以陪你聊聊天！');
+      show('AI 已接手回答，會參考教材網頁內容，也可以陪你聊聊天！');
     } catch (err) {
       console.error('[avatar] AI 載入失敗:', err);
       show('AI 載入失敗：' + (err?.message || String(err)) + '。可再按 🧠 重試。');
