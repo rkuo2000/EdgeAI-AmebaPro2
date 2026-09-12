@@ -1,6 +1,6 @@
-# [EdgeAI AMB82mini](https://rkuo2000.github.io/EdgeAI-AMB82mini/)
+# [EdgeAI AmebaPro2](https://rkuo2000.github.io/EdgeAI-AmebaPro2/)
 
-## [AmebaNN (神經網路)](https://github.com/rkuo2000/EdgeAI-AMB82mini/blob/main/AmebaNN.md)
+## [AmebaNN (神經網路)](https://github.com/rkuo2000/EdgeAI-AmebaPro2/blob/main/AmebaNN.md)
 
 ---
 ### Citation
