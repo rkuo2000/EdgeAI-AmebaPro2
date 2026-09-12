@@ -1,5 +1,5 @@
 
-## [AmebaNN (神經網路模型)](https://ameba-doc-arduino-sdk.readthedocs-hosted.com/en/latest/ameba_pro2/amb82-mini/Example_Guides/Neural%20Network/index.html)
+## [AmebaNN (神經網路)](https://ameba-doc-arduino-sdk.readthedocs-hosted.com/en/latest/ameba_pro2/amb82-mini/Example_Guides/Neural%20Network/index.html)
 
 ### Examples > AmebaNN > [RTSPImageClassification](https://ameba-doc-arduino-sdk.readthedocs-hosted.com/en/latest/ameba_pro2/amb82-mini/Example_Guides/Neural%20Network/Image%20Classification.html)
 
