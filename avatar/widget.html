@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>AI Bot Widget</title>
+<style>
+  :root{
+    --brand:#5b54e8; --brand-2:#7d78f0; --ink:#222033;
+    --surface:rgba(255,255,255,.97); --dock:rgba(26,28,46,.58);
+  }
+  html, body { margin:0; height:100%; background:transparent; overflow:hidden;
+               font-family:"Noto Sans TC", system-ui, sans-serif; -webkit-font-smoothing:antialiased; }
+  #stage { position:absolute; inset:0; }
+  #character { position:absolute; inset:42px 8px 88px; pointer-events:none; }
+  #character img, .portrait-mesh { position:absolute; left:50%; bottom:0; transform:translateX(-50%);
+    width:100%; height:auto; max-height:100%; aspect-ratio:2 / 3; object-fit:contain; }
+  #bubble, #suggestions, #control-bar { z-index:1; }
+  #bubble { max-height:125px; overflow:auto; }
+  #control-bar { width:calc(100% - 32px); box-sizing:border-box; }
+  .dock-row[role="toolbar"] { justify-content:space-between; }
+
+
+  /* ===== 底部控制 dock（毛玻璃）===== */
+  #control-bar {
+    position:absolute; left:50%; bottom:10px; transform:translateX(-50%);
+    display:flex; flex-direction:column; gap:5px; padding:6px; border-radius:18px;
+    background:var(--dock); backdrop-filter:blur(10px) saturate(1.3); -webkit-backdrop-filter:blur(10px) saturate(1.3);
+    box-shadow:0 8px 24px rgba(0,0,0,.22), inset 0 0 0 1px rgba(255,255,255,.12);
+  }
+  .dock-row { display:flex; gap:5px; align-items:center; }
+  #type-input {
+    flex:1; min-width:0; appearance:none; border:none; outline:none;
+    background:rgba(255,255,255,.92); color:var(--ink); border-radius:12px;
+    height:36px; padding:0 12px; font:500 13.5px "Noto Sans TC", system-ui, sans-serif;
+  }
+  #type-input::placeholder { color:#888da0; }
+  #type-input:focus { background:#fff; box-shadow:0 0 0 2px rgba(91,84,232,.5); }
+  .ctrl {
+    appearance:none; border:none; cursor:pointer; color:#fff; background:rgba(255,255,255,.14);
+    height:36px; min-width:36px; padding:0 9px; border-radius:12px; flex-shrink:0; white-space:nowrap;
+    display:inline-flex; align-items:center; justify-content:center; gap:5px;
+    font-size:13.5px; font-weight:600; line-height:1;
+    transition:transform .12s, background .15s, filter .15s;
+  }
+  .ctrl:hover { background:rgba(255,255,255,.26); }
+  .ctrl:active { transform:scale(.93); }
+  .ctrl:focus-visible { outline:2px solid #fff; outline-offset:2px; }
+  .ctrl.primary { background:linear-gradient(135deg,var(--brand-2),var(--brand)); padding:0 13px; box-shadow:0 3px 10px rgba(0,0,0,.25); }
+  .ctrl.primary:hover { filter:brightness(1.1); background:linear-gradient(135deg,var(--brand-2),var(--brand)); }
+  .ctrl.listening { background:linear-gradient(135deg,#e74c3c,#c0392b)!important; animation:pulse 1.1s infinite; }
+  .ctrl.llm-on { background:linear-gradient(135deg,#f2b34f,#e69426); }
+  @keyframes pulse { 0%,100%{ box-shadow:0 0 0 0 rgba(231,76,60,.55);} 50%{ box-shadow:0 0 0 7px rgba(231,76,60,0);} }
+
+  /* ===== 對話泡泡（帶尾巴）===== */
+  #bubble {
+    position:absolute; right:14px; top:14px; left:14px;
+    background:var(--surface); color:var(--ink); border-radius:16px; padding:11px 14px;
+    font-size:14px; line-height:1.55;
+    box-shadow:0 10px 30px rgba(0,0,0,.18), inset 0 0 0 1px rgba(91,84,232,.1);
+    opacity:0; transform:translateY(-8px) scale(.98); transform-origin:top center;
+    transition:opacity .22s, transform .22s; pointer-events:none;
+  }
+  #bubble::after { content:""; position:absolute; right:38px; bottom:-7px; width:14px; height:14px;
+    background:var(--surface); transform:rotate(45deg); }
+  #bubble.show { opacity:1; transform:none; }
+
+  /* ===== 範例提示清單 ===== */
+  #suggestions {
+    position:absolute; left:10px; right:10px; bottom:104px;
+    display:flex; flex-wrap:wrap; gap:6px; justify-content:center; pointer-events:auto;
+  }
+  #suggestions .sg-label {
+    width:100%; text-align:center; font-size:11px; font-weight:600; color:#fff; letter-spacing:.3px;
+    text-shadow:0 1px 4px rgba(0,0,0,.55); margin-bottom:2px;
+  }
+  .sugg {
+    appearance:none; cursor:pointer; white-space:nowrap;
+    background:rgba(255,255,255,.92); color:var(--brand); border:1px solid rgba(91,84,232,.22);
+    border-radius:999px; font-size:12px; font-weight:600; padding:6px 12px;
+    box-shadow:0 3px 10px rgba(0,0,0,.16); transition:transform .12s, background .15s;
+  }
+  .sugg:hover { background:#fff; transform:translateY(-1px); }
+  .sugg:active { transform:scale(.96); }
+  .sugg:focus-visible { outline:2px solid #fff; outline-offset:2px; }
+
+  #direct-warn {
+    position:absolute; inset:0; display:none; align-items:center; justify-content:center;
+    background:#f4f6f8; color:#556; font-size:15px; text-align:center; padding:24px;
+  }
+</style>
+</head>
+<body>
+  <div id="stage">
+    <div id="character"><img id="portrait" alt="小瑞，戴著藍色耳機、穿白藍制服的 AI 小助教" /></div>
+    <div id="bubble"></div>
+    <div id="suggestions"></div>
+    <div id="control-bar">
+      <div class="dock-row">
+        <input id="type-input" type="text" maxlength="200" placeholder="打字問我也可以…" aria-label="輸入文字問題" />
+        <button class="ctrl primary" id="btn-send" aria-label="送出文字問題"><span aria-hidden="true">➤</span></button>
+      </div>
+      <div class="dock-row" role="toolbar" aria-label="虛擬人控制列">
+      <button class="ctrl primary" id="btn-mic"   aria-label="開始語音對話"><span aria-hidden="true">🎤</span> 說話</button>
+      <button class="ctrl" id="btn-engine" aria-label="切換 2D / 3D 角色" style="display:none">2D／3D</button>
+      <button class="ctrl" id="btn-llm"   aria-label="啟用瀏覽器內 AI 大腦（首次需下載模型）" aria-pressed="false"><span aria-hidden="true">🧠</span></button>
+      <button class="ctrl" id="btn-mute"  aria-label="靜音" aria-pressed="false"><span aria-hidden="true">🔊</span></button>
+      <button class="ctrl" id="btn-speed" aria-label="調整語速">1.0×</button>
+      <button class="ctrl" id="btn-mode" aria-label="切換模式">助手</button>
+      <button class="ctrl" id="btn-close" aria-label="收起助理"><span aria-hidden="true">✕</span></button>
+      </div>
+    </div>
+  </div>
+  <div id="direct-warn">請透過 <code>embed.js</code> 載入此元件。</div>
+
+  <script src="knowledge.js"></script>
+
+  <!-- M4b：WebLLM（瀏覽器內跑小模型，零金鑰） -->
+  <script type="module">
+    const LLM_MODEL = "Qwen2.5-1.5B-Instruct-q4f16_1-MLC";
+    let engine = null, loadingPromise = null;
+    window.LLM = {
+      supported: ('gpu' in navigator),
+      state: 'idle',
+      progress: 0,
+      model: LLM_MODEL,
+      async load(onProgress) {
+        if (engine) return engine;
+        if (loadingPromise) return loadingPromise;
+        window.LLM.state = 'loading';
+        loadingPromise = import("https://esm.run/@mlc-ai/web-llm")
+          .then((webllm) => webllm.CreateMLCEngine(LLM_MODEL, {
+            initProgressCallback: (p) => { window.LLM.progress = p.progress || 0; if (onProgress) onProgress(p); }
+          }))
+          .then((e) => { engine = e; window.LLM.state = 'ready'; return e; })
+          .catch((err) => { window.LLM.state = 'error'; window.LLM.error = String(err); throw err; });
+        return loadingPromise;
+      },
+      async chat(messages, onDelta) {
+        if (!engine) return null;
+        if (!onDelta) {
+          const r = await engine.chat.completions.create({ messages, temperature: 0.4, max_tokens: 220 });
+          return r && r.choices && r.choices[0] && r.choices[0].message.content;
+        }
+        const stream = await engine.chat.completions.create({ messages, temperature: 0.4, max_tokens: 220, stream: true });
+        let full = '';
+        for await (const c of stream) {
+          const d = c && c.choices && c.choices[0] && c.choices[0].delta && c.choices[0].delta.content;
+          if (d) { full += d; onDelta(d, full); }
+        }
+        return full;
+      }
+    };
+  </script>
+
+
+  <script src="portrait-rig.js?v=20260912-16"></script>
+  <script src="widget.js?v=20260912-16"></script>
+</body>
+</html>
