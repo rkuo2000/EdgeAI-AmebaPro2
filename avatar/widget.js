@@ -125,7 +125,7 @@
   }
   $('portrait').onload = () => {
     initRig().then(() => {
-      post('ready'); show('嗨，我是小瑞！一起探索 AMB82-mini 吧！');
+      post('ready'); show('嗨，我是小瑞！一起探索 Ameba Pro2 吧！');
     });
   };
   $('portrait').onerror = () => show('角色圖片載入失敗，請檢查圖片路徑。');
