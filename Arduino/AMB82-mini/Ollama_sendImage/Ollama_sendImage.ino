@@ -17,10 +17,10 @@ char ssid[] = "TCFSTWIFI.ALL";    // your network SSID (name)
 char pass[] = "035623116";        // your network password
 int status = WL_IDLE_STATUS;     // Indicator of Wifi status
 
-const char *myDomain = "192.168.0.22"; // Ollama Server IP address
+const char *myDomain = "192.168.0.199"; // Ollama Server IP address
 String model = "gemma4:e2b";
-String ollama_key = "";
-String prompt = "Describe the image";
+String ollama_key = "put your API Key here";
+String prompt = "Describe the image in a few words";
 
 void setup()
 {
