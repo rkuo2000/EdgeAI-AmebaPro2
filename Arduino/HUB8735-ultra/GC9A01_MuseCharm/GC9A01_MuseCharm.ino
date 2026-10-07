@@ -4,6 +4,8 @@
 	@brief  Example file for GC9A01_LTSM bitmap test
 	@note   See USER OPTIONS in SETUP function
 */
+#include "MP3_Player.h"
+#include "AmebaFatFS.h"
 
 // libraries
 #include "src/ltsm/GC9A01_LTSM.hpp"
@@ -25,6 +27,34 @@
 
 GC9A01_LTSM myTFT;
 bool bhardwareSPI = true;  // true for hardware spi, false for software
+
+AmebaFatFS fs;
+char filename[] = "mp3/JarOfLove.mp3"; // Your MP3 file name
+bool isPlaying = false;
+
+void playMP3() {
+    char path[128];
+    bool b_result;
+    b_result = fs.begin();
+
+    if (b_result) {
+        sprintf(path, "%s%s", fs.getRootPath(), filename);
+        File file = fs.open(path);
+        int size = file.available();
+        mp3_data_len = size;
+        file.seek(0);
+        mp3_data = new unsigned char[mp3_data_len];
+        file.read(mp3_data, mp3_data_len);
+        file.close();
+        fs.end();
+        
+        parseMP3();
+        setOutputGain(0xA0); // The value must be in [0x0~0xAF]
+        audio_helix_mp3();
+    } else {
+        Serial.println("==== SD init failed ====");
+    }
+}
 
 void setup(void) {
   Serial.begin(115200);
@@ -52,26 +82,28 @@ void setup(void) {
 
   myTFT.TFTGC9A01Initialize();
   Serial.println("TFT init done.");
-
+  
+  Draw_Bitmap();       
+  playMP3();  
 }
 
 void Draw_Bitmap() {
   Serial.println("Draw MuseCharm");
   myTFT.drawBitmap16Data(0, 0, neutral_smile, 240, 240); 
   delay(DRAW_DELAY);  
-  myTFT.drawBitmap16Data(0, 0, happy_smile, 240, 240); 
-  delay(DRAW_DELAY);
-  myTFT.drawBitmap16Data(0, 0, shy_smile, 240, 240); 
-  delay(DRAW_DELAY);  
-  myTFT.drawBitmap16Data(0, 0, waving, 240, 240); 
-  delay(DRAW_DELAY);
-  myTFT.drawBitmap16Data(0, 0, waving_wink, 240, 240); 
-  delay(DRAW_DELAY);
-  myTFT.drawBitmap16Data(0, 0, cheering, 240, 240); 
-  delay(DRAW_DELAY);
+  //myTFT.drawBitmap16Data(0, 0, happy_smile, 240, 240); 
+  //delay(DRAW_DELAY);
+  //myTFT.drawBitmap16Data(0, 0, shy_smile, 240, 240); 
+  //delay(DRAW_DELAY);  
+  //myTFT.drawBitmap16Data(0, 0, waving, 240, 240); 
+  //delay(DRAW_DELAY);
+  //myTFT.drawBitmap16Data(0, 0, waving_wink, 240, 240); 
+  //delay(DRAW_DELAY);
+  //myTFT.drawBitmap16Data(0, 0, cheering, 240, 240); 
+  //delay(DRAW_DELAY);
   Serial.println("Done");   
 }
 
 void loop(void) {
-  Draw_Bitmap();  
+  //Draw_Bitmap();  
 }
