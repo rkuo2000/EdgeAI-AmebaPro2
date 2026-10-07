@@ -1,0 +1,567 @@
+// Sketch-local copy, modified 2026-10-07: explicit SPI bus selection, GPIO CS setup, and local includes.
+/*!
+	@file   GC9A01_LTSM.cpp
+	@author Gavin Lyons
+	@brief  Source file. Contains driver methods for GC9A01_LTSM display 
+*/
+
+#include "GC9A01_LTSM.hpp"
+ 
+/*!
+	@brief Constructor for class GC9A01_LTSM
+*/
+GC9A01_LTSM :: GC9A01_LTSM(){}
+
+/*!
+	@brief : Init Hardware SPI
+	@details If custom SCLK/MOSI pins were provided via TFTsetCustomSPIpins()
+	         they are passed to _spi->begin() on ESP32, where the 4-arg overload
+	         is supported. On all other platforms the standard no-arg _spi->begin()
+	         is called; custom pin mapping is not available on those targets.
+*/
+void GC9A01_LTSM::TFTHWSPIInitialize(void){
+#if defined(ESP32)
+	if (_display_SCLK != -1 && _display_SDATA != -1) {
+		_spi->begin(_display_SCLK, -1, _display_SDATA, _display_CS);
+	} else {
+		_spi->begin();
+	}
+#else
+	_spi->begin();
+#endif
+}
+
+/*!
+	@brief: Call when powering down TFT
+	@note  Will switch off SPI 
+*/
+void GC9A01_LTSM ::TFTPowerDown(void)
+{
+	TFTenableDisplay(false);
+	if (_resetPinOn == true) {
+		DISPLAY16_RST_SetLow;
+	}
+	DISPLAY16_DC_SetLow;
+	DISPLAY16_CS_SetLow;
+
+	if (_hardwareSPI == true) {
+		_spi->end();
+	}else{
+		DISPLAY16_SCLK_SetLow;
+		DISPLAY16_SDATA_SetLow;
+	}
+}
+
+/*!
+	@brief Method for Hardware Reset pin control
+*/
+void GC9A01_LTSM ::TFTResetPIN() {
+	if (_resetPinOn == false) return;
+	DISPLAY16_RST_SetDigitalOutput;
+	DISPLAY16_RST_SetHigh;
+	MILLISEC_DELAY(5);
+	DISPLAY16_RST_SetLow;
+	MILLISEC_DELAY(20);
+	DISPLAY16_RST_SetHigh;
+	MILLISEC_DELAY(150);
+}
+
+/*!
+	@brief sets up TFT GPIO
+	@param CommDelay SW SPI GPIO delay
+	@param rst reset GPIO, optional pass -1 to disable, see note
+	@param dc data or command GPIO.
+	@param cs chip select GPIO 
+	@param sclk Data clock GPIO  
+	@param din Data to TFT GPIO 
+	@details if -1 is passed for reset pin, software reset is used, if LCD has optional reset pin
+			Overloaded one of two this one if for software SPI
+*/
+void GC9A01_LTSM::TFTsetupGPIO_SPI(uint16_t CommDelay, int8_t rst, int8_t dc, int8_t cs, int8_t sclk, int8_t din)
+{
+	TFTSwSpiGpioDelaySet(CommDelay);
+	_hardwareSPI = false;
+	_display_RST= rst;
+	_display_DC = dc;
+	_display_CS = cs;
+	_display_SDATA = din;
+	_display_SCLK = sclk;
+
+	if (_display_RST == -1 ){
+		_resetPinOn = false;
+	}else{
+		_resetPinOn = true;
+	}
+}
+
+/*!
+	@brief sets up TFT GPIO for hardware SPI using platform default SPI pins
+	@param speed_hz SPI baudrate in hz
+	@param rst reset GPIO, optional pass -1 to disable
+	@param dc data or command GPIO
+	@param cs chip select GPIO
+	@details To use non-default SPI pins call TFTsetCustomSPIpins() immediately after this.
+	         If -1 is passed for rst, software reset is used.
+*/
+void GC9A01_LTSM::TFTsetupGPIO_SPI(uint32_t speed_hz, int8_t rst, int8_t dc, int8_t cs)
+{
+	_speedSPIHz    = speed_hz;
+	_hardwareSPI   = true;
+	_display_RST   = rst;
+	_display_DC    = dc;
+	_display_CS    = cs;
+	_display_SCLK  = -1;   // -1 = use platform default
+	_display_SDATA = -1;
+
+	if (_display_RST == -1 ){
+		_resetPinOn = false;
+	}else{
+		_resetPinOn = true;
+	}
+}
+
+/*!
+	@brief Override the SPI clock and MOSI pins for hardware SPI
+	@param sclk Clock GPIO
+	@param din  MOSI (data to display) GPIO
+	@details Call this immediately after TFTsetupGPIO_SPI() and before TFTGC9A01Initialize()
+	         only when the display is hardwired to non-default SPI pins.
+			 See example CUSTOM_SPI_PINS.ino for use case.
+*/
+void GC9A01_LTSM::TFTsetCustomSPIpins(int8_t sclk, int8_t din)
+{
+	_display_SCLK  = sclk;
+	_display_SDATA = din;
+}
+
+/*!
+	@brief init routine for GC9A01 controller
+*/
+void GC9A01_LTSM::TFTGC9A01Initialize() 
+{
+	if (_resetPinOn == true) {
+		TFTResetPIN();
+	}
+	DISPLAY16_DC_SetDigitalOutput;
+	DISPLAY16_DC_SetLow;
+	// CS is controlled as GPIO for both software and hardware SPI.
+	DISPLAY16_CS_SetDigitalOutput;
+	DISPLAY16_CS_SetHigh;
+
+	if (_hardwareSPI == false)
+	{
+		DISPLAY16_SCLK_SetDigitalOutput;
+		DISPLAY16_SDATA_SetDigitalOutput;
+		DISPLAY16_SCLK_SetLow;
+		DISPLAY16_SDATA_SetLow;
+	}else{
+		TFTHWSPIInitialize();
+		// Restore GPIO CS after the SPI controller configures its pins.
+		DISPLAY16_CS_SetDigitalOutput;
+		DISPLAY16_CS_SetHigh;
+	}
+		cmdInitSequence();
+		TFTsetRotation(Degrees_0);
+}
+
+/*!
+	@brief Toggle the invert mode
+	@param invert true invert off , false invert on
+*/
+void GC9A01_LTSM ::TFTchangeInvertMode(bool invert) {
+	if(invert) {
+		writeCommand(GC9A01_INVOFF);
+	} else {
+		writeCommand(GC9A01_INVON);
+	}
+}
+
+/*!
+	@brief: change rotation of display.
+	@param mode display_rotate_e enum
+	0 = Normal
+	1=  90 rotate
+	2 = 180 rotate
+	3 =  270 rotate
+*/
+void GC9A01_LTSM::TFTsetRotation(display_rotate_e mode) {
+	uint8_t madctl = 0;
+	switch (mode) {
+		case Degrees_0 :
+			madctl = (MADCTL_FLAGS_t::MX | MADCTL_FLAGS_t::BGR);
+			_width =_widthStartTFT;
+			_height = _heightStartTFT;
+			break;
+		case Degrees_90:
+			madctl = (MADCTL_FLAGS_t::MV | MADCTL_FLAGS_t::BGR);
+			_width  =_heightStartTFT;
+			_height = _widthStartTFT;
+			break;
+		case Degrees_180:
+			madctl =(MADCTL_FLAGS_t::MY | MADCTL_FLAGS_t::BGR);
+			_width =_widthStartTFT;
+			_height = _heightStartTFT;
+			break;
+		case Degrees_270:
+			madctl = (MADCTL_FLAGS_t::MX | MADCTL_FLAGS_t::MY |MADCTL_FLAGS_t::MV | MADCTL_FLAGS_t::BGR);
+			_width =_heightStartTFT;
+			_height = _widthStartTFT;
+			break;
+	}
+	writeCommand(GC9A01_MADCTL);
+	writeData(madctl);
+}
+
+/*!
+	@brief initialise the variables that define the size of the screen
+	@param width_TFT width in pixels
+	@param height_TFT height in pixels
+	@note  The offsets can be adjusted for any issues with manufacture tolerance/defects
+*/
+void GC9A01_LTSM  :: TFTInitScreenSize( uint16_t width_TFT, uint16_t height_TFT)
+{
+
+	_width = width_TFT;
+	_height = height_TFT;
+	_widthStartTFT = width_TFT;
+	_heightStartTFT = height_TFT;
+}
+
+/*!
+	@brief Freq delay used in SW SPI getter, uS delay used in SW SPI method
+	@return The  GPIO communications delay in uS
+*/
+uint16_t GC9A01_LTSM::TFTSwSpiGpioDelayGet(void){return _SWSPIGPIODelay;}
+
+/*!
+	@brief Freq delay used in SW SPI setter, uS delay used in SW SPI method
+	@param CommDelay The GPIO communications delay in uS
+*/
+void  GC9A01_LTSM::TFTSwSpiGpioDelaySet(uint16_t CommDelay){_SWSPIGPIODelay = CommDelay;}
+
+
+/*!
+	@brief Command Initialization sequence for GC9A01 display
+*/
+void GC9A01_LTSM::cmdInitSequence(void)
+{
+	writeCommand(GC9A01_INREGEN1);
+	writeCommand(GC9A01_INREGEN2);
+	
+	if (_resetPinOn == false){
+		TFTresetSWDisplay(); // software reset, untested on hardware
+	}
+	// Undocumented in datasheet registers
+	writeCommand(0xEB); 
+	writeData(0x14);
+	writeCommand(0x84); 
+	writeData(0x60);
+	writeCommand(0x85);
+	writeData(0xF7);
+	writeCommand(0x86);
+	writeData(0xFC);
+	writeCommand(0x87);
+	writeData(0x28);
+	writeCommand(0x8E);
+	writeData(0x0F);
+	writeCommand(0x8F);
+	writeData(0xFC);
+	writeCommand(0x88);
+	writeData(0x0A);
+	writeCommand(0x89);
+	writeData(0x21);
+	writeCommand(0x8A);
+	writeData(0x00);
+	writeCommand(0x8B);
+	writeData(0x80);
+	writeCommand(0x8C);
+	writeData(0x01);
+	writeCommand(0x8D);
+	writeData(0x03);
+
+	writeCommand(GC9A01_FUNCTION_CTRL);//0xb6
+	writeData(0x00);
+	writeData(0x00);
+	writeCommand(GC9A01_MADCTL);
+	writeData(MADCTL_FLAGS_t::MX | MADCTL_FLAGS_t::BGR); // BGR color filter panel
+	writeCommand(GC9A01_COLMOD);
+	writeData(0x05);  // 16 bits / pixel DBI
+
+	writeCommand(0x90); // Undocumented in datasheet registers
+	uint8_t seqReg90[] = {0x08, 0x08, 0x08, 0x08};
+	spiWriteDataBuffer(seqReg90, sizeof(seqReg90));
+
+	writeCommand(GC9A01_TEWC);
+	writeData(0x01); // Tearing Effect width 
+	writeCommand(0xBD); // Undocumented in datasheet register
+	writeData(0x06);
+	writeCommand(0xBC); // Undocumented in datasheet register
+	writeData(0x00);
+	writeCommand(0xFF); // Undocumented in datasheet register
+	uint8_t seqRegFF[] = {0x60, 0x01, 0x04};
+	spiWriteDataBuffer(seqRegFF, sizeof(seqRegFF));
+
+	writeCommand(GC9A01_POWER2);
+	writeData(0x48);
+	writeCommand(GC9A01_POWER3);
+	writeData(0x48);
+	writeCommand(GC9A01_POWER4);
+	writeData(0x25);
+
+	 // Undocumented in datasheet register
+	writeCommand(0xBE);
+	writeData(0x11);
+	writeCommand(0xE1);
+	writeData(0x10);
+	writeData(0x0E);
+	writeCommand(0xDF);
+	uint8_t seqRegDF[] = {0x21, 0x10, 0x02};
+	spiWriteDataBuffer(seqRegDF, sizeof(seqRegDF));
+
+	// gamma control sequence
+	writeCommand(GC9A01_GAMMA1);
+	uint8_t seqGamma1_3[] = {0x4b, 0x0f, 0x0A, 0x0B, 0x15, 0x30};
+	spiWriteDataBuffer(seqGamma1_3, sizeof(seqGamma1_3));
+	writeCommand(GC9A01_GAMMA2);
+	uint8_t seqGamma2_4[] = {0x43, 0x70, 0x72, 0x36, 0x37, 0x6f};
+	spiWriteDataBuffer(seqGamma2_4, sizeof(seqGamma2_4));
+	writeCommand(GC9A01_GAMMA3);
+	spiWriteDataBuffer(seqGamma1_3, sizeof(seqGamma1_3));
+	writeCommand(GC9A01_GAMMA4 );
+	spiWriteDataBuffer(seqGamma2_4, sizeof(seqGamma2_4));
+
+	// Undocumented in datasheet register
+	writeCommand(0xED);
+	writeData(0x1B);
+	writeData(0x0B);
+	writeCommand(0xAC);
+	writeData(0x47);
+	writeCommand(0xAE);
+	writeData(0x77);
+	writeCommand(0xCD);
+	writeData(0x63);
+	writeCommand(0x70);
+	uint8_t seqReg70[] = {0x07, 0x09, 0x04, 0x0C, 0x0D, 0x09, 0x07, 0x08, 0x03};
+	spiWriteDataBuffer(seqReg70, sizeof(seqReg70));
+
+	writeCommand(GC9A01_FRAMERATE);
+	writeData(0x34); // 4 dot inversion DINV[3:0] : Set display inversion mode
+
+	// Undocumented in datasheet registers
+	static uint8_t seqReg60[] = {
+		0x38, 0x0B, 0x76, 0x62,0x39, 0xF0, 0x76, 0x62};
+	writeCommand(0x60); 
+	spiWriteDataBuffer(seqReg60, sizeof(seqReg60));
+	static  uint8_t seqReg61[] = {
+		0x38, 0xF6, 0x76, 0x62,0x38, 0xF7, 0x76, 0x62};
+	writeCommand(0x61); 
+	spiWriteDataBuffer(seqReg61, sizeof(seqReg61));
+	static  uint8_t seqReg62[] = {
+		0x38, 0x0D, 0x71, 0xED, 0x76, 0x62,0x38, 0x0F, 0x71, 0xEF, 0x76, 0x62};
+	writeCommand(0x62); 
+	spiWriteDataBuffer(seqReg62, sizeof(seqReg62));
+	static  uint8_t seqReg63[] = {
+		0x38, 0x11, 0x71, 0xF1, 0x76, 0x62,0x38, 0x13, 0x71, 0xF3, 0x76, 0x62};
+	writeCommand(0x63); // 0x63
+	spiWriteDataBuffer(seqReg63, sizeof(seqReg63));
+	static  uint8_t seqReg64[] = {
+		0x3B, 0x29, 0xF1, 0x01, 0xF1, 0x00, 0x0A};
+	writeCommand(0x64); 
+	spiWriteDataBuffer(seqReg64, sizeof(seqReg64));
+	static uint8_t seqReg66[] = {
+		0x3C, 0x00, 0xCD, 0x67, 0x45, 0x45, 0x10, 0x00, 0x00, 0x00};
+	writeCommand(0x66); 
+	spiWriteDataBuffer(seqReg66, sizeof(seqReg66));
+	static uint8_t seqReg67[] = {
+		0x00, 0x3C, 0x00, 0x00, 0x00, 0x01, 0x54, 0x10, 0x32, 0x98};
+	writeCommand(0x67); 
+	spiWriteDataBuffer(seqReg67, sizeof(seqReg67));
+
+	static uint8_t seqPorchCtrl[] = {
+		0x08, 0x09, 0x14, 0x08};
+	writeCommand(GC9A01_BLANK_PORCH_CTRL); // 
+	spiWriteDataBuffer(seqPorchCtrl, sizeof(seqPorchCtrl));
+
+
+	// Undocumented in datasheet registers
+	static uint8_t seqReg74[] = {
+		0x10, 0x85, 0x80, 0x00, 0x00, 0x4E, 0x00
+	};
+	writeCommand(0x74); 
+	spiWriteDataBuffer(seqReg74, sizeof(seqReg74));
+	writeCommand(0x98);
+	writeData(0x3E);
+	writeData(0x07);
+
+	writeCommand(GC9A01_TEON);
+	writeData(0x00);
+	writeCommand(GC9A01_INVON);
+	writeCommand(GC9A01_SLPOUT);
+	MILLISEC_DELAY (_sleepDelay);
+	TFTenableDisplay(true);
+}
+
+
+/*!
+  @brief SPI displays set an address window rectangle for blitting pixels
+  @param  x1 Top left corner x coordinate
+  @param  y1  Top left corner y coordinate
+  @param  w  Width of window
+  @param  h  Height of window
+  @note https://en.wikipedia.org/wiki/Bit_blit
+ */
+void GC9A01_LTSM::setAddrWindow(uint16_t x1, uint16_t y1, uint16_t w, uint16_t h)
+{	
+	//if drawing a single pixel we need do this to avoid a blank pixel for this device
+	if (w - x1 == 1)  {w = x1;}
+	if( h - y1 == 1)  {h = y1;}
+	uint8_t x1Higher = (x1 >> 8) ;
+	uint8_t x1Lower  = (x1 &  0xFF);
+	uint8_t x2Higher = (w >> 8);
+	uint8_t x2Lower  = (w &  0xFF);
+	uint8_t seqCASET[]    {x1Higher ,x1Lower,x2Higher,x2Lower};
+	uint8_t y1Higher = (y1 >> 8); 
+	uint8_t y1Lower  = (y1 &  0xFF);
+	uint8_t y2Higher = (h >> 8);
+	uint8_t y2Lower  = (h &  0xFF);
+	uint8_t seqRASET[]    {y1Higher,y1Lower,y2Higher,y2Lower};
+	writeCommand(GC9A01_CASET); //Column address set
+	spiWriteDataBuffer(seqCASET, sizeof(seqCASET));
+	writeCommand(GC9A01_RASET); //Row address set
+	spiWriteDataBuffer(seqRASET, sizeof(seqRASET));
+	writeCommand(GC9A01_RAMWR); // Write to RAM*/
+}
+
+/*!
+	@brief This method defines the Vertical Scrolling Area of the display where:
+	@param topFixed describes the Top Fixed Area.
+	@param scrollArea describes the Scrolling Area.
+	@param bottomFixed describes the Bottom Fixed Area.
+*/
+void GC9A01_LTSM::TFTsetScrollArea(uint16_t topFixed, uint16_t scrollArea, uint16_t bottomFixed) {
+
+	writeCommand(GC9A01_VSCRDEF);
+	writeData(topFixed >> 8);
+	writeData(topFixed & 0xFF);
+	writeData(scrollArea >> 8);
+	writeData(scrollArea  & 0xFF);
+	writeData(bottomFixed >> 8);
+	writeData(bottomFixed & 0xFF);
+}
+
+/*!
+	@brief This method is used together with the setScrollDefinition.
+	@param vsp scrolling mode
+*/
+void GC9A01_LTSM::TFTsetScrollStart(uint16_t vsp) {
+	writeCommand(GC9A01_VSCRSADD);
+	writeData(vsp >> 8);
+	writeData(vsp & 0xFF);
+}
+
+/*! @brief Scroll Mode can be left ,by the Normal Display Mode ON cmd*/
+void GC9A01_LTSM::TFTScrollModeLeave(void) {writeCommand(GC9A01_NORON);}
+
+/*!
+	@brief Software reset command
+*/
+void GC9A01_LTSM::TFTresetSWDisplay(void) 
+{
+  writeCommand(GC9A01_SWRESET);
+  MILLISEC_DELAY(150);
+}
+
+/*!
+	@brief enable /disable display mode
+	@param enableDisplay true enable on false disable
+	@note Temporarily blank the screen.
+	Use Case: Screen blanking, brief off periods without resetting or reinitializing the display.
+*/
+void GC9A01_LTSM::TFTenableDisplay(bool enableDisplay){
+	if(enableDisplay) {
+		writeCommand(GC9A01_DISPON);
+		_displayOn = true;
+	} else {
+		writeCommand(GC9A01_DISPOFF);
+		_displayOn = false;
+	}
+}
+
+/*!
+	@brief Set the power mode of the display
+	@param mode The power state to set
+	@details 
+		Power states are based on the power control flow chart in the datasheet.
+		FIG 89 5.10.2. Power Flow Chart	
+*/
+void GC9A01_LTSM::TFTsetPowerMode(PowerState_e mode) {
+	// If already in the desired state or off , skip
+	if (_currentPowerState == mode || _displayOn != true) 
+	{
+		#ifdef dislib16_DEBUG_MODE_ENABLE
+			Serial.println("Warning: TFTsetPowerMode: Display already in this state or off");
+		#endif
+		return;
+	}
+	
+	// Always return to a known base state
+	writeCommand(GC9A01_SLPOUT);
+	MILLISEC_DELAY(_sleepDelay);
+
+	switch (mode) {
+		case PowerState_e::NormalIdleOff:
+			writeCommand(GC9A01_NORON);
+			writeCommand(GC9A01_IDLEOFF);
+			break;
+		case PowerState_e::NormalIdleOn:
+			writeCommand(GC9A01_NORON);
+			writeCommand(GC9A01_IDLEON);
+			break;
+		case PowerState_e::PartialIdleOff:
+			writeCommand(GC9A01_PTLON);
+			writeCommand(GC9A01_IDLEOFF);
+			break;
+		case PowerState_e::PartialIdleOn:
+			writeCommand(GC9A01_PTLON);
+			writeCommand(GC9A01_IDLEON);
+			break;
+		case PowerState_e::SleepNormalIdleOff:
+			writeCommand(GC9A01_NORON);
+			writeCommand(GC9A01_IDLEOFF);
+			writeCommand(GC9A01_SLPIN);
+			MILLISEC_DELAY(_sleepDelay);
+			break;
+		case PowerState_e::SleepNormalIdleOn:
+			writeCommand(GC9A01_NORON);
+			writeCommand(GC9A01_IDLEON);
+			writeCommand(GC9A01_SLPIN);
+			MILLISEC_DELAY(_sleepDelay);
+			break;
+		case PowerState_e::SleepPartialIdleOff:
+			writeCommand(GC9A01_PTLON);
+			writeCommand(GC9A01_IDLEOFF);
+			writeCommand(GC9A01_SLPIN);
+			MILLISEC_DELAY(_sleepDelay);
+			break;
+		case PowerState_e::SleepPartialIdleOn:
+			writeCommand(GC9A01_PTLON);
+			writeCommand(GC9A01_IDLEON);
+			writeCommand(GC9A01_SLPIN);
+			MILLISEC_DELAY(_sleepDelay);
+			break;
+	}
+	_currentPowerState = mode;
+}
+
+/*!
+  @brief Set display brightness (0–255).
+  @param level Brightness level, 0 = darkest, 255 = brightest
+  @note This is a software brightness control, not hardware PWM, may not work on all displays.
+*/
+void GC9A01_LTSM::TFTsetBrightness(uint8_t level)
+{
+	writeCommand(GC9A01_SETCTRL); // CTRL Display
+	writeData(0x2C);    // Brightness registers are active, Display Dimming is on Backlight On
+	writeCommand(GC9A01_SETBRIGHT);
+	writeData(level);
+}
