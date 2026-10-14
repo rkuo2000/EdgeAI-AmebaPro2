@@ -19,37 +19,13 @@
 #define TFT_CS          SPI_SS
 
 AmebaILI9341 tft = AmebaILI9341(TFT_CS, TFT_DC, TFT_RESET);
+//AmebaILI9341 tft = AmebaILI9341(TFT_CS, TFT_DC, TFT_RESET, &SPI1);
 
 #define ILI9341_SPI_FREQUENCY 20000000
 
 void drawBitmap(int16_t x, int16_t y, int16_t w, int16_t h, const unsigned short *color)
 {
-    if (color == nullptr || w <= 0 || h <= 0 || x < 0 || y < 0 ||
-        x >= tft.getWidth() || y >= tft.getHeight()) {
-        return;
-    }
-
-    const int16_t sourceWidth = w;
-    if (w > tft.getWidth() - x) {
-        w = tft.getWidth() - x;
-    }
-    if (h > tft.getHeight() - y) {
-        h = tft.getHeight() - y;
-    }
-
-    // The installed AmebaILI9341::drawBitmap casts away const, swaps the
-    // source pixels in place, and uses them as both SPI TX and RX buffers.
-    // Send bytes directly so the const RGB565 arrays remain unchanged.
-    tft.setAddress(x, y, x + w - 1, y + h - 1);
-    digitalWrite(TFT_DC, HIGH);
-    for (int16_t row = 0; row < h; ++row) {
-        const unsigned short *pixels = color + (uint32_t)row * sourceWidth;
-        for (int16_t col = 0; col < w; ++col) {
-            const uint16_t pixel = pixels[col];
-            SPI.transfer((uint8_t)(pixel >> 8));
-            SPI.transfer((uint8_t)(pixel & 0xFF));
-        }
-    }
+    tft.drawBitmap(x, y, w, h, color);
     delay(500);
 }
 
