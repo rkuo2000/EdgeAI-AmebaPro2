@@ -17,6 +17,7 @@
 #include "PlushPetHttp.h"
 #include "PlushPetListen.h"
 #include "PlushPetFaces.h"
+#include "PlushPetPcm.h"
 extern "C" {
 #include "mmf2_module.h"
 #include "module_audio.h"
@@ -46,7 +47,8 @@ AudioSetting configA(PET_AUDIO_PRESET);
 PetAudio audio;
 AAC aac;
 MP4Recording mp4;
-StreamIO monitor(1, 1), audioToAAC(1, 1), aacToMp4(1, 1);
+PetPcmRecorder pcm;
+StreamIO monitor(1, 1), audioToAAC(1, 1), aacToMp4(1, 1), audioToPcm(1, 1);
 VideoSetting configV(640, 480, 5, VIDEO_JPEG, 1);
 WiFiClient aiClient;
 GenAI tts;
@@ -157,44 +159,99 @@ const char *persona =
     "emotion: neutral,happy,excited,curious,shy,sleepy. "
     "action: none,wave,wink,cheer. sound: none,hello,laugh,wow,curious,thinking,happy,sleepy,yes,no. ";
 
-void drawBitmap(int16_t x, int16_t y, int16_t w, int16_t h, const unsigned short *color)
+// Face pixels are sent in bulk with spi_master_write_stream(), which is much
+// faster than one SPI.transfer() per byte (153600 bytes per portrait).
+//
+// That API is asynchronous and TX-only, so it has to be driven carefully --
+// see flushFaceBuffer(). If it ever fails to complete we fall back to the
+// blocking SPI.transfer() path, so a failure degrades into a slower face
+// rather than a blank screen.
+//
+// Must match the SPIClass the tft was constructed with. AmebaILI9341 defaults
+// to &SPI, and setup() calls SPI.setDefaultFrequency().
+#define FACE_STREAM_BUFFER 1920  // 960 px = 4 rows of 240; matches the driver chunk
+static uint8_t faceBuffer[FACE_STREAM_BUFFER];
+static size_t faceBuffered = 0;
+static bool faceStreamBroken = false;  // latch: use the slow path from now on
+
+// Wait for TX_BUSY to clear, but never spin forever: an unbounded wait is
+// indistinguishable from a hang, and shows up as a blank screen.
+static bool faceWaitTxIdle()
 {
-    if (!color || w <= 0 || h <= 0 || x < 0 || y < 0 || x >= tft.getWidth() || y >= tft.getHeight()) return;
-    const int16_t sourceWidth = w;
-    if (w > tft.getWidth() - x) w = tft.getWidth() - x;
-    if (h > tft.getHeight() - y) h = tft.getHeight() - y;
-    // The SDK drawBitmap mutates its input; transmit const RGB565 assets directly.
-    tft.setAddress(x, y, x + w - 1, y + h - 1);
-    digitalWrite(TFT_DC, HIGH);
-    for (int16_t row = 0; row < h; ++row) {
-        const unsigned short *pixels = color + (uint32_t)row * sourceWidth;
-        for (int16_t col = 0; col < w; ++col) {
-            SPI.transfer((uint8_t)(pixels[col] >> 8));
-            SPI.transfer((uint8_t)pixels[col]);
-        }
+    uint32_t deadline = millis() + 250UL;  // a full frame is ~61ms at 20MHz
+    while (SPI.pSpiMaster->state & SPI_STATE_TX_BUSY) {
+        if ((int32_t)(millis() - deadline) >= 0) return false;
     }
+    return true;
+}
+
+// Transmit the staged bytes through spi_master_write_stream().
+//
+// Three failure modes are handled here, all confirmed in the SDK source:
+//  - It returns HAL_BUSY (not HAL_OK) if a previous transfer is still in
+//    flight. Ignoring the return code silently drops the frame.
+//  - It is TX-only, so nothing drains the RX FIFO: the write ISR's drain is
+//    gated on "rx_length > 0" (rtl8735b_ssi.c:516), which is always false for
+//    a pure write, while every byte shifted out shifts one in.
+//  - Completion relies on spi_tx_done_callback() clearing TX_BUSY, which is
+//    only wired up by spi_format(); if it never runs, the wait above times out.
+static bool flushFaceBuffer()
+{
+    if (!faceBuffered) return true;
+
+    bool ok = false;
+    if (!faceStreamBroken) {
+        ok = faceWaitTxIdle();
+        if (ok) {
+            spi_flush_rx_fifo(SPI.pSpiMaster);
+            ok = spi_master_write_stream(SPI.pSpiMaster, (char *)faceBuffer,
+                                        faceBuffered) == HAL_OK &&
+                 faceWaitTxIdle();
+            spi_flush_rx_fifo(SPI.pSpiMaster);
+        }
+        if (!ok) faceStreamBroken = true;
+    }
+
+    if (faceStreamBroken) {
+        // Blocking write+read per byte: completes on return and drains the RX
+        // FIFO as it goes, so it cannot stall or overflow. faceBuffered is a
+        // byte count, and the buffer already holds big-endian pixel bytes.
+        for (size_t i = 0; i < faceBuffered; ++i) SPI.transfer(faceBuffer[i]);
+    }
+
+    faceBuffered = 0;
+    return ok;
 }
 
 // Repeat/literal packets preserve the portraits exactly while fitting flash.
 void drawPackedFace(const PetFace &face)
 {
+    // Packed RGB565 is already high-byte first; do not byte-swap it.
     tft.setAddress(0, 0, 239, 319);
     digitalWrite(TFT_DC, HIGH);
     size_t offset = 0, pixels = 0;
     while (offset < face.size && pixels < 240UL * 320UL) {
         uint8_t control = face.data[offset++];
         size_t count = (control & 0x7f) + 1;
-        if (count > 240UL * 320UL - pixels) return;
+        if (count > 240UL * 320UL - pixels) break;
         if (control & 0x80) {
-            if (offset + 2 > face.size) return;
+            if (offset + 2 > face.size) break;
             uint8_t high = face.data[offset++], low = face.data[offset++];
-            for (size_t i = 0; i < count; ++i) { SPI.transfer(high); SPI.transfer(low); }
+            for (size_t i = 0; i < count; ++i) {
+                faceBuffer[faceBuffered++] = high;
+                faceBuffer[faceBuffered++] = low;
+                if (faceBuffered == sizeof(faceBuffer)) flushFaceBuffer();
+            }
         } else {
-            if (offset + count * 2 > face.size) return;
-            for (size_t i = 0; i < count * 2; ++i) SPI.transfer(face.data[offset++]);
+            if (offset + count * 2 > face.size) break;
+            for (size_t i = 0; i < count * 2; ++i) {
+                faceBuffer[faceBuffered++] = face.data[offset++];
+                if (faceBuffered == sizeof(faceBuffer)) flushFaceBuffer();
+            }
         }
         pixels += count;
     }
+    flushFaceBuffer();  // partial final buffer; also reached via break above
 }
 
 void showFace(const String &emotion, const String &action = "none")
@@ -215,6 +272,9 @@ void showFace(const String &emotion, const String &action = "none")
 
 void setState(PetState next) { state = next; stateSince = millis(); }
 void reportError(const String &message) { lastError = message; Serial.println("[Error] " + message); }
+
+// WAV clips live in RAM; MP4 clips need the SD card.
+bool recorderReady() { return PET_AUDIO_WAV ? pcm.wav() != nullptr : sdReady; }
 
 void stopListening()
 {
@@ -244,7 +304,7 @@ void printListenStatus()
     if (!PET_ENABLE_AUDIO) blocked += " audio disabled;";
     else if (!monitorRunning) blocked += " mic monitor not running;";
     if (!autoListen) blocked += " listen is off;";
-    if (!sdReady) blocked += " no SD card;";
+    if (!recorderReady()) blocked += PET_AUDIO_WAV ? " WAV buffer unavailable;" : " no SD card;";
     if (WiFi.status() != WL_CONNECTED) blocked += " WiFi disconnected;";
     if (blocked.length()) Serial.println("[Listen] Auto-record blocked:" + blocked);
     else Serial.println("[Listen] Listening; sound above mic level " + String(PET_TRIGGER_LEVEL) + " starts recording");
@@ -337,8 +397,8 @@ bool beginPost(WiFiClient &client, const char *host, uint16_t port,
 }
 
 // Stream 768-byte blocks (multiples of 3) so only the last block needs padding.
-// Never read beyond the final JPEG/file byte, unlike the original image example.
-bool sendBase64(const uint8_t *image, File *file, size_t length)
+// Never read beyond the final memory/file byte, unlike the original image example.
+bool sendBase64(const uint8_t *data, File *file, size_t length)
 {
     char input[768], output[1025];
     size_t offset = 0;
@@ -347,7 +407,7 @@ bool sendBase64(const uint8_t *image, File *file, size_t length)
         if (count > sizeof(input)) count = sizeof(input);
         if (file) {
             if (file->read(input, count) != (int)count) return false;
-        } else memcpy(input, image + offset, count);
+        } else memcpy(input, data + offset, count);
         int encoded = base64_encode(output, input, count);
         if (encoded != (int)(4 * ((count + 2) / 3)) || !petWriteAll(aiClient, output, encoded)) return false;
         offset += count;
@@ -458,7 +518,10 @@ bool sendAI(const String &prompt, bool withAudio, bool withImage)
     uint32_t imageAddress = 0, imageLength = 0;
     size_t audioLength = 0;
     if (WiFi.status() != WL_CONNECTED) { reportError("WiFi is disconnected"); goto finish; }
-    if (withAudio) {
+    if (withAudio && PET_AUDIO_WAV) {
+        audioLength = pcm.finish();
+        if (!pcm.pcmBytes()) { reportError("Audio clip empty"); goto finish; }
+    } else if (withAudio) {
         if (!sdReady || !fs.exists(clipPath)) { reportError("Audio clip missing"); goto finish; }
         clip = fs.open(clipPath);
         audioLength = clip ? clip.size() : 0;
@@ -498,7 +561,7 @@ bool sendAI(const String &prompt, bool withAudio, bool withImage)
         JsonObject text = parts.add<JsonObject>(); text["type"] = "text"; text["text"] = context + prompt;
         if (withAudio) {
             JsonObject p = parts.add<JsonObject>(); p["type"] = "input_audio";
-            p["input_audio"]["data"] = "__PET_AUDIO__"; p["input_audio"]["format"] = "mp4";
+            p["input_audio"]["data"] = "__PET_AUDIO__"; p["input_audio"]["format"] = PET_AUDIO_WAV ? "wav" : "mp4";
         }
         if (withImage) {
             JsonObject p = parts.add<JsonObject>(); p["type"] = "image_url";
@@ -519,7 +582,8 @@ bool sendAI(const String &prompt, bool withAudio, bool withImage)
         bool ok = beginPost(aiClient, PET_AI_HOST, PET_AI_PORT, PET_AI_PATH, PET_AI_KEY, length);
         size_t offset = 0;
         if (ok && withAudio) {
-            ok = petWriteAll(aiClient, envelope.c_str(), audioPos) && sendBase64(nullptr, &clip, audioLength);
+            ok = petWriteAll(aiClient, envelope.c_str(), audioPos) &&
+                (PET_AUDIO_WAV ? sendBase64(pcm.wav(), nullptr, audioLength) : sendBase64(nullptr, &clip, audioLength));
             offset = audioPos + 13;
         }
         if (ok && withImage) {
@@ -548,7 +612,7 @@ bool sendAI(const String &prompt, bool withAudio, bool withImage)
 finish:
     clip.close(); aiClient.stop();
     if (cameraReady) { Camera.channelEnd(CAMERA_CHANNEL); cameraReady = false; }
-    if (success && withAudio && PET_DELETE_UPLOADED_CLIPS) fs.remove(clipPath);
+    if (success && withAudio && !PET_AUDIO_WAV && PET_DELETE_UPLOADED_CLIPS) fs.remove(clipPath);
     setState(COOLDOWN);
     return success;
 }
@@ -559,8 +623,19 @@ bool Ollama_sendAudio() { return sendAI("Listen and respond to the user.", true,
 
 void startRecording()
 {
-    if (!PET_ENABLE_AUDIO || !sdReady) { reportError("Recording requires audio enabled and a mounted SD card"); return; }
+    if (!PET_ENABLE_AUDIO || !recorderReady()) {
+        reportError(PET_AUDIO_WAV ? "Recording requires audio enabled and a WAV buffer" :
+                                    "Recording requires audio enabled and a mounted SD card");
+        return;
+    }
     stopListening();
+    if (PET_AUDIO_WAV) {
+        claimCodec(); pcm.arm();
+        if (audioToPcm.begin() != 0) { reportError("Audio-to-PCM link failed"); setState(COOLDOWN); return; }
+        setState(RECORDING); showFace("curious");
+        Serial.println("[Recording] WAV " + String(PET_RECORD_SECONDS) + " s in RAM");
+        return;
+    }
     const char *name = "PetClip";
     clipPath = String(fs.getRootPath()) + name + ".mp4";
     // Replace the previous recording, including any failed/unsent clip.
@@ -582,6 +657,13 @@ void startRecording()
 
 void finishRecording(bool ok)
 {
+    if (PET_AUDIO_WAV) {
+        audioToPcm.end();
+        Serial.println("[Recording] " + String((unsigned long)pcm.pcmBytes()) + " PCM bytes");
+        if (ok) Ollama_sendAudio();
+        else { pcm.finish(); reportError("Recording captured no audio"); setState(COOLDOWN); }
+        return;
+    }
     mp4.end(); aacToMp4.end(); audioToAAC.end(); aac.end();
     if (ok && fs.exists(clipPath)) Ollama_sendAudio();
     else { reportError("Recording failed to start or timed out; clip retained"); setState(COOLDOWN); }
@@ -769,6 +851,11 @@ void setup()
         // Stored in configA; applied by audio.begin() and kept across codec resets.
         audio.setAMicBoost(PET_MIC_BOOST_DB == 40 ? MIC_40DB : PET_MIC_BOOST_DB == 30 ? MIC_30DB :
                            PET_MIC_BOOST_DB == 20 ? MIC_20DB : MIC_0DB);
+        if (PET_AUDIO_WAV) {
+            if (pcm.begin(configA._sampleRate, configA._audioParams.channel, PET_RECORD_SECONDS)) {
+                audioToPcm.registerInput(audio); audioToPcm.registerOutput(pcm);
+            } else reportError("WAV recording buffer allocation failed");
+        }
         mp4.configAudio(configA, CODEC_AAC); mp4.setRecordingDataType(STORAGE_AUDIO);
         mp4.setRecordingDuration(PET_RECORD_SECONDS); mp4.setRecordingFileCount(1);
         monitor.registerInput(audio); monitor.registerOutput(audio);
@@ -791,7 +878,11 @@ void loop()
 {
     maintainWifi(); serviceSerial(); serviceControl(); executeCommand();
     updateReplyText();
-    if (state == RECORDING) {
+    if (state == RECORDING && PET_AUDIO_WAV) {
+        uint32_t elapsed = millis() - stateSince;
+        if (pcm.full()) finishRecording(true);
+        else if (elapsed > (PET_RECORD_SECONDS + 2UL) * 1000UL) finishRecording(pcm.pcmBytes() > 0);
+    } else if (state == RECORDING) {
         bool running = mp4.getRecordingState() != 0;
         if (running) recordingSeen = true;
         uint32_t elapsed = millis() - stateSince;
@@ -812,7 +903,7 @@ void loop()
                 Serial.println("[Mic] peak=" + String(reportPeak) + " trigger>" + String(PET_TRIGGER_LEVEL));
                 reportPeak = 0; lastMicReport = millis();
             }
-            if (sdReady && WiFi.status() == WL_CONNECTED && micLevel > PET_TRIGGER_LEVEL) ++loudSamples;
+            if (recorderReady() && WiFi.status() == WL_CONNECTED && micLevel > PET_TRIGGER_LEVEL) ++loudSamples;
             else loudSamples = 0;
             if (loudSamples >= PET_TRIGGER_SAMPLES) startRecording();
         }

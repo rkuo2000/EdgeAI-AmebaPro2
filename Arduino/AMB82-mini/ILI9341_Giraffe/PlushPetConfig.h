@@ -1,18 +1,18 @@
 #pragma once
 
 // Fill these in before enabling AI requests. Do not copy credentials from examples.
-//#define PET_WIFI_SSID "HITRON-DF90-2.4G"
-#define PET_WIFI_SSID "AMEBAPRO2"
+#define PET_WIFI_SSID "HITRON-DF90-2.4G"
 #define PET_WIFI_PASSWORD "0972211921"
-//#define PET_AI_HOST "192.168.0.18"
-#define PET_AI_HOST "10.142.130.129"
+#define PET_AI_HOST "123.192.49.97"
 #define PET_AI_PORT 11434
 #define PET_AI_PATH "/v1/chat/completions"
 #define PET_AI_MODEL "gemma4:e2b"
-#define PET_AI_KEY "63583c3747864f98a48d16036bfa842e"
+#define PET_AI_KEY "ollama"
 
-// Audio input is AAC in MP4, matching Ollama_sendAudio / Edge Gallery.
-// Enable only on a server/model that accepts input_audio with format "mp4".
+// Audio input format sent as input_audio:
+//   1 = 16-bit PCM WAV captured in RAM (Ollama / llama.cpp: WAV, MP3, FLAC only)
+//   0 = AAC in MP4 on the SD card (Edge Gallery on Android, as in Ollama_sendAudio)
+#define PET_AUDIO_WAV 1
 #define PET_ENABLE_AUDIO 1
 #define PET_ENABLE_CAMERA 1
 #define PET_IMAGE_WITH_AUDIO 0  // Enable if the model supports joint audio + image input.
