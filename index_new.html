@@ -1,0 +1,2582 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AMEBA ROBOT ODYSSEY · AmebaPro2 × 邊緣 AI 機器人學習航線</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme: dark;
+  --void:#02060D; --deep:#07111F; --deep2:#0B1A2E;
+  --glass:rgba(8,19,35,.84); --glass-2:rgba(14,30,52,.72);
+  --line:rgba(139,233,255,.16); --line-2:rgba(139,233,255,.30);
+  --ice:#8BE9FF; --cyan:#22D3EE; --violet:#A78BFA; --green:#6EE7A8;
+  --amber:#FBBF24; --red:#F87171;
+  --text:#DCE7F5; --muted:#7D92AC; --dim:#4A5D76;
+  --f-ui:'Chakra Petch','Noto Sans TC','PingFang TC','Microsoft JhengHei',system-ui,sans-serif;
+  --f-zh:'Noto Sans TC','PingFang TC','Microsoft JhengHei',system-ui,sans-serif;
+  --f-code:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){ --void:#02060D; --deep:#07111F; --text:#DCE7F5; } }
+:root[data-theme="dark"]{ --void:#02060D; --deep:#07111F; --text:#DCE7F5; }
+html{ scroll-padding-top:env(safe-area-inset-top,0px); }
+*,*::before,*::after{ box-sizing:border-box; }
+html,body{ height:100%; margin:0; }
+body{ background:var(--void); color:var(--text); font-family:var(--f-zh); font-size:15px; line-height:1.6; overflow:hidden; -webkit-font-smoothing:antialiased; }
+button{ font:inherit; color:inherit; }
+:focus-visible{ outline:2px solid var(--ice); outline-offset:3px; border-radius:6px; }
+a{ color:var(--ice); }
+
+/* ---------- stage ---------- */
+#bg{ position:fixed; inset:0; width:100vw; height:100vh; display:block; background:radial-gradient(1200px 800px at 20% 10%, #0A1A30 0%, var(--deep) 45%, var(--void) 100%); }
+#viewport{ position:fixed; inset:0; overflow:hidden; touch-action:none; cursor:grab; }
+#viewport.dragging{ cursor:grabbing; }
+#world{ position:absolute; left:0; top:0; width:3400px; height:2200px; transform-origin:0 0; will-change:transform; }
+#routeSvg{ position:absolute; inset:0; width:100%; height:100%; overflow:visible; pointer-events:none; }
+.zone{ font-family:var(--f-ui); font-weight:600; font-size:64px; letter-spacing:.18em; fill:rgba(139,233,255,.045); }
+.zone-sub{ font-family:var(--f-ui); font-size:15px; letter-spacing:.3em; fill:rgba(139,233,255,.22); }
+
+/* ---------- nodes ---------- */
+.node{ position:absolute; width:210px; margin-left:-105px; margin-top:-34px; background:none; border:0; padding:0; cursor:pointer; text-align:center; display:flex; flex-direction:column; align-items:center; gap:2px; transition:opacity .5s, transform .35s cubic-bezier(.2,.8,.2,1); opacity:0; transform:translateY(10px) scale(.92); }
+.node.shown{ opacity:1; transform:none; }
+.node:hover,.node:focus-visible{ transform:scale(1.08); z-index:3; }
+.node-core{ width:68px; height:68px; border-radius:50%; display:grid; place-items:center; position:relative; background:radial-gradient(circle at 50% 40%, rgba(34,211,238,.26), rgba(7,17,31,.95) 70%); border:1.5px solid rgba(34,211,238,.55); box-shadow:0 0 0 6px rgba(34,211,238,.06), 0 0 28px rgba(34,211,238,.25); transition:box-shadow .35s, border-color .35s; }
+.node-core svg{ width:30px; height:30px; stroke:var(--ice); fill:none; stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round; }
+.node.ai .node-core{ background:radial-gradient(circle at 50% 40%, rgba(167,139,250,.30), rgba(7,17,31,.95) 70%); border-color:rgba(167,139,250,.6); box-shadow:0 0 0 6px rgba(167,139,250,.07), 0 0 28px rgba(167,139,250,.28); }
+.node.ai .node-core svg{ stroke:#D4C6FF; }
+.node.done .node-core{ border-color:rgba(110,231,168,.75); box-shadow:0 0 0 6px rgba(110,231,168,.08), 0 0 26px rgba(110,231,168,.30); }
+.node.done .node-core::after{ content:""; position:absolute; right:-2px; top:-2px; width:18px; height:18px; border-radius:50%; background:var(--green) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 12.5l4 4 8-9' fill='none' stroke='%2302060D' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/12px no-repeat; }
+.node:hover .node-core,.node.active .node-core{ box-shadow:0 0 0 10px rgba(139,233,255,.08), 0 0 50px rgba(139,233,255,.5); }
+.node-num{ font-family:var(--f-ui); font-size:13px; color:var(--muted); margin-top:8px; letter-spacing:.08em; }
+.node-title{ font-family:var(--f-ui); font-weight:600; font-size:17px; letter-spacing:.06em; color:#EAF6FF; line-height:1.15; }
+.node-zh{ font-size:14px; color:#AFC3DA; }
+.node-desc{ font-size:12.5px; color:var(--muted); max-width:190px; line-height:1.45; max-height:0; opacity:0; overflow:hidden; transition:max-height .35s, opacity .35s; }
+.node:hover .node-desc,.node:focus-visible .node-desc,.node.active .node-desc{ max-height:60px; opacity:1; }
+.node-prog{ display:flex; align-items:center; gap:6px; margin-top:4px; font-family:var(--f-ui); font-size:11.5px; color:var(--muted); }
+.node-bar{ width:86px; height:4px; border-radius:2px; background:rgba(139,233,255,.12); overflow:hidden; }
+.node-bar i{ display:block; height:100%; width:0; background:var(--cyan); transition:width .6s; }
+.node.ai .node-bar i{ background:var(--violet); }
+.node.done .node-bar i{ background:var(--green); }
+.node.final{ width:260px; margin-left:-130px; margin-top:-62px; }
+.node.final .node-core{ width:124px; height:124px; border-color:rgba(251,191,36,.6); background:radial-gradient(circle at 50% 40%, rgba(251,191,36,.20), rgba(7,17,31,.95) 70%); box-shadow:0 0 0 12px rgba(251,191,36,.05), 0 0 70px rgba(251,191,36,.22); }
+.node.final .node-core svg{ width:54px; height:54px; stroke:#FDE68A; }
+.node.final .node-title{ font-size:21px; }
+.node.branch .node-core{ border-style:dashed; }
+#world.focus .node:not(.active){ opacity:.38; }
+#world.focus .node:not(.active):hover{ opacity:.85; }
+
+/* companion */
+#companion{ position:absolute; left:0; top:0; width:120px; height:130px; margin:-150px 0 0 40px; pointer-events:none; transition:transform 1.1s cubic-bezier(.65,0,.35,1); }
+#companion .bubble{ position:absolute; left:96px; top:4px; white-space:nowrap; font-family:var(--f-ui); font-size:12px; color:var(--ice); background:rgba(7,17,31,.85); border:1px solid var(--line-2); padding:3px 9px; border-radius:10px 10px 10px 2px; }
+.rb .st2,.rb .st3,.rb .st4,.rb .st5{ opacity:0; transition:opacity .8s; }
+.rb.s2 .st2,.rb.s3 .st2,.rb.s4 .st2,.rb.s5 .st2{ opacity:1; }
+.rb.s3 .st3,.rb.s4 .st3,.rb.s5 .st3{ opacity:1; }
+.rb.s4 .st4,.rb.s5 .st4{ opacity:1; }
+.rb.s5 .st5{ opacity:1; }
+.rb .float{ animation:float 4s ease-in-out infinite; }
+@keyframes float{ 50%{ transform:translateY(-5px); } }
+.rb .pulse{ animation:pulse 2.4s ease-in-out infinite; transform-origin:60px 62px; }
+@keyframes pulse{ 50%{ opacity:.45; } }
+
+/* ---------- HUD ---------- */
+.hud{ position:fixed; z-index:20; font-family:var(--f-ui); pointer-events:none; }
+.hud > *{ pointer-events:auto; }
+#hudTL{ left:22px; top:calc(18px + env(safe-area-inset-top,0px)); }
+#hudTL .brand{ font-weight:700; font-size:19px; letter-spacing:.14em; color:#F1F8FF; }
+#hudTL .brand-sub{ font-size:12px; letter-spacing:.2em; color:var(--muted); }
+#hudTC{ left:50%; top:calc(22px + env(safe-area-inset-top,0px)); transform:translateX(-50%); font-size:13px; letter-spacing:.22em; color:#9FB4CC; white-space:nowrap; }
+#hudTC b{ color:var(--ice); font-weight:500; }
+#hudTR{ right:22px; top:calc(16px + env(safe-area-inset-top,0px)); display:flex; gap:10px; align-items:center; }
+.hud-btn{ background:rgba(8,19,35,.7); border:1px solid var(--line-2); border-radius:10px; padding:7px 12px; cursor:pointer; font-family:var(--f-ui); font-size:13px; letter-spacing:.08em; color:var(--text); display:flex; align-items:center; gap:10px; backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); transition:border-color .2s, background .2s; }
+.hud-btn:hover{ border-color:var(--ice); background:rgba(14,30,52,.85); }
+.hud-meter{ width:90px; height:5px; border-radius:3px; background:rgba(139,233,255,.14); overflow:hidden; }
+.hud-meter i{ display:block; height:100%; width:0; background:linear-gradient(90deg,var(--cyan),var(--green)); transition:width .6s; }
+.hud-muted{ color:var(--muted); font-size:12px; letter-spacing:.14em; }
+#hudBL{ left:22px; bottom:calc(18px + env(safe-area-inset-bottom,0px)); }
+#hudBL .hud-btn{ flex-direction:column; align-items:flex-start; gap:0; padding:9px 14px; text-align:left; }
+#hudBL .cm-label{ font-size:11px; color:var(--muted); letter-spacing:.2em; }
+#hudBL .cm-num{ font-size:13px; color:var(--ice); }
+#hudBL .cm-title{ font-size:16px; font-weight:600; letter-spacing:.06em; }
+#hudBC{ left:50%; bottom:calc(24px + env(safe-area-inset-bottom,0px)); transform:translateX(-50%); font-size:12px; letter-spacing:.32em; color:var(--muted); transition:opacity .8s; pointer-events:none; }
+#hudBR{ right:22px; bottom:calc(18px + env(safe-area-inset-bottom,0px)); }
+#hudBR .hud-btn{ padding:11px 16px; font-size:14px; }
+body.panel-open #hudBR, body.panel-open #hudBC, body.panel-open #hudTC{ opacity:0; pointer-events:none; }
+
+/* drawer */
+#drawer{ position:fixed; z-index:30; right:22px; top:calc(64px + env(safe-area-inset-top,0px)); width:300px; background:var(--glass); border:1px solid var(--line-2); border-radius:14px; padding:16px 16px 12px; backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); font-family:var(--f-ui); display:none; }
+#drawer.open{ display:block; }
+#drawer h3{ margin:0 0 2px; font-size:14px; letter-spacing:.16em; font-weight:600; }
+#drawer .big{ font-size:30px; font-weight:600; color:var(--ice); line-height:1.1; }
+#drawer .meter{ height:6px; border-radius:3px; background:rgba(139,233,255,.12); overflow:hidden; margin:8px 0 12px; }
+#drawer .meter i{ display:block; height:100%; background:linear-gradient(90deg,var(--cyan),var(--green)); }
+#drawer ol{ list-style:none; margin:0; padding:0; }
+#drawer li button{ width:100%; display:grid; grid-template-columns:22px 28px 1fr auto; gap:6px; align-items:center; text-align:left; background:none; border:0; padding:6px 6px; border-radius:8px; cursor:pointer; font-size:14px; color:var(--text); }
+#drawer li button:hover{ background:rgba(139,233,255,.08); }
+#drawer .mk{ color:var(--dim); text-align:center; }
+#drawer .mk.done{ color:var(--green); } #drawer .mk.cur{ color:var(--ice); } #drawer .mk.star{ color:var(--amber); }
+#drawer .n{ color:var(--muted); font-size:12px; }
+#drawer .p{ color:var(--muted); font-size:12px; }
+#drawer .foot{ display:flex; justify-content:space-between; margin-top:10px; padding-top:10px; border-top:1px solid var(--line); font-size:12px; color:var(--muted); }
+#drawer .foot button{ background:none; border:0; color:var(--muted); cursor:pointer; text-decoration:underline; font-size:12px; }
+
+/* ---------- panel ---------- */
+:root{ --pw:min(620px, 50vw); }
+#panel{ position:fixed; z-index:25; top:0; right:0; bottom:0; width:var(--pw); background:var(--glass); border-left:1px solid var(--line-2); backdrop-filter:blur(18px) saturate(1.2); -webkit-backdrop-filter:blur(18px) saturate(1.2); transform:translateX(104%); transition:transform .55s cubic-bezier(.2,.8,.2,1); display:flex; flex-direction:column; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px); }
+#panel.open{ transform:none; }
+.p-head{ padding:20px 26px 14px; border-bottom:1px solid var(--line); position:relative; }
+.p-count{ font-family:var(--f-ui); color:var(--muted); font-size:13px; letter-spacing:.14em; }
+.p-title{ font-family:var(--f-ui); font-size:28px; font-weight:600; letter-spacing:.05em; line-height:1.1; margin:4px 0 2px; color:#F1F8FF; }
+.p-zh{ font-size:16px; color:#B6C9DF; }
+.p-desc{ font-size:14px; color:var(--muted); margin-top:6px; max-width:60ch; }
+.p-close{ position:absolute; right:16px; top:16px; width:38px; height:38px; border-radius:10px; border:1px solid var(--line-2); background:rgba(7,17,31,.6); cursor:pointer; display:grid; place-items:center; }
+.p-close:hover{ border-color:var(--ice); }
+.tabs{ display:flex; gap:4px; padding:10px 18px 0; border-bottom:1px solid var(--line); overflow-x:auto; scrollbar-width:none; }
+.tab{ flex:1 0 auto; background:none; border:0; border-bottom:2px solid transparent; padding:8px 10px 10px; cursor:pointer; font-family:var(--f-ui); font-size:13.5px; letter-spacing:.06em; color:var(--muted); display:flex; align-items:center; gap:7px; justify-content:center; }
+.tab .dot{ width:8px; height:8px; border-radius:50%; border:1.5px solid var(--dim); }
+.tab.done .dot{ background:var(--green); border-color:var(--green); }
+.tab[aria-selected="true"]{ color:#F1F8FF; border-bottom-color:var(--ice); }
+.p-body{ flex:1; overflow-y:auto; padding:20px 26px 28px; overscroll-behavior:contain; }
+.p-foot{ display:flex; justify-content:space-between; gap:10px; padding:12px 22px; border-top:1px solid var(--line); }
+.btn{ background:rgba(34,211,238,.10); border:1px solid rgba(34,211,238,.45); color:#E6FBFF; border-radius:10px; padding:9px 16px; cursor:pointer; font-family:var(--f-ui); font-size:14px; letter-spacing:.04em; transition:background .2s, border-color .2s; }
+.btn:hover{ background:rgba(34,211,238,.2); border-color:var(--ice); }
+.btn.ghost{ background:none; border-color:var(--line-2); color:var(--text); }
+.btn.violet{ background:rgba(167,139,250,.12); border-color:rgba(167,139,250,.5); }
+.btn.on{ background:rgba(110,231,168,.16); border-color:var(--green); color:#E6FFF2; }
+.btn:disabled{ opacity:.4; cursor:default; }
+.btn.sm{ padding:5px 10px; font-size:13px; border-radius:8px; }
+
+/* panel content */
+.sec-h{ font-family:var(--f-ui); font-size:15px; font-weight:600; letter-spacing:.08em; color:#EAF6FF; margin:22px 0 10px; }
+.sec-h:first-child{ margin-top:0; }
+.lead{ font-size:15.5px; color:#C9D8EA; margin:0 0 6px; max-width:62ch; }
+.topics{ display:grid; grid-template-columns:repeat(auto-fill,minmax(170px,1fr)); gap:8px; }
+.topic{ border:1px solid var(--line); border-radius:10px; padding:9px 11px; background:rgba(7,17,31,.45); }
+.topic b{ font-family:var(--f-ui); font-weight:600; font-size:14px; color:#EAF6FF; display:block; }
+.topic span{ font-size:13px; color:var(--muted); line-height:1.45; display:block; }
+.paths{ margin:0; padding:0; list-style:none; display:flex; flex-direction:column; gap:5px; }
+.paths li{ font-family:var(--f-code); font-size:12.5px; color:#A7C4E0; background:rgba(7,17,31,.55); border-left:2px solid var(--cyan); padding:5px 10px; border-radius:0 6px 6px 0; }
+.paths li.sk{ border-left-color:var(--violet); }
+.note{ font-size:13px; color:var(--muted); border:1px dashed var(--line-2); border-radius:10px; padding:9px 12px; margin-top:14px; }
+.flowwrap{ border:1px solid var(--line); border-radius:12px; background:rgba(2,6,13,.55); padding:10px; overflow-x:auto; }
+.flowwrap svg{ display:block; width:100%; height:auto; min-width:440px; }
+.fl-box{ fill:rgba(7,17,31,.95); stroke-width:1.3; }
+.fl-t{ font-family:var(--f-ui); font-size:12.5px; fill:#E6F2FF; text-anchor:middle; dominant-baseline:central; }
+.fl-line{ fill:none; stroke:rgba(139,233,255,.35); stroke-width:1.4; }
+.fl-flow{ fill:none; stroke:var(--ice); stroke-width:2; stroke-dasharray:4 18; animation:dash 1.4s linear infinite; }
+@keyframes dash{ to{ stroke-dashoffset:-22; } }
+.cap{ font-size:13px; color:var(--muted); margin-top:8px; }
+
+/* lab */
+.lab{ display:flex; flex-direction:column; gap:12px; }
+.lab-row{ display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
+.lab-screen{ position:relative; border:1px solid var(--line-2); border-radius:12px; overflow:hidden; background:#030912; }
+.lab-screen canvas{ display:block; width:100%; height:auto; }
+.serial{ font-family:var(--f-code); font-size:12px; line-height:1.55; background:#01040A; color:#9EE6B8; border:1px solid var(--line); border-radius:10px; padding:8px 10px; height:132px; overflow-y:auto; white-space:pre-wrap; }
+.serial .s-h{ color:var(--muted); }
+.serial .s-w{ color:var(--amber); }
+.serial .s-e{ color:var(--red); }
+.serial .s-i{ color:var(--ice); }
+.kv{ display:grid; grid-template-columns:repeat(auto-fill,minmax(118px,1fr)); gap:6px; }
+.kv div{ border:1px solid var(--line); border-radius:8px; padding:6px 9px; background:rgba(7,17,31,.5); }
+.kv small{ display:block; font-family:var(--f-ui); font-size:11px; letter-spacing:.12em; color:var(--muted); }
+.kv b{ font-family:var(--f-ui); font-size:17px; font-weight:600; color:#EAF6FF; }
+label.ctl{ display:flex; align-items:center; gap:10px; font-size:13.5px; color:#C2D3E6; flex-wrap:wrap; }
+label.ctl output{ font-family:var(--f-ui); color:var(--ice); min-width:56px; }
+input[type=range]{ accent-color:var(--cyan); flex:1; min-width:140px; }
+select,input[type=text],textarea{ background:#030912; color:var(--text); border:1px solid var(--line-2); border-radius:8px; padding:7px 9px; font:inherit; font-size:14px; }
+textarea{ width:100%; min-height:70px; resize:vertical; font-size:14px; }
+input[type=text]{ min-width:0; }
+.chip{ background:rgba(7,17,31,.6); border:1px solid var(--line-2); border-radius:999px; padding:4px 11px; font-size:13px; cursor:pointer; color:#C9D8EA; }
+.chip:hover{ border-color:var(--ice); }
+.chip.on{ border-color:var(--cyan); background:rgba(34,211,238,.14); color:#fff; }
+.chip.off{ border-color:rgba(248,113,113,.4); color:#F9B4B4; text-decoration:line-through; }
+.mission-box{ border:1px solid rgba(251,191,36,.35); background:rgba(251,191,36,.06); border-radius:12px; padding:12px 14px; }
+.mission-box .m-h{ font-family:var(--f-ui); font-size:13px; letter-spacing:.14em; color:var(--amber); }
+.mission-box .m-t{ font-size:16px; color:#FFF6DA; margin-top:2px; }
+.mission-box.won{ border-color:rgba(110,231,168,.5); background:rgba(110,231,168,.08); }
+.mission-box.won .m-h{ color:var(--green); }
+.checks{ list-style:none; margin:8px 0 0; padding:0; display:flex; flex-direction:column; gap:4px; font-size:13.5px; color:#C2D3E6; }
+.checks li::before{ content:"○  "; color:var(--dim); }
+.checks li.ok::before{ content:"✓  "; color:var(--green); }
+.cols3{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; }
+.card{ border:1px solid var(--line); border-radius:10px; padding:10px; background:rgba(7,17,31,.5); }
+.card h4{ margin:0 0 6px; font-family:var(--f-ui); font-size:13px; font-weight:600; letter-spacing:.1em; color:#EAF6FF; }
+.bars{ display:flex; flex-direction:column; gap:6px; }
+.bar{ display:grid; grid-template-columns:130px 1fr 44px; gap:8px; align-items:center; font-size:13px; }
+.bar .tr{ height:8px; background:rgba(139,233,255,.1); border-radius:4px; overflow:hidden; }
+.bar .tr i{ display:block; height:100%; background:var(--violet); transition:width .5s; }
+.bar .v{ font-family:var(--f-ui); color:var(--ice); text-align:right; }
+.pipe{ display:flex; flex-wrap:wrap; gap:4px; align-items:center; font-family:var(--f-ui); font-size:12.5px; }
+.pipe span{ padding:4px 9px; border-radius:6px; border:1px solid var(--line); color:var(--muted); transition:all .3s; }
+.pipe span.on{ border-color:var(--violet); color:#fff; background:rgba(167,139,250,.18); box-shadow:0 0 14px rgba(167,139,250,.35); }
+.pipe span.ok{ border-color:rgba(110,231,168,.5); color:#CFF7E2; }
+.pipe i{ color:var(--dim); font-style:normal; }
+.tok{ display:flex; flex-wrap:wrap; gap:3px; font-family:var(--f-code); font-size:12px; }
+.tok span{ padding:1px 4px; border-radius:4px; }
+.ai-out{ font-size:14px; background:#030912; border:1px solid rgba(167,139,250,.35); border-radius:10px; padding:10px 12px; min-height:84px; white-space:pre-wrap; color:#E7E0FF; }
+.ai-out.code{ font-family:var(--f-code); font-size:12.5px; color:#BFF3D6; }
+
+/* code */
+.codebar{ display:flex; gap:6px; align-items:center; flex-wrap:wrap; margin-bottom:8px; }
+.codefile{ font-family:var(--f-code); font-size:12px; color:var(--muted); }
+pre.code{ margin:0; background:#01040A; border:1px solid var(--line); border-radius:12px; padding:14px 16px; overflow:auto; max-height:430px; font-family:var(--f-code); font-size:12.4px; line-height:1.6; color:#C9D6E6; tab-size:2; }
+.c-com{ color:#5E7591; font-style:italic; } .c-pre{ color:#F0A3D4; } .c-str{ color:#A5E3B8; } .c-num{ color:#F7C77E; } .c-kw{ color:#8FB8FF; } .c-ty{ color:#7FE7FF; } .c-fn{ color:#D9C7FF; }
+.steps{ margin:0; padding-left:20px; font-size:14px; color:#C2D3E6; }
+.steps li{ margin:4px 0; }
+.steps code,.lead code,.note code,.topic code{ font-family:var(--f-code); font-size:12.5px; background:rgba(139,233,255,.08); padding:1px 5px; border-radius:4px; color:#BDEFFF; }
+
+/* toast + intro */
+#toast{ position:fixed; z-index:60; left:50%; top:calc(70px + env(safe-area-inset-top,0px)); transform:translate(-50%,-20px); opacity:0; pointer-events:none; background:rgba(8,26,22,.92); border:1px solid rgba(110,231,168,.55); color:#E6FFF2; padding:10px 18px; border-radius:12px; font-family:var(--f-ui); font-size:14px; transition:all .4s; }
+#toast.show{ opacity:1; transform:translate(-50%,0); }
+#intro{ position:fixed; inset:0; z-index:50; display:grid; place-items:center; pointer-events:none; background:rgba(2,6,13,1); transition:background 1.2s ease; }
+#intro.clear{ background:rgba(2,6,13,0); }
+#intro .core{ position:absolute; left:50%; top:50%; width:10px; height:10px; margin:-5px; border-radius:50%; background:var(--ice); box-shadow:0 0 30px 8px rgba(139,233,255,.6); transform:scale(0); transition:transform .8s cubic-bezier(.2,.8,.2,1), opacity .8s; }
+#intro.c1 .core{ transform:scale(1); }
+#intro.c2 .core{ opacity:0; transform:scale(4); }
+#intro .ttl{ text-align:center; font-family:var(--f-ui); }
+#intro .t1{ font-size:clamp(34px,6vw,76px); font-weight:700; letter-spacing:.16em; color:#F4FAFF; opacity:0; transform:translateY(12px); transition:all .8s; text-shadow:0 0 40px rgba(139,233,255,.35); }
+#intro .t2{ font-family:var(--f-zh); font-size:clamp(16px,2.2vw,24px); color:#B9CDE3; letter-spacing:.12em; opacity:0; transition:opacity .8s; margin-top:8px; }
+#intro .t3{ font-size:clamp(12px,1.3vw,15px); letter-spacing:.42em; color:var(--ice); opacity:0; transition:opacity .8s; margin-top:18px; }
+#intro.t1 .t1{ opacity:1; transform:none; } #intro.t2 .t2{ opacity:1; } #intro.t3 .t3{ opacity:1; }
+#intro.out .ttl,#intro.out .skip{ opacity:0; transition:opacity .7s; }
+#intro .skip{ position:absolute; bottom:calc(24px + env(safe-area-inset-bottom,0px)); left:50%; transform:translateX(-50%); font-family:var(--f-ui); font-size:12px; letter-spacing:.2em; color:var(--dim); }
+
+/* ---------- mobile journey ---------- */
+#mobile{ display:none; }
+@media (max-width: 760px){
+  body{ overflow:auto; }
+  #viewport,#hudTC,#hudBC,#hudBR,#hudBL,#hudTL{ display:none; }
+  #bg{ position:fixed; }
+  #mobile{ display:block; position:relative; z-index:2; padding:calc(84px + env(safe-area-inset-top,0px)) 18px 60px; }
+  html,body{ height:auto; min-height:100%; }
+  #hudTL{ position:absolute; }
+  #hudTR{ position:absolute; }
+  #hudTR .hud-muted{ display:none; }
+  .hud-meter{ width:54px; }
+  #drawer{ position:fixed; left:12px; right:12px; width:auto; }
+  :root{ --pw:100vw; }
+  #panel{ border-left:0; }
+  .p-head{ padding:16px 18px 12px; } .p-title{ font-size:23px; }
+  .p-body{ padding:16px 16px 26px; }
+  .cols3{ grid-template-columns:1fr; }
+  .bar{ grid-template-columns:100px 1fr 40px; }
+}
+.mj-intro{ font-family:var(--f-ui); margin-bottom:22px; }
+.mj-intro h1{ margin:0; font-size:28px; letter-spacing:.12em; line-height:1.15; }
+.mj-intro p{ margin:6px 0 0; color:var(--muted); font-family:var(--f-zh); font-size:14px; }
+.mj{ list-style:none; margin:0; padding:0; position:relative; }
+.mj::before{ content:""; position:absolute; left:33px; top:30px; bottom:30px; width:2px; background:linear-gradient(var(--cyan),var(--violet),var(--amber)); opacity:.5; }
+.mj li{ position:relative; margin-bottom:12px; }
+.mj button{ width:100%; display:grid; grid-template-columns:68px 1fr; gap:12px; align-items:center; text-align:left; background:rgba(7,17,31,.6); border:1px solid var(--line); border-radius:14px; padding:10px 12px 10px 0; cursor:pointer; }
+.mj .node-core{ width:52px; height:52px; margin-left:8px; }
+.mj .node-core svg{ width:24px; height:24px; }
+.mj .t{ font-family:var(--f-ui); font-weight:600; font-size:16px; letter-spacing:.05em; }
+.mj .z{ font-size:13.5px; color:var(--muted); }
+.mj .node-prog{ margin-top:2px; }
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{ animation-duration:.001s !important; animation-iteration-count:1 !important; transition-duration:.001s !important; }
+}
+</style>
+</head>
+<body>
+<canvas id="bg" aria-hidden="true"></canvas>
+
+<div id="viewport" aria-label="學習航線地圖：拖曳探索，點選站點開啟課程">
+  <div id="world">
+    <svg id="routeSvg" viewBox="0 0 3400 2200" aria-hidden="true">
+      <defs>
+        <linearGradient id="routeGrad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#22D3EE"/><stop offset=".55" stop-color="#8BE9FF"/><stop offset=".8" stop-color="#A78BFA"/><stop offset="1" stop-color="#FBBF24"/>
+        </linearGradient>
+        <filter id="soft" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="10"/></filter>
+        <radialGradient id="finalGlow"><stop offset="0" stop-color="#FBBF24" stop-opacity=".18"/><stop offset="1" stop-color="#FBBF24" stop-opacity="0"/></radialGradient>
+      </defs>
+      <g id="zones"></g>
+      <g id="circuit"></g>
+      <g id="finalRing"></g>
+      <path id="branchPath" fill="none" stroke="#A78BFA" stroke-opacity=".45" stroke-width="2" stroke-dasharray="6 10"/>
+      <path id="routeGlow" fill="none" stroke="url(#routeGrad)" stroke-width="18" stroke-opacity=".16" filter="url(#soft)"/>
+      <path id="routeBase" fill="none" stroke="url(#routeGrad)" stroke-width="2.4" stroke-opacity=".75" stroke-linecap="round"/>
+      <path id="routeDone" fill="none" stroke="#6EE7A8" stroke-width="4" stroke-linecap="round" stroke-opacity=".85"/>
+      <g id="sparks"></g>
+    </svg>
+    <div id="nodes"></div>
+    <div id="companion" aria-hidden="true"></div>
+  </div>
+</div>
+
+<main id="mobile" aria-label="學習航線">
+  <div class="mj-intro">
+    <h1>AMEBA ROBOT ODYSSEY</h1>
+    <p>AmebaPro2 × 邊緣 AI 機器人學習航線 — 用 AMB82-Mini 打造能看、能聽、能思考、能行動的自主機器人</p>
+  </div>
+  <ol class="mj" id="mjList"></ol>
+</main>
+
+<header class="hud" id="hudTL">
+  <div class="brand">AMEBA ROBOT ODYSSEY</div>
+  <div class="brand-sub">AMB82-MINI × EDGE AI ROBOTICS</div>
+</header>
+<div class="hud" id="hudTC" aria-hidden="true"><b>LEARN</b> → EXPERIMENT → <b>BUILD</b> → ACT</div>
+<div class="hud" id="hudTR">
+  <span class="hud-muted">10 MISSIONS</span>
+  <button class="hud-btn" id="progBtn" aria-expanded="false" aria-controls="drawer">PROGRESS <span id="progPct">0%</span><span class="hud-meter"><i id="progMeter"></i></span></button>
+</div>
+<div class="hud" id="hudBL"><button class="hud-btn" id="curBtn"><span class="cm-label">CURRENT MISSION</span><span class="cm-num" id="curNum">01 / 10</span><span class="cm-title" id="curTitle">BOARD &amp; IDE</span></button></div>
+<div class="hud" id="hudBC">DRAG TO EXPLORE · SCROLL TO ZOOM</div>
+<div class="hud" id="hudBR"><button class="hud-btn" id="nextBtn">NEXT MISSION →</button></div>
+
+<aside id="drawer" aria-label="學習進度"></aside>
+
+<section id="panel" aria-hidden="true" aria-labelledby="pTitle" role="dialog">
+  <div class="p-head">
+    <div class="p-count" id="pCount">01 / 10</div>
+    <h2 class="p-title" id="pTitle">—</h2>
+    <div class="p-zh" id="pZh"></div>
+    <div class="p-desc" id="pDesc"></div>
+    <button class="p-close" id="pClose" aria-label="關閉課程面板"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  </div>
+  <div class="tabs" role="tablist" id="tabs"></div>
+  <div class="p-body" id="pBody" role="tabpanel"></div>
+  <div class="p-foot"><button class="btn ghost" id="stepPrev">← 上一步</button><button class="btn" id="stepNext">下一步 →</button></div>
+</section>
+
+<div id="toast" role="status" aria-live="polite"></div>
+
+<div id="intro" aria-hidden="true">
+  <div class="core"></div>
+  <div class="ttl">
+    <div class="t1">AMEBA ROBOT ODYSSEY</div>
+    <div class="t2">AmebaPro2 × 邊緣 AI 機器人學習航線</div>
+    <div class="t3">FROM SILICON TO AUTONOMOUS MACHINES</div>
+  </div>
+  <div class="skip">CLICK TO SKIP</div>
+</div>
+
+<script>
+/* ============================================================
+   missions.js — course content for AMB82-Mini (AmebaPro2)
+   ============================================================ */
+const ICONS = {
+  chip:'<rect x="6" y="6" width="12" height="12" rx="2"/><rect x="9.5" y="9.5" width="5" height="5" rx="1"/><path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4"/>',
+  pwm:'<path d="M2 17h3V7h4v10h3V7h2v10h2V7h1v10h5"/>',
+  wifi:'<path d="M2.5 9a14 14 0 0 1 19 0M5.5 12.5a9.5 9.5 0 0 1 13 0M8.6 15.8a5 5 0 0 1 6.8 0"/><circle cx="12" cy="19" r="1.2"/>',
+  sensor:'<circle cx="12" cy="12" r="2.5"/><path d="M7.5 7.5a6.4 6.4 0 0 0 0 9M16.5 7.5a6.4 6.4 0 0 1 0 9M4.6 4.6a10.5 10.5 0 0 0 0 14.8M19.4 4.6a10.5 10.5 0 0 1 0 14.8"/>',
+  motor:'<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="2.5"/><path d="M12 4v5.5M12 14.5V20M4 12h5.5M14.5 12H20"/>',
+  camera:'<rect x="3" y="6.5" width="18" height="13" rx="2.5"/><circle cx="12" cy="13" r="3.8"/><path d="M8.5 6.5 10 4h4l1.5 2.5"/>',
+  audio:'<path d="M3 12h2M7 8v8M11 4v16M15 7v10M19 10v4M21 12h0"/>',
+  nn:'<circle cx="5" cy="6" r="1.8"/><circle cx="5" cy="18" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="6" r="1.8"/><circle cx="19" cy="18" r="1.8"/><path d="M6.6 7l3.8 4M6.6 17l3.8-4M13.6 11l3.8-4M13.6 13l3.8 4M5 7.8v8.4M19 7.8v8.4"/>',
+  genai:'<path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/><path d="M18.5 15.5l.8 2.2 2.2.8-2.2.8-.8 2.2-.8-2.2-2.2-.8 2.2-.8z"/>',
+  robot:'<rect x="5" y="8" width="14" height="10" rx="3"/><circle cx="9.5" cy="13" r="1.4"/><circle cx="14.5" cy="13" r="1.4"/><path d="M12 8V5M12 4.5a.8.8 0 1 0 0-.01M3 12v3M21 12v3M8.5 18v2.5M15.5 18v2.5"/>',
+  cloud:'<path d="M7 18h10a4 4 0 0 0 .6-7.95A6 6 0 0 0 6.2 9.6 4.2 4.2 0 0 0 7 18z"/><path d="M12 13v8M9 18l3 3 3-3"/>'
+};
+
+const STEPS = [
+  {k:'learn',  en:'LEARN',     zh:'學習'},
+  {k:'visual', en:'VISUALIZE', zh:'視覺化'},
+  {k:'lab',    en:'EXPERIMENT',zh:'實驗'},
+  {k:'build',  en:'BUILD',     zh:'實作'},
+  {k:'mission',en:'MISSION',   zh:'任務'}
+];
+
+const STATIONS = [
+/* ---------------------------------------------------------- 01 */
+{ id:'s01', num:'01', kind:'hw', icon:'chip', x:330, y:380,
+  en:'BOARD & IDE', zh:'開發板與開發環境',
+  desc:'認識 AMB82-Mini，裝好 Arduino IDE，讓第一顆 LED 亮起來。',
+  lead:'AMB82-Mini 搭載 Realtek RTL8735B：一顆 MCU 同時擁有相機 ISP、H.264/H.265 編碼器、Wi-Fi、BLE、音訊編解碼與 0.4 TOPS NPU。它是這趟航程的機器人大腦。',
+  topics:[
+    ['RTL8735B','Arm v8M @500MHz、512KB RAM、16MB Flash、內建 DDR'],
+    ['NN Engine','0.4 TOPS 神經網路加速器，跑 YOLO、人臉、聲音分類'],
+    ['Board Manager','加入 Ameba 的 package JSON，安裝 Realtek Ameba Boards'],
+    ['Serial Monitor','鮑率設 115200，看板子印出的訊息'],
+    ['GPIO','digitalWrite / digitalRead 控制 LED 與按鍵'],
+    ['ADC','analogRead 讀取可變電阻等類比訊號'],
+    ['Upload mode','上傳失敗時：按住 UART DOWNLOAD，再按一下 RESET']
+  ],
+  paths:['Examples > 01.Basics > Blink','Examples > 02.Digital > GPIO > Button','Examples > 01.Basics > AnalogReadSerial'],
+  note:'Board Manager URL（main）：<code>https://github.com/Ameba-AIoT/ameba-arduino-pro2/raw/main/Arduino_package/package_realtek_amebapro2_index.json</code>',
+  flow:{rows:[['Arduino IDE'],['Compile (GCC)'],['USB-UART 上傳'],['RTL8735B Flash'],['GPIO','ADC','UART']], kinds:['io','io','io','hw','hw'], cap:'草稿碼在 PC 上編譯，透過 Micro-USB 燒錄到 Flash，開機後由 MCU 驅動周邊。'},
+  mission:{t:'讓開發板活起來：在虛擬板子上依序執行 Blink、Button、AnalogReadSerial 三支範例。', hw:'在實體 AMB82-Mini 上完成 Blink，並把 delay 改成 200ms。'},
+  code:[
+{name:'Button.ino', path:'Examples > 02.Digital > GPIO > Button（已改為 AMB82-Mini 腳位）', lang:'cpp', src:
+`// 按下按鍵 → LED 亮；放開 → LED 熄
+const int buttonPin = 1;          // 按鍵接在 GPIO 1
+const int ledPin = LED_BUILTIN;   // 板上 LED
+
+int buttonState = 0;
+
+void setup() {
+  Serial.begin(115200);
+  pinMode(ledPin, OUTPUT);
+  pinMode(buttonPin, INPUT);
+}
+
+void loop() {
+  buttonState = digitalRead(buttonPin);
+  if (buttonState == HIGH) {
+    digitalWrite(ledPin, HIGH);
+  } else {
+    digitalWrite(ledPin, LOW);
+  }
+}`},
+{name:'Blink.ino', path:'Examples > 01.Basics > Blink', lang:'cpp', src:
+`void setup() {
+  pinMode(LED_BUILTIN, OUTPUT);
+}
+
+void loop() {
+  digitalWrite(LED_BUILTIN, HIGH);
+  delay(1000);                     // 試著改成 200
+  digitalWrite(LED_BUILTIN, LOW);
+  delay(1000);
+}`},
+{name:'AnalogReadSerial.ino', path:'Examples > 01.Basics > AnalogReadSerial（改 115200 baud）', lang:'cpp', src:
+`void setup() {
+  Serial.begin(115200);            // 原範例為 9600，改成 115200
+}
+
+void loop() {
+  int sensorValue = analogRead(A0);
+  Serial.println(sensorValue);
+  delay(10);
+}`}
+  ],
+  run:['Tools > Board > AmebaPro2 ARM (32-bits) Boards > AMB82-MINI','Tools > Port 選擇板子的 COM 埠','按 Upload；若停在等待燒錄，按住 UART DOWNLOAD 再按 RESET','開啟 Serial Monitor，鮑率 115200']
+},
+/* ---------------------------------------------------------- 02 */
+{ id:'s02', num:'02', kind:'hw', icon:'pwm', x:800, y:560,
+  en:'MCU INTERFACES', zh:'MCU 介面與 PWM',
+  desc:'用 PWM 調光、驅動伺服馬達，認識 UART、I2C、SPI。',
+  lead:'機器人的肌肉與神經都靠 MCU 介面連接。PWM 用「開關時間比例」模擬類比輸出；伺服馬達則讀取 50Hz 訊號裡的脈衝寬度來決定角度。',
+  topics:[
+    ['PWM','analogWrite(pin, 0–255) 調整工作週期 (duty cycle)'],
+    ['Servo','50Hz、0.5–2.5ms 脈衝 → 0–180°'],
+    ['AmebaServo','myservo.attach(8); myservo.write(pos);'],
+    ['UART','Serial / Serial1、Serial2：GPS、序列伺服 (STS3215)'],
+    ['I2C','Wire：MPU6050、VL53L0X 等感測器'],
+    ['SPI','ILI9341 TFT-LCD、SD 卡等高速周邊']
+  ],
+  paths:['Examples > AmebaAnalog > PWM_ServoControl','Examples > AmebaSPI > LCD_Screen_ILI9341_TFT','Examples > AmebaSPI > Camera_2_lcd'],
+  note:'伺服馬達請用獨立 5V 電源，GND 與 AMB82-Mini 共地，避免電流突波讓板子重開機。',
+  flow:{rows:[['analogWrite()','myservo.write()'],['PWM 計時器'],['Duty cycle / Pulse width'],['LED 亮度','伺服角度']], kinds:['io','hw','hw','hw'], cap:'同一個 PWM 硬體：改 duty 控制平均電壓；改脈衝寬度控制伺服角度。'},
+  mission:{t:'讓 LED 維持 50% 亮度，並把伺服馬達精準轉到 90°。', hw:'接上 SG90 伺服到 GPIO 8，執行 PWM_ServoControl 讓它來回擺動。'},
+  code:[
+{name:'PWM_ServoControl.ino', path:'Examples > AmebaAnalog > PWM_ServoControl', lang:'cpp', src:
+`#include <AmebaServo.h>
+
+AmebaServo myservo;
+int pos = 0;
+
+void setup() {
+  myservo.attach(8);               // 伺服訊號線接 GPIO 8 (PWM)
+}
+
+void loop() {
+  for (pos = 0; pos <= 180; pos += 1) {
+    myservo.write(pos);
+    delay(15);
+  }
+  for (pos = 180; pos >= 0; pos -= 1) {
+    myservo.write(pos);
+    delay(15);
+  }
+}`},
+{name:'LED_Fade.ino', path:'Sketch：analogWrite 呼吸燈（自行建立）', lang:'cpp', src:
+`// 外接 LED（串 220Ω）到支援 PWM 的腳位
+const int ledPin = 8;
+
+void setup() {
+  pinMode(ledPin, OUTPUT);
+}
+
+void loop() {
+  for (int duty = 0; duty <= 255; duty += 5) {
+    analogWrite(ledPin, duty);      // 128 ≈ 50% duty
+    delay(20);
+  }
+  for (int duty = 255; duty >= 0; duty -= 5) {
+    analogWrite(ledPin, duty);
+    delay(20);
+  }
+}`}
+  ],
+  run:['伺服：棕/黑 = GND、紅 = 5V、橘 = 訊號 (GPIO 8)','上傳 PWM_ServoControl，觀察來回擺動','把迴圈改成只寫 90，確認伺服停在中央']
+},
+/* ---------------------------------------------------------- 03 */
+{ id:'s03', num:'03', kind:'hw', icon:'wifi', x:1230, y:390,
+  en:'WIFI & IOT', zh:'Wi-Fi、MQTT 與 BLE',
+  desc:'讓機器人上網：HTTP 控制 LED、MQTT 收指令、BLE 遙控。',
+  lead:'機器人要能接收人類的指令。AMB82-Mini 支援雙頻 Wi-Fi 與 BLE 5.1；MQTT 用「主題 (topic)」發佈 / 訂閱訊息，是 IoT 與機器人最輕量的指令通道。',
+  topics:[
+    ['WiFi.begin()','連線到 2.4/5GHz 無線網路'],
+    ['HTTP Server','SimpleHttpWeb > ControlLED：瀏覽器按鈕控制 LED'],
+    ['MQTT','Broker 轉送訊息；Publisher 發佈、Subscriber 訂閱'],
+    ['Topic','如 ntou/edgeai/robot1，主題不同就收不到'],
+    ['PubSubClient','client.subscribe() / client.publish() / callback'],
+    ['BLE V7RC','手機 App 經 BLE 遙控車子並看影像']
+  ],
+  paths:['Examples > WiFi > SimpleTCPServer','Examples > WiFi > SimpleHttpWeb > ControlLED','Examples > AmebaMQTTClient > MQTT_basic','Examples > AmebaBLE > BLEV7RC_CAR_VIDEO'],
+  note:'測試用公開 Broker：<code>test.mosquitto.org:1883</code>。任何人都看得到內容，別傳送密碼或私人資料。',
+  flow:{rows:[['PC / 手機 (paho-mqtt)'],['Broker test.mosquitto.org'],['AMB82-Mini 訂閱 ntou/edgeai/robot1'],['callback() 解析指令'],['馬達','LED','回報狀態']], kinds:['io','io','hw','ai','hw'], cap:'指令從人類端發佈，經 Broker 轉送給訂閱同一主題的機器人。'},
+  mission:{t:'從 PC 發佈「go to the kitchen」到機器人的主題，並讓機器人解析成動作。', hw:'在實體板上執行 MQTT_basic，用 Python paho-mqtt 發佈一則訊息並在 Serial Monitor 看到它。'},
+  code:[
+{name:'MQTT_Robot.ino', path:'改寫自 Examples > AmebaMQTTClient > MQTT_basic', lang:'cpp', src:
+`#include <WiFi.h>
+#include <PubSubClient.h>
+
+char ssid[] = "Network_SSID";      // 你的 Wi-Fi
+char pass[] = "Password";
+int status = WL_IDLE_STATUS;
+
+char mqttServer[]     = "test.mosquitto.org";
+char clientId[]       = "amb82-robot1";
+char subscribeTopic[] = "ntou/edgeai/robot1";
+char publishTopic[]   = "ntou/edgeai/robot1/status";
+
+WiFiClient wifiClient;
+PubSubClient client(wifiClient);
+
+void callback(char* topic, byte* payload, unsigned int length) {
+  String msg;
+  for (unsigned int i = 0; i < length; i++) msg += (char)payload[i];
+  Serial.print("Message arrived [");
+  Serial.print(topic);
+  Serial.print("] ");
+  Serial.println(msg);
+
+  if (msg.indexOf("kitchen") >= 0)      Serial.println("-> GOTO(kitchen)");
+  else if (msg.indexOf("left") >= 0)    Serial.println("-> TURN(left)");
+  else if (msg.indexOf("stop") >= 0)    Serial.println("-> STOP");
+  client.publish(publishTopic, "ack");
+}
+
+void reconnect() {
+  while (!client.connected()) {
+    Serial.print("Attempting MQTT connection...");
+    if (client.connect(clientId)) {
+      Serial.println("connected");
+      client.subscribe(subscribeTopic);
+    } else {
+      Serial.println("failed, retry in 5s");
+      delay(5000);
+    }
+  }
+}
+
+void setup() {
+  Serial.begin(115200);
+  while (status != WL_CONNECTED) {
+    Serial.print("Connecting to ");
+    Serial.println(ssid);
+    status = WiFi.begin(ssid, pass);
+    delay(5000);
+  }
+  client.setServer(mqttServer, 1883);
+  client.setCallback(callback);
+}
+
+void loop() {
+  if (!client.connected()) reconnect();
+  client.loop();
+}`},
+{name:'publish.py', path:'PC 端：pip install paho-mqtt', lang:'py', src:
+`import paho.mqtt.publish as publish
+
+host = "test.mosquitto.org"
+publish.single("ntou/edgeai/robot1", "go to the kitchen", hostname=host)
+
+# 訂閱機器人回報
+import paho.mqtt.subscribe as subscribe
+msg = subscribe.simple("ntou/edgeai/robot1/status", hostname=host)
+print(msg.topic, msg.payload.decode("utf-8"))`}
+  ],
+  run:['改 ssid / pass，上傳','Serial Monitor 看到 connected','PC 執行 publish.py，觀察 Message arrived','把 clientId 改成獨一無二的名字，避免和同學衝突']
+},
+/* ---------------------------------------------------------- 04 */
+{ id:'s04', num:'04', kind:'hw', icon:'sensor', x:1640, y:690,
+  en:'ROBOT SENSORS', zh:'機器人感測',
+  desc:'ToF 測距、IMU 姿態：讓機器人感覺到世界。',
+  lead:'感測器把物理世界轉成數字。VL53L0X 用雷射飛行時間量距離；MPU6050 的加速度計與陀螺儀告訴機器人自己是否傾斜、轉了多少。少一個感測器，機器人就少一塊世界。',
+  topics:[
+    ['VL53L0X / VL53L1X','I2C 雷射 ToF 測距，約 30–2000mm'],
+    ['MPU6050','6 軸 IMU：3 軸加速度 + 3 軸陀螺儀'],
+    ['Pitch / Roll','atan2() 由加速度算出傾角'],
+    ['Wheel encoder','計算輪子轉了幾圈 → 里程'],
+    ['Camera / Mic','最豐富的感測器，下一站深入'],
+    ['World model','把所有感測融合成機器人對環境的理解']
+  ],
+  paths:['Sketchbook > AMB82-mini > IR_VL53L0X','Sketchbook > AMB82-mini > MPU6050-DMP6v12','Examples > AmebaWire > (I2C 掃描與讀寫)'],
+  note:'I2C 接線：SDA、SCL 接到 AMB82-Mini 的 I2C 腳位，VCC 3.3V。可先跑 I2C scanner 確認位址（VL53L0X = 0x29、MPU6050 = 0x68）。',
+  flow:{rows:[['ToF','IMU','Encoder','Camera','Mic'],['感知 Perception'],['世界模型 World model'],['決策：停下 / 前進 / 轉彎']], kinds:['hw','ai','ai','hw'], cap:'SENSORS → PERCEPTION → WORLD MODEL：關掉任何一個感測器，世界模型就缺一角。'},
+  mission:{t:'讓自動前進的機器人在撞牆前停下：開啟 ToF 並設定 ≥100mm 的安全距離。', hw:'接上 VL53L0X，讓距離 < 150mm 時板上 LED 亮起。'},
+  code:[
+{name:'ToF_Stop.ino', path:'參考 Sketchbook > AMB82-mini > IR_VL53L0X（需安裝 Pololu VL53L0X 函式庫）', lang:'cpp', src:
+`#include <Wire.h>
+#include <VL53L0X.h>
+
+VL53L0X sensor;
+const int SAFE_MM = 150;
+
+void setup() {
+  Serial.begin(115200);
+  pinMode(LED_BUILTIN, OUTPUT);
+  Wire.begin();
+  sensor.setTimeout(500);
+  if (!sensor.init()) {
+    Serial.println("VL53L0X not found");
+    while (1) {}
+  }
+  sensor.startContinuous();
+}
+
+void loop() {
+  int mm = sensor.readRangeContinuousMillimeters();
+  if (sensor.timeoutOccurred()) Serial.print(" TIMEOUT");
+  Serial.print("distance(mm): ");
+  Serial.println(mm);
+  digitalWrite(LED_BUILTIN, mm < SAFE_MM ? HIGH : LOW);  // 太近 → 警示
+  delay(50);
+}`},
+{name:'MPU6050_Tilt.ino', path:'以 Wire 直接讀暫存器（DMP 版請見 MPU6050-DMP6v12）', lang:'cpp', src:
+`#include <Wire.h>
+
+const int MPU = 0x68;
+
+void setup() {
+  Serial.begin(115200);
+  Wire.begin();
+  Wire.beginTransmission(MPU);
+  Wire.write(0x6B);                // PWR_MGMT_1
+  Wire.write(0);                   // 喚醒
+  Wire.endTransmission();
+}
+
+void loop() {
+  Wire.beginTransmission(MPU);
+  Wire.write(0x3B);                // ACCEL_XOUT_H
+  Wire.endTransmission(false);
+  Wire.requestFrom(MPU, 6);
+  int16_t ax = Wire.read() << 8 | Wire.read();
+  int16_t ay = Wire.read() << 8 | Wire.read();
+  int16_t az = Wire.read() << 8 | Wire.read();
+
+  float pitch = atan2(ax, sqrt((float)ay * ay + (float)az * az)) * 180.0 / PI;
+  float roll  = atan2(ay, az) * 180.0 / PI;
+  Serial.print("pitch: "); Serial.print(pitch);
+  Serial.print("  roll: "); Serial.println(roll);
+  delay(100);
+}`}
+  ],
+  run:['Library Manager 安裝「VL53L0X by Pololu」','接好 I2C 與 3.3V','上傳 ToF_Stop，手掌靠近感測器觀察 LED','傾斜 MPU6050 觀察 pitch / roll 變化']
+},
+/* ---------------------------------------------------------- 05 */
+{ id:'s05', num:'05', kind:'hw', icon:'motor', x:1440, y:1100,
+  en:'ROBOT CONTROL', zh:'馬達與運動控制',
+  desc:'H 橋驅動、差速轉向：把決策變成移動。',
+  lead:'AI 的決定最後要變成電流。MCU 腳位推不動馬達，需要 TB6612 或 DRV8833 這類 H 橋驅動器；兩輪各自調速就能前進、後退與原地轉彎，這就是差速驅動。',
+  topics:[
+    ['H-bridge','切換電流方向 → 馬達正轉 / 反轉'],
+    ['DRV8833 / TB6612','雙路馬達驅動，IN1/IN2 + PWM 調速'],
+    ['Differential drive','左右輪速差決定轉彎半徑'],
+    ['PID','誤差 → 比例、積分、微分修正，讓速度穩定'],
+    ['Kinematics','v = (vL+vR)/2、ω = (vR−vL)/L'],
+    ['Serial servo','STS3215 以 UART SyncWrite 控制多關節']
+  ],
+  paths:['Examples > AmebaBLE > BLEV7RC_CAR_VIDEO（遙控車完整範例）','Examples > AmebaAnalog > PWM_ServoControl'],
+  note:'馬達電源與邏輯電源分開，並共地。下方程式的腳位是示意，請對照 AMB82-Mini 腳位圖選擇支援 PWM 的 GPIO。',
+  flow:{rows:[['指令：前進 / 左轉'],['速度、角速度 (v, ω)'],['左輪 PWM','右輪 PWM'],['DRV8833 H 橋'],['左馬達','右馬達']], kinds:['ai','ai','hw','hw','hw'], cap:'運動學把「想怎麼走」換算成兩個輪子的 PWM。'},
+  mission:{t:'用方向鍵駕駛機器人，繞過障礙物開進綠色目標區。', hw:'用 DRV8833 接兩顆 TT 馬達，寫出 forward / left / right / stop 四個函式。'},
+  code:[
+{name:'DiffDrive_DRV8833.ino', path:'差速驅動範本（腳位請依實際接線修改）', lang:'cpp', src:
+`// DRV8833：AIN1/AIN2 → 左馬達、BIN1/BIN2 → 右馬達
+// ⚠ 以下腳位為示意，請改成 AMB82-Mini 上支援 PWM 的腳位
+const int AIN1 = 7, AIN2 = 8;
+const int BIN1 = 9, BIN2 = 10;
+
+void motor(int in1, int in2, int speed) {   // speed: -255 ~ 255
+  if (speed >= 0) { analogWrite(in1, speed); analogWrite(in2, 0); }
+  else            { analogWrite(in1, 0);     analogWrite(in2, -speed); }
+}
+
+void drive(int left, int right) {
+  motor(AIN1, AIN2, left);
+  motor(BIN1, BIN2, right);
+}
+
+void forward()   { drive( 200,  200); }
+void backward()  { drive(-200, -200); }
+void turnLeft()  { drive(-150,  150); }
+void turnRight() { drive( 150, -150); }
+void stopAll()   { drive(   0,    0); }
+
+void setup() {
+  Serial.begin(115200);
+  pinMode(AIN1, OUTPUT); pinMode(AIN2, OUTPUT);
+  pinMode(BIN1, OUTPUT); pinMode(BIN2, OUTPUT);
+}
+
+void loop() {
+  if (Serial.available()) {
+    char c = Serial.read();        // 在 Serial Monitor 輸入 w a s d x
+    if (c == 'w') forward();
+    if (c == 's') backward();
+    if (c == 'a') turnLeft();
+    if (c == 'd') turnRight();
+    if (c == 'x') stopAll();
+  }
+}`}
+  ],
+  run:['接線：VM = 馬達電池、GND 共地、AIN/BIN 接 PWM 腳位','把車子架空（輪子懸空）再上傳測試','Serial Monitor 輸入 w / a / s / d / x 控制','進階：加上 MQTT 回呼，改由手機下指令']
+},
+/* ---------------------------------------------------------- 06 */
+{ id:'s06', num:'06', kind:'hw', icon:'camera', x:1920, y:1250,
+  en:'CAMERA & STREAMING', zh:'影像串流與動作偵測',
+  desc:'相機、ISP、H.264 編碼、RTSP 串流與動作偵測。',
+  lead:'AMB82-Mini 的相機管線全在晶片內完成：感光元件 → ISP 調色降噪 → H.264/JPEG 編碼 → RTSP 串流到 VLC。同一顆相機可開多個通道，一路串流、一路餵給 NN。',
+  topics:[
+    ['VideoSetting','解析度、FPS、編碼 (H264 / JPEG)、快照'],
+    ['Camera channel','CH0 串流、CH3 給 NN（RGB）可同時開'],
+    ['StreamIO','把相機輸出接到 RTSP / NN / MP4 等模組'],
+    ['RTSP','rtsp://板子IP:554，用 VLC 開啟'],
+    ['Motion detection','比對連續影格差異，標出變動區塊'],
+    ['CaptureJPEG','擷取單張照片存 SD 卡或上傳']
+  ],
+  paths:['Examples > AmebaMultimedia > StreamRTSP > VideoOnly','Examples > AmebaMultimedia > MotionDetection > LoopPostProcessing','Examples > AmebaMultimedia > CaptureJPEG','Examples > AmebaMultimedia > RecordMP4'],
+  note:'VLC：媒體 > 開啟網路串流，輸入 Serial Monitor 印出的 rtsp:// 位址。電腦與板子需在同一個網段。',
+  flow:{rows:[['JXF37 影像感測器'],['ISP (HDR / 3DNR)'],['CH0 H.264','CH3 RGB'],['RTSP → VLC','NN / 動作偵測']], kinds:['hw','hw','hw','io'], cap:'一顆相機、多個通道：串流與 AI 推論可同時進行。'},
+  mission:{t:'開啟動作偵測，在畫面前「揮手」觸發 MOTION DETECTED。', hw:'執行 VideoOnly，用 VLC 看到 AMB82-Mini 的即時影像。'},
+  code:[
+{name:'RTSP_VideoOnly.ino', path:'Examples > AmebaMultimedia > StreamRTSP > VideoOnly', lang:'cpp', src:
+`#include "WiFi.h"
+#include "StreamIO.h"
+#include "VideoStream.h"
+#include "RTSP.h"
+
+#define CHANNEL 0
+
+VideoSetting config(VIDEO_FHD, 30, VIDEO_H264, 0);   // 1080p, 30fps, H.264
+RTSP rtsp;
+StreamIO videoStreamer(1, 1);                         // 1 輸入 → 1 輸出
+
+char ssid[] = "Network_SSID";
+char pass[] = "Password";
+int status = WL_IDLE_STATUS;
+
+void setup() {
+  Serial.begin(115200);
+  while (status != WL_CONNECTED) {
+    Serial.print("Attempting to connect to WPA SSID: ");
+    Serial.println(ssid);
+    status = WiFi.begin(ssid, pass);
+    delay(2000);
+  }
+
+  Camera.configVideoChannel(CHANNEL, config);
+  Camera.videoInit();
+
+  rtsp.configVideo(config);
+  rtsp.begin();
+
+  videoStreamer.registerInput(Camera.getStream(CHANNEL));
+  videoStreamer.registerOutput(rtsp);
+  if (videoStreamer.begin() != 0) {
+    Serial.println("StreamIO link start failed");
+  }
+  Camera.channelBegin(CHANNEL);
+
+  delay(1000);
+  Serial.print("Open in VLC: rtsp://");
+  Serial.print(WiFi.localIP());
+  Serial.print(":");
+  Serial.println(rtsp.getPort());
+}
+
+void loop() {
+  // 串流由背景工作完成，loop 可以做其他事
+}`}
+  ],
+  run:['裝上相機排線與天線','改 ssid / pass 並上傳','複製 Serial Monitor 的 rtsp:// 位址到 VLC','試著把 VIDEO_FHD 改成 VIDEO_HD，比較延遲']
+},
+/* ---------------------------------------------------------- 07 */
+{ id:'s07', num:'07', kind:'hw', icon:'audio', x:2360, y:1030,
+  en:'AUDIO & SOUND AI', zh:'音訊與聲音辨識',
+  desc:'麥克風、MP3 播放、RTSP 音訊、YAMNet 聲音分類。',
+  lead:'機器人也需要耳朵。AMB82-Mini 內建類比麥克風與音訊編解碼器，可錄 MP4、播放 MP3，還能在 NPU 上跑 YAMNet，即時辨識數百種聲音事件。',
+  topics:[
+    ['AudioSetting','取樣率 16kHz、單聲道、AMIC / DMIC'],
+    ['Loopback','麥克風 → 喇叭，測試音訊路徑'],
+    ['MP3 播放','SD 卡 MP3 + PAM8403 功放 + 4Ω 喇叭'],
+    ['RecordMP4','只錄音訊，存成 .mp4 上傳做語音辨識'],
+    ['YAMNet','AudioSet 521 類聲音事件分類'],
+    ['Spectrogram','時間 × 頻率能量圖，是聲音模型的輸入']
+  ],
+  paths:['Examples > AmebaMultimedia > Audio > LoopbackTest','Examples > AmebaMultimedia > Audio > RTSPAudioStream','Examples > AmebaMultimedia > RecordMP4 > AudioOnly','Examples > AmebaNN > AudioClassification','Sketchbook > AMB82-mini > SDCardPlayMP3'],
+  note:'YAMNet 在板上 NPU 推論，不需網路；語音轉文字（Whisper / Gemini）則在第 09 站透過伺服器或雲端完成。',
+  flow:{rows:[['類比麥克風'],['Audio codec 16kHz'],['Log-mel 頻譜'],['YAMNet @ NPU'],['Speech','Clap','Dog','Siren']], kinds:['hw','hw','ai','ai','ai'], cap:'聲音 → 頻譜 → 神經網路 → 事件類別與分數。'},
+  mission:{t:'讓 YAMNet 正確分類 3 種不同的聲音。', hw:'執行 AudioClassification，拍手讓 Serial Monitor 印出 Clapping。'},
+  code:[
+{name:'AudioClassification.ino', path:'依 Examples > AmebaNN > AudioClassification 精簡（API 以你安裝的 SDK 範例為準）', lang:'cpp', src:
+`#include "StreamIO.h"
+#include "AudioStream.h"
+#include "NNAudioClassification.h"
+#include "AudioClassList.h"
+
+AudioSetting configA(16000, 1, USE_AUDIO_AMIC);   // 16kHz、單聲道、類比麥克風
+Audio audio;
+NNAudioClassification audioNN;
+StreamIO audioStreamerNN(1, 1);
+
+void ACPostProcess(std::vector<AudioClassificationResult> results) {
+  for (int i = 0; i < audioNN.getResultCount(); i++) {
+    int class_id = results[i].classID();
+    if (audioNames[class_id].filter) {
+      Serial.print("audio: ");
+      Serial.print(audioNames[class_id].audioName);
+      Serial.print("  score: ");
+      Serial.println(results[i].score());
+    }
+  }
+}
+
+void setup() {
+  Serial.begin(115200);
+
+  audio.configMic(configA);
+  audio.begin();
+
+  audioNN.configAudio(configA);
+  audioNN.setResultCallback(ACPostProcess);
+  audioNN.modelSelect(AUDIO_CLASSIFICATION, NA_MODEL, NA_MODEL, NA_MODEL, DEFAULT_YAMNET);
+  audioNN.begin();
+
+  audioStreamerNN.registerInput(audio);
+  audioStreamerNN.registerOutput(audioNN);
+  if (audioStreamerNN.begin() != 0) {
+    Serial.println("StreamIO link start failed");
+  }
+}
+
+void loop() {
+  // 結果由 ACPostProcess 回呼印出
+}`}
+  ],
+  run:['Tools > NN Model Load from: Flash（預設模型）','上傳後在麥克風旁拍手、說話、播放音樂','在 AudioClassList.h 把不需要的類別 filter 設為 0']
+},
+/* ---------------------------------------------------------- 08 */
+{ id:'s08', num:'08', kind:'ai', icon:'nn', x:2760, y:1300,
+  en:'EDGE AI VISION', zh:'邊緣 AI 影像辨識',
+  desc:'在 NPU 上跑 YOLO、人臉辨識、影像分類與自訂模型。',
+  lead:'這是 AMB82-Mini 最強的一站：0.4 TOPS NPU 直接在板上跑 YOLOv4/v7-tiny、SCRFD 人臉偵測、MobileFaceNet 人臉識別。用 Kaggle 訓練自己的模型，轉成 .nb 檔放進 SD 卡，就能辨識你的專屬物件。',
+  topics:[
+    ['Object detection','YOLOv4-tiny / YOLOv7-tiny：80 類 COCO 物件'],
+    ['Face detection','SCRFD：人臉框與 5 個特徵點'],
+    ['Face recognition','MobileFaceNet：註冊名字後辨識是誰'],
+    ['Image classification','自訂 CNN（如垃圾分類）'],
+    ['Confidence','分數低於門檻就不顯示，調門檻是取捨'],
+    ['Model conversion','.h5 / .pt → AmebaPro2 AI convert → network_binary.nb']
+  ],
+  paths:['Examples > AmebaNN > ObjectDetectionLoop','Examples > AmebaNN > RTSPFaceDetection','Examples > AmebaNN > RTSPFaceRecognition','Examples > AmebaNN > RTSPImageClassification','Sketch > RTSP_YOLOv7_Pothole_Detection.ino'],
+  note:'自訂模型：Kaggle 訓練 → 壓縮成 .zip → 上傳到 AmebaPro2 AI 線上轉換 → 收信下載 <code>network_binary.nb</code> → 放到 SD 卡 <code>NN_MDL/yolov7_tiny.nb</code> → <code>ObjDet.modelSelect(OBJECT_DETECTION, CUSTOMIZED_YOLOV7TINY, NA_MODEL, NA_MODEL)</code>，並在 Tools 選 NN Model Load from: SD card。',
+  flow:{rows:[['Kaggle 訓練 YOLOv7-tiny'],['best.pt → best.zip'],['AmebaPro2 AI 線上轉換'],['network_binary.nb → SD:/NN_MDL'],['NPU 推論 → 框 + 分數 → OSD']], kinds:['ai','io','ai','hw','ai'], cap:'從資料集到板上推論：同一條管線可用於任何你自己標註的物件。'},
+  mission:{t:'調整信心門檻，讓 YOLOv4-tiny 只辨識出三個物件：person、cup、chair。', hw:'執行 ObjectDetectionLoop，在 VLC 畫面上看到物件框與分數。'},
+  code:[
+{name:'ObjectDetectionLoop.ino', path:'Examples > AmebaNN > ObjectDetectionLoop', lang:'cpp', src:
+`#include "WiFi.h"
+#include "StreamIO.h"
+#include "VideoStream.h"
+#include "RTSP.h"
+#include "NNObjectDetection.h"
+#include "VideoStreamOverlay.h"
+#include "ObjectClassList.h"
+
+#define CHANNEL   0
+#define CHANNELNN 3
+#define NNWIDTH   576
+#define NNHEIGHT  320
+
+VideoSetting config(VIDEO_FHD, 30, VIDEO_H264, 0);
+VideoSetting configNN(NNWIDTH, NNHEIGHT, 10, VIDEO_RGB, 0);
+NNObjectDetection ObjDet;
+RTSP rtsp;
+StreamIO videoStreamer(1, 1);
+StreamIO videoStreamerNN(1, 1);
+
+char ssid[] = "Network_SSID";
+char pass[] = "Password";
+int status = WL_IDLE_STATUS;
+
+void setup() {
+  Serial.begin(115200);
+  while (status != WL_CONNECTED) {
+    status = WiFi.begin(ssid, pass);
+    delay(2000);
+  }
+
+  config.setBitrate(2 * 1024 * 1024);
+  Camera.configVideoChannel(CHANNEL, config);
+  Camera.configVideoChannel(CHANNELNN, configNN);
+  Camera.videoInit();
+
+  rtsp.configVideo(config);
+  rtsp.begin();
+
+  ObjDet.configVideo(configNN);
+  ObjDet.modelSelect(OBJECT_DETECTION, DEFAULT_YOLOV4TINY, NA_MODEL, NA_MODEL);
+  // 自訂模型：ObjDet.modelSelect(OBJECT_DETECTION, CUSTOMIZED_YOLOV7TINY, NA_MODEL, NA_MODEL);
+  ObjDet.begin();
+
+  videoStreamer.registerInput(Camera.getStream(CHANNEL));
+  videoStreamer.registerOutput(rtsp);
+  if (videoStreamer.begin() != 0) Serial.println("StreamIO link start failed");
+  Camera.channelBegin(CHANNEL);
+
+  videoStreamerNN.registerInput(Camera.getStream(CHANNELNN));
+  videoStreamerNN.setStackSize();
+  videoStreamerNN.setTaskPriority();
+  videoStreamerNN.registerOutput(ObjDet);
+  if (videoStreamerNN.begin() != 0) Serial.println("StreamIO link start failed");
+  Camera.channelBegin(CHANNELNN);
+
+  OSD.configVideo(CHANNEL, config);
+  OSD.begin();
+}
+
+void loop() {
+  std::vector<ObjectDetectionResult> results = ObjDet.getResult();
+  uint16_t im_h = config.height();
+  uint16_t im_w = config.width();
+
+  OSD.createBitmap(CHANNEL);
+  for (int i = 0; i < ObjDet.getResultCount(); i++) {
+    int obj_type = results[i].type();
+    if (itemList[obj_type].filter) {             // 在 ObjectClassList.h 開關類別
+      ObjectDetectionResult item = results[i];
+      int xmin = (int)(item.xMin() * im_w);
+      int xmax = (int)(item.xMax() * im_w);
+      int ymin = (int)(item.yMin() * im_h);
+      int ymax = (int)(item.yMax() * im_h);
+
+      Serial.print(itemList[obj_type].objectName);
+      Serial.print(" ");
+      Serial.println(item.score());
+
+      OSD.drawRect(CHANNEL, xmin, ymin, xmax, ymax, 3, OSD_COLOR_WHITE);
+      char text_str[20];
+      snprintf(text_str, sizeof(text_str), "%s %d", itemList[obj_type].objectName, item.score());
+      OSD.drawText(CHANNEL, xmin, ymin - OSD.getTextHeight(CHANNEL), text_str, OSD_COLOR_CYAN);
+    }
+  }
+  OSD.update(CHANNEL);
+  delay(100);
+}`}
+  ],
+  run:['Tools > NN Model Load from: Flash（預設 YOLOv4-tiny）','上傳後以 VLC 開啟 rtsp:// 位址','在 ObjectClassList.h 只保留 person / cup / chair','進階：改用 SD 卡上的自訂 YOLOv7-tiny']
+},
+/* ---------------------------------------------------------- 09 */
+{ id:'s09', num:'09', kind:'ai', icon:'genai', x:2600, y:1700,
+  en:'GENERATIVE AI', zh:'生成式 AI：LLM × VLM',
+  desc:'GenAI 函式庫：拍照問 Gemini、語音轉文字、文字轉語音。',
+  lead:'板上 NPU 擅長「快而小」的辨識；理解整個場景、用語言推理則交給大型模型。AMB82-Mini 的 GenAI 函式庫把相機影像與提示詞送到 Gemini、OpenAI 或 Llama，回傳文字讓機器人據以行動。',
+  topics:[
+    ['LLM','大型語言模型：用 token 逐字生成文字'],
+    ['VLM','視覺語言模型：影像 + 提示詞 → 描述與推理'],
+    ['Prompt engineering','角色、格式、限制條件決定輸出品質'],
+    ['Structured output','要求 JSON，機器人才能解析成動作'],
+    ['STT / TTS','GenAISpeech 語音轉文字、TextToSpeech 語音合成'],
+    ['Local server','Whisper / LLaVA FastAPI 伺服器，資料不出內網']
+  ],
+  paths:['Examples > AmebaNN > MultimediaAI > GenAIVision','Examples > AmebaNN > MultimediaAI > GenAISpeech_Gemini','Examples > AmebaNN > MultimediaAI > TextToSpeech','Capture_Image_HTTP_Post_Image_Llava_Server_FASTAPI','HTTP_Post_MP4_Whisper_Server_FASTAPI'],
+  note:'API 金鑰（如 Google AI Studio 的 Gemini key）不要上傳到 GitHub。免費方案有每分鐘請求數限制，按鈕觸發比連續送圖更合適。',
+  flow:{rows:[['按鍵觸發'],['Camera.getImage() JPEG'],['提示詞 + 影像'],['Gemini / OpenAI / Llama'],['文字回應'],['Serial / TFT / TTS / 馬達']], kinds:['hw','hw','ai','ai','ai','hw'], cap:'影像在板上擷取、在雲端理解，答案回到板上變成顯示、語音或動作。'},
+  mission:{t:'寫出能驅動機器人的提示詞：讓模型輸出 JSON 格式的目標與方向。', hw:'執行 GenAIVision，用 Gemini 描述相機看到的畫面。'},
+  code:[
+{name:'GenAIVision_Robot.ino', path:'改寫自 Examples > AmebaNN > MultimediaAI > GenAIVision', lang:'cpp', src:
+`#include <WiFi.h>
+#include "GenAI.h"
+#include "VideoStream.h"
+
+char wifi_ssid[] = "Network_SSID";
+char wifi_pass[] = "Password";
+String Gemini_key = "";                        // Google AI Studio API key
+
+WiFiSSLClient client;
+GenAI llm;
+
+#define CHANNEL 0
+VideoSetting config(VIDEO_VGA, CAM_FPS, VIDEO_JPEG, 1);   // 1 = 開啟快照
+
+#define BUTTON_PIN 7                           // 按鍵接 GPIO7 ↔ GND
+uint32_t img_addr = 0, img_len = 0;
+
+String prompt_msg =
+  "You are the eyes of a small robot. Reply ONLY with JSON: "
+  "{\\"target\\":string, \\"direction\\":\\"left|center|right\\", \\"distance_cm\\":number}. "
+  "Target: the red cup.";
+
+void setup() {
+  Serial.begin(115200);
+  pinMode(BUTTON_PIN, INPUT_PULLUP);
+
+  WiFi.begin(wifi_ssid, wifi_pass);
+  while (WiFi.status() != WL_CONNECTED) delay(500);
+  Serial.println("WiFi connected");
+
+  Camera.configVideoChannel(CHANNEL, config);
+  Camera.videoInit();
+  Camera.channelBegin(CHANNEL);
+}
+
+void loop() {
+  if (digitalRead(BUTTON_PIN) == LOW) {
+    delay(50);                                 // 去彈跳
+    Camera.getImage(CHANNEL, &img_addr, &img_len);
+    Serial.println("Asking Gemini...");
+    String reply = llm.geminivision(Gemini_key, "gemini-2.0-flash",
+                                    prompt_msg, img_addr, img_len, client);
+    Serial.println(reply);                     // 例：{"target":"red cup","direction":"left",...}
+    while (digitalRead(BUTTON_PIN) == LOW) delay(5);
+  }
+}`},
+{name:'llava_server.py', path:'本地伺服器骨架（FastAPI）：接收板子 POST 的 JPEG', lang:'py', src:
+`# pip install fastapi uvicorn
+from fastapi import FastAPI, Request
+
+app = FastAPI()
+
+@app.post("/upload")
+async def upload(request: Request):
+    data = await request.body()            # AMB82-Mini 以 HTTP POST 傳送 JPEG
+    with open("frame.jpg", "wb") as f:
+        f.write(data)
+    # 在這裡呼叫本地 VLM（如 LLaVA）或 Whisper，回傳文字
+    return {"reply": f"received {len(data)} bytes"}
+
+# 執行：uvicorn llava_server:app --host 0.0.0.0 --port 8000`}
+  ],
+  run:['到 Google AI Studio 建立 Gemini API key 並貼上','按鍵接 GPIO7 與 GND','上傳，按下按鍵，在 Serial Monitor 讀取 JSON','把 reply 交給 ArduinoJson 解析，接到第 05 站的 drive()']
+},
+/* ---------------------------------------------------------- 10 */
+{ id:'s10', num:'10', kind:'final', icon:'robot', x:3060, y:1880,
+  en:'AUTONOMOUS AI ROBOT', zh:'自主 AI 機器人專題',
+  desc:'整合全部能力：聽懂指令、看見目標、規劃路徑、動起來。',
+  lead:'最後一站把前九站接成一條完整的智慧迴路：MQTT 收到人類指令 → GenAI 理解意圖 → NPU 上的 YOLO 找到目標 → 規劃路徑 → ToF 避障 → 差速馬達執行。感知、思考、行動，全部在一塊 AMB82-Mini 上協作。',
+  topics:[
+    ['Perceive','Camera + YOLO、ToF、IMU、Mic'],
+    ['Understand','LLM 把自然語言轉成結構化任務'],
+    ['Plan','A* 在格點地圖上找最短路徑'],
+    ['React','路徑被擋住 → 重新規劃'],
+    ['Act','差速驅動、伺服、LED、語音回報'],
+    ['Report','MQTT 回傳狀態給人類']
+  ],
+  paths:['整合：MQTT_basic + ObjectDetectionLoop + VL53L0X + DRV8833','參考：Examples > AmebaBLE > BLEV7RC_CAR_VIDEO','參考：AmebaPro_OpenDuck（AMB82 + STS3215 雙足機器人）'],
+  note:'專題建議分階段：先讓車子遙控會動 → 加 ToF 避障 → 加 YOLO 追物件 → 最後才接 LLM 指令。每一層獨立驗證，除錯最省力。',
+  flow:{rows:[['Camera','Mic','IMU','ToF'],['Perception：YOLO @ NPU'],['World model'],['AI Agent：LLM 指令理解'],['Planner：A*'],['Controller：差速運動學'],['Motors','Servo','LED']], kinds:['hw','ai','ai','ai','ai','hw','hw'], cap:'AUTONOMOUS AI ROBOT：PERCEIVE → THINK → PLAN → ACT → LEARN。'},
+  mission:{t:'下達兩個不同的自然語言指令，讓機器人自主找到目標（途中可點格子放障礙物考驗它）。', hw:'完成實體專題：用 MQTT 下指令，讓車子找到並靠近指定物件後停下。'},
+  code:[
+{name:'AutonomousRobot.ino', path:'專題骨架：整合第 03、04、05、08 站', lang:'cpp', src:
+`// ===== 自主 AI 機器人骨架 =====
+// MQTT 指令 → YOLO 找目標 → 依目標位置轉向 → ToF 安全停止
+#include <WiFi.h>
+#include <PubSubClient.h>
+#include <Wire.h>
+#include <VL53L0X.h>
+#include "StreamIO.h"
+#include "VideoStream.h"
+#include "NNObjectDetection.h"
+#include "ObjectClassList.h"
+
+#define CHANNELNN 3
+VideoSetting configNN(576, 320, 10, VIDEO_RGB, 0);
+NNObjectDetection ObjDet;
+StreamIO videoStreamerNN(1, 1);
+
+char ssid[] = "Network_SSID", pass[] = "Password";
+WiFiClient wifiClient;
+PubSubClient mqtt(wifiClient);
+VL53L0X tof;
+
+const int AIN1 = 7, AIN2 = 8, BIN1 = 9, BIN2 = 10;   // 依實際接線修改
+String targetName = "";                               // 由 MQTT 指令設定
+const int SAFE_MM = 150;
+
+void motor(int a, int b, int s) { if (s >= 0) { analogWrite(a, s); analogWrite(b, 0); } else { analogWrite(a, 0); analogWrite(b, -s); } }
+void drive(int l, int r) { motor(AIN1, AIN2, l); motor(BIN1, BIN2, r); }
+
+void onCommand(char* topic, byte* payload, unsigned int len) {
+  String msg; for (unsigned int i = 0; i < len; i++) msg += (char)payload[i];
+  msg.toLowerCase();
+  if (msg.indexOf("cup") >= 0)    targetName = "cup";
+  if (msg.indexOf("bottle") >= 0) targetName = "bottle";
+  if (msg.indexOf("person") >= 0) targetName = "person";
+  if (msg.indexOf("stop") >= 0)   targetName = "";
+  Serial.print("target = "); Serial.println(targetName);
+}
+
+void setup() {
+  Serial.begin(115200);
+  pinMode(AIN1, OUTPUT); pinMode(AIN2, OUTPUT); pinMode(BIN1, OUTPUT); pinMode(BIN2, OUTPUT);
+  while (WiFi.begin(ssid, pass) != WL_CONNECTED) delay(2000);
+
+  mqtt.setServer("test.mosquitto.org", 1883);
+  mqtt.setCallback(onCommand);
+
+  Wire.begin(); tof.setTimeout(500); tof.init(); tof.startContinuous();
+
+  Camera.configVideoChannel(CHANNELNN, configNN);
+  Camera.videoInit();
+  ObjDet.configVideo(configNN);
+  ObjDet.modelSelect(OBJECT_DETECTION, DEFAULT_YOLOV4TINY, NA_MODEL, NA_MODEL);
+  ObjDet.begin();
+  videoStreamerNN.registerInput(Camera.getStream(CHANNELNN));
+  videoStreamerNN.setStackSize();
+  videoStreamerNN.setTaskPriority();
+  videoStreamerNN.registerOutput(ObjDet);
+  videoStreamerNN.begin();
+  Camera.channelBegin(CHANNELNN);
+}
+
+void loop() {
+  if (!mqtt.connected() && mqtt.connect("amb82-robot1")) mqtt.subscribe("ntou/edgeai/robot1");
+  mqtt.loop();
+
+  int mm = tof.readRangeContinuousMillimeters();
+  if (targetName == "" || mm < SAFE_MM) { drive(0, 0); delay(50); return; }   // 無任務或太近 → 停
+
+  std::vector<ObjectDetectionResult> results = ObjDet.getResult();
+  bool found = false;
+  for (int i = 0; i < ObjDet.getResultCount(); i++) {
+    int t = results[i].type();
+    if (targetName == itemList[t].objectName) {
+      float cx = (results[i].xMin() + results[i].xMax()) / 2.0;      // 0 ~ 1
+      int turn = (int)((cx - 0.5) * 300);                           // 目標偏左 → 左轉
+      drive(160 + turn, 160 - turn);
+      found = true;
+      break;
+    }
+  }
+  if (!found) drive(-120, 120);                                     // 原地旋轉搜尋
+  delay(50);
+}`}
+  ],
+  run:['先單獨驗證：馬達、ToF、YOLO、MQTT 各自能跑','把骨架合併，馬達先架空測試','用 publish.py 傳「find the cup」','加入 GenAI（第 09 站）把任意句子轉成 targetName']
+}
+];
+
+/* optional branch */
+const BRANCH = { id:'b01', num:'B', kind:'ai branch', icon:'cloud', x:3120, y:880,
+  en:'EDGE ↔ CLOUD', zh:'邊緣、本地與雲端 AI',
+  desc:'支線：AI 該在哪裡跑？延遲、隱私、成本的取捨。',
+  lead:'同一個機器人可以把推論放在三個地方：板上 NPU（快、私密、離線可用，但模型小）、本地 PC 伺服器（Whisper / LLaVA，資料不出內網）、雲端 API（最聰明，但需要網路、有延遲與費用）。混合架構讓每件事在最適合的地方完成。',
+  topics:[
+    ['On-device','AMB82-Mini NPU：YOLO、人臉、YAMNet'],
+    ['Edge server','PC / 筆電跑 Whisper、LLaVA、Ollama'],
+    ['Cloud API','Gemini、OpenAI、Groq Llama'],
+    ['Latency','反應要快（避障）→ 一定在板上'],
+    ['Privacy','影像不想外流 → 板上或本地伺服器'],
+    ['Hybrid','板上偵測 + 雲端理解 = 最常見的機器人架構']
+  ],
+  paths:['Examples > AmebaNN > ObjectDetectionLoop（on-device）','HTTP_Post_MP4_Whisper_Server_FASTAPI（edge server）','Examples > AmebaNN > MultimediaAI > GenAIVision（cloud）'],
+  note:'經驗法則：安全相關的反射動作放板上；需要常識與語言的推理放雲端；兩者之間用 MQTT 或 HTTP 串起來。',
+  flow:{rows:[['Camera','Mic'],['AMB82-Mini：本地感知 (NPU)'],['Robot Agent API'],['Wi-Fi ↕'],['PC / 手機：Whisper、LLaVA','雲端：Gemini'],['AI Agent → 動作指令']], kinds:['hw','hw','ai','io','ai','ai'], cap:'Hybrid AI：反射在邊緣，理解在雲端。'},
+  mission:{t:'比較三種部署位置：分別選擇 On-device、Edge server、Cloud 各一次並觀察取捨。', hw:'跑一次 Whisper FastAPI 伺服器，讓 AMB82-Mini 上傳一段錄音並取得文字。'},
+  code:[
+{name:'whisper_server.py', path:'本地語音辨識伺服器骨架（對應 HTTP_Post_MP4_Whisper_Server_FASTAPI）', lang:'py', src:
+`# pip install fastapi uvicorn openai-whisper   （Windows 需 ffmpeg.exe）
+from fastapi import FastAPI, Request
+import whisper
+
+app = FastAPI()
+model = whisper.load_model("base")
+
+@app.post("/audio")
+async def audio(request: Request):
+    data = await request.body()            # AMB82-Mini 上傳的 .mp4 錄音
+    with open("record.mp4", "wb") as f:
+        f.write(data)
+    result = model.transcribe("record.mp4")
+    return {"text": result["text"]}
+
+# uvicorn whisper_server:app --host 0.0.0.0 --port 8000`}
+  ],
+  run:['PC 安裝 ffmpeg、whisper、fastapi','啟動 uvicorn，記下 PC 的區網 IP','在板子範例中把伺服器 IP 改成 PC 的 IP','錄音上傳，比較本地與雲端的回應時間']
+};
+
+const ALL = [...STATIONS, BRANCH];
+const byId = id => ALL.find(s => s.id === id);
+
+/* ============================================================
+   app.js — state, map, route, particles, robot, panel
+   ============================================================ */
+const $ = (s, r=document) => r.querySelector(s);
+const $$ = (s, r=document) => [...r.querySelectorAll(s)];
+const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const isMobile = () => window.innerWidth <= 760;
+const svgIcon = k => `<svg viewBox="0 0 24 24" aria-hidden="true">${ICONS[k]}</svg>`;
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const clamp = (v,a,b) => Math.max(a, Math.min(b, v));
+
+/* ---------- progress (localStorage) ---------- */
+const STORE_KEY = 'ameba-robot-odyssey-v1';
+let state = { steps:{}, current:'s01', introSeen:false };
+try { const raw = localStorage.getItem(STORE_KEY); if (raw) state = Object.assign(state, JSON.parse(raw)); } catch(e) {}
+function save(){ try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); } catch(e) {} }
+const stepsOf = id => (state.steps[id] ||= {});
+const stationPct = id => STEPS.filter(s => stepsOf(id)[s.k]).length / STEPS.length;
+const isDone = id => stationPct(id) === 1;
+const overallPct = () => STATIONS.reduce((a, s) => a + stationPct(s.id), 0) / STATIONS.length;
+
+function markStep(id, k, msg){
+  const st = stepsOf(id);
+  if (st[k]) return false;
+  st[k] = true; save();
+  refreshAll();
+  if (msg) toast(msg);
+  if (isDone(id)) toast(`✓ ${byId(id).en} 完成！`);
+  renderTabs();
+  return true;
+}
+
+let toastT;
+function toast(msg){
+  const t = $('#toast'); t.textContent = msg; t.classList.add('show');
+  clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('show'), 2600);
+}
+
+/* ---------- route geometry ---------- */
+const WORLD = { w:3400, h:2200 };
+function catmull(points){
+  let d = `M${points[0].x},${points[0].y}`;
+  for (let i = 0; i < points.length - 1; i++){
+    const p0 = points[i-1] || points[i], p1 = points[i], p2 = points[i+1], p3 = points[i+2] || p2;
+    const t = .5;
+    const c1x = p1.x + (p2.x - p0.x) * t / 3 * 1.0, c1y = p1.y + (p2.y - p0.y) * t / 3;
+    const c2x = p2.x - (p3.x - p1.x) * t / 3, c2y = p2.y - (p3.y - p1.y) * t / 3;
+    d += ` C${c1x},${c1y} ${c2x},${c2y} ${p2.x},${p2.y}`;
+  }
+  return d;
+}
+// add gentle organic waypoints between stations (current-like meander)
+function routePoints(){
+  const pts = [{x:120, y:250}];
+  STATIONS.forEach((s, i) => {
+    const n = STATIONS[i+1];
+    pts.push({x:s.x, y:s.y});
+    if (n){
+      const mx = (s.x + n.x)/2, my = (s.y + n.y)/2;
+      const dx = n.x - s.x, dy = n.y - s.y, L = Math.hypot(dx, dy);
+      const amp = (i % 2 ? -1 : 1) * Math.min(90, L * .16);
+      pts.push({x: mx - dy / L * amp, y: my + dx / L * amp});
+    }
+  });
+  return pts;
+}
+let SAMPLES = [], routeLen = 0, stationLen = {};
+function buildRoute(){
+  const d = catmull(routePoints());
+  ['routeGlow','routeBase','routeDone'].forEach(id => $('#'+id).setAttribute('d', d));
+  const p = $('#routeBase');
+  routeLen = p.getTotalLength();
+  const N = 1400;
+  SAMPLES = [];
+  for (let i = 0; i <= N; i++){ const q = p.getPointAtLength(routeLen * i / N); SAMPLES.push([q.x, q.y]); }
+  STATIONS.forEach(s => {
+    let best = 0, bd = 1e9;
+    SAMPLES.forEach((q, i) => { const dd = (q[0]-s.x)**2 + (q[1]-s.y)**2; if (dd < bd){ bd = dd; best = i; } });
+    stationLen[s.id] = routeLen * best / N;
+  });
+  // branch: from station 08 curving up to B
+  const a = byId('s08'), b = BRANCH;
+  $('#branchPath').setAttribute('d', `M${a.x},${a.y} C${a.x+220},${a.y-120} ${b.x-240},${b.y+260} ${b.x},${b.y}`);
+  // zones
+  const zones = [
+    ['SILICON', 140, 160, '硬體 · 介面'], ['CONNECTED', 1000, 200, '連網 · 指令'],
+    ['PERCEPTION', 1240, 1440, '感測 · 影像 · 聲音'], ['INTELLIGENCE', 2380, 760, '邊緣 AI · 生成式 AI'],
+    ['AUTONOMY', 2200, 2120, '感知 → 思考 → 行動']
+  ];
+  $('#zones').innerHTML = zones.map(z => `<text class="zone" x="${z[1]}" y="${z[2]}">${z[0]}</text><text class="zone-sub" x="${z[1]+6}" y="${z[2]+30}">${z[3]}</text>`).join('');
+  // faint circuit traces in background
+  let c = '';
+  const rnd = mulberry(7);
+  for (let i = 0; i < 46; i++){
+    let x = rnd()*WORLD.w, y = rnd()*WORLD.h, seg = `M${x|0},${y|0}`;
+    for (let k = 0; k < 3; k++){ if (rnd() < .5) x += (rnd()-.5)*360; else y += (rnd()-.5)*260; seg += ` L${x|0},${y|0}`; }
+    c += `<path d="${seg}" fill="none" stroke="rgba(139,233,255,.07)" stroke-width="1"/><circle cx="${x|0}" cy="${y|0}" r="3" fill="none" stroke="rgba(139,233,255,.12)"/>`;
+  }
+  $('#circuit').innerHTML = c;
+  buildFinalRing();
+}
+function mulberry(a){ return () => { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+
+function buildFinalRing(){
+  const f = byId('s10'), R = 250;
+  const mods = ['VISION','LANGUAGE','MEMORY','PLANNING','WORLD MODEL','VLA','CONTROL','SENSORS'];
+  let g = `<circle cx="${f.x}" cy="${f.y}" r="${R+90}" fill="url(#finalGlow)"/>`;
+  g += `<circle cx="${f.x}" cy="${f.y}" r="${R}" fill="none" stroke="rgba(251,191,36,.18)" stroke-dasharray="2 8"/>`;
+  mods.forEach((m, i) => {
+    const a = -Math.PI/2 + i * Math.PI*2/mods.length;
+    const x = f.x + Math.cos(a)*R, y = f.y + Math.sin(a)*R;
+    const w = m.length*9.2 + 26;
+    g += `<path d="M${x},${y} L${f.x + Math.cos(a)*78},${f.y + Math.sin(a)*78}" class="fl-flow" style="stroke:#FBBF24;stroke-opacity:.55"/>`;
+    g += `<rect x="${x - w/2}" y="${y-15}" width="${w}" height="30" rx="15" fill="rgba(7,17,31,.92)" stroke="rgba(251,191,36,.45)"/>`;
+    g += `<text x="${x}" y="${y+1}" class="fl-t" style="font-size:13px;fill:#FDE68A;letter-spacing:.08em">${m}</text>`;
+  });
+  const words = ['PERCEIVE','THINK','PLAN','ACT','LEARN'];
+  g += `<text x="${f.x}" y="${f.y + R + 70}" class="fl-t" style="font-size:15px;fill:rgba(253,230,138,.75);letter-spacing:.42em">AUTONOMOUS INTELLIGENCE</text>`;
+  g += `<text x="${f.x}" y="${f.y + R + 98}" class="fl-t" style="font-size:13px;fill:rgba(139,233,255,.55);letter-spacing:.3em">${words.join('  ·  ')}</text>`;
+  $('#finalRing').innerHTML = g;
+}
+
+/* ---------- nodes ---------- */
+function nodeHTML(s){
+  return `<span class="node-core">${svgIcon(s.icon)}</span>
+    <span class="node-num">${s.num === 'B' ? 'BRANCH' : s.num + ' / 10'}</span>
+    <span class="node-title">${esc(s.en)}</span>
+    <span class="node-zh">${s.zh}</span>
+    <span class="node-desc">${s.desc}</span>
+    <span class="node-prog"><span class="node-bar"><i></i></span><span class="pct">0%</span></span>`;
+}
+function buildNodes(){
+  $('#nodes').innerHTML = ALL.map(s =>
+    `<button class="node ${s.kind}" data-id="${s.id}" style="left:${s.x}px;top:${s.y}px" aria-label="${s.num} ${esc(s.en)} ${s.zh}">${nodeHTML(s)}</button>`).join('');
+  $$('#nodes .node').forEach(n => n.addEventListener('click', e => { if (dragMoved) return; openStation(n.dataset.id); }));
+  $('#mjList').innerHTML = ALL.map(s =>
+    `<li><button class="node ${s.kind} shown" data-id="${s.id}" style="position:static;width:100%;margin:0;transform:none">
+      <span class="node-core">${svgIcon(s.icon)}</span>
+      <span><span class="t">${s.num === 'B' ? 'B' : s.num} · ${esc(s.en)}</span><br><span class="z">${s.zh}</span>
+      <span class="node-prog"><span class="node-bar"><i></i></span><span class="pct">0%</span></span></span>
+    </button></li>`).join('');
+  $$('#mjList button').forEach(b => b.addEventListener('click', () => openStation(b.dataset.id)));
+}
+
+/* ---------- companion robot ---------- */
+const ROBOT_SVG = `<svg class="rb" viewBox="0 0 120 130" width="120" height="130">
+  <g class="float">
+    <g class="st4"><rect x="22" y="78" width="76" height="26" rx="10" fill="#0B1A2E" stroke="#8BE9FF" stroke-opacity=".6"/>
+      <circle cx="34" cy="108" r="11" fill="#07111F" stroke="#8BE9FF" stroke-width="2"/><circle cx="86" cy="108" r="11" fill="#07111F" stroke="#8BE9FF" stroke-width="2"/>
+      <circle cx="34" cy="108" r="3" fill="#8BE9FF"/><circle cx="86" cy="108" r="3" fill="#8BE9FF"/></g>
+    <g class="st2"><rect x="28" y="36" width="64" height="44" rx="12" fill="#0B1A2E" stroke="#8BE9FF" stroke-opacity=".75"/>
+      <circle cx="60" cy="56" r="10" fill="#02060D" stroke="#22D3EE" stroke-width="2"/><circle cx="60" cy="56" r="4" fill="#8BE9FF"/></g>
+    <g class="st3"><path d="M60 36V20" stroke="#A78BFA" stroke-width="2"/><circle cx="60" cy="17" r="4" fill="#A78BFA"/>
+      <rect x="18" y="48" width="10" height="16" rx="3" fill="#0B1A2E" stroke="#A78BFA"/><rect x="92" y="48" width="10" height="16" rx="3" fill="#0B1A2E" stroke="#A78BFA"/>
+      <path d="M8 46a14 14 0 0 0 0 20M112 46a14 14 0 0 1 0 20" stroke="#A78BFA" stroke-opacity=".6" fill="none"/></g>
+    <circle class="pulse" cx="60" cy="62" r="7" fill="#8BE9FF" opacity=".9"/>
+    <g class="st5"><circle cx="60" cy="62" r="54" fill="none" stroke="#6EE7A8" stroke-opacity=".35" stroke-dasharray="3 7"/>
+      <circle cx="49" cy="52" r="3" fill="#6EE7A8"/><circle cx="71" cy="52" r="3" fill="#6EE7A8"/></g>
+  </g></svg><div class="bubble" id="rbBubble"></div>`;
+const STAGE_LINES = ['只有一顆 AI 核心','我有眼睛了','感測器上線','輪子裝好了','我可以自主行動！'];
+function robotStage(){ return 1 + Math.min(4, Math.floor(overallPct() * 5)); }
+function placeCompanion(id){
+  const s = byId(id) || STATIONS[0];
+  $('#companion').style.transform = `translate(${s.x}px, ${s.y}px)`;
+}
+
+/* ---------- refresh UI ---------- */
+function refreshAll(){
+  const pct = Math.round(overallPct() * 100);
+  $('#progPct').textContent = pct + '%';
+  $('#progMeter').style.width = pct + '%';
+  $$('.node').forEach(n => {
+    const id = n.dataset.id, p = Math.round(stationPct(id) * 100);
+    n.querySelector('.node-bar i').style.width = p + '%';
+    n.querySelector('.pct').textContent = p + '%';
+    n.classList.toggle('done', p === 100);
+  });
+  const cur = byId(state.current) || STATIONS[0];
+  $('#curNum').textContent = cur.num === 'B' ? 'BRANCH' : `${cur.num} / 10`;
+  $('#curTitle').textContent = cur.en;
+  // completed route: contiguous finished stations from start
+  let reach = 0;
+  for (const s of STATIONS){ if (isDone(s.id)) reach = stationLen[s.id]; else break; }
+  $('#routeDone').setAttribute('stroke-dasharray', `${reach} ${routeLen + 10}`);
+  $('#routeDone').style.opacity = reach ? 1 : 0;
+  const st = robotStage();
+  const rb = $('#companion .rb'); if (rb) rb.setAttribute('class', 'rb s' + st);
+  const bub = $('#rbBubble'); if (bub) bub.textContent = `STAGE ${st} · ${STAGE_LINES[st-1]}`;
+  renderDrawer();
+}
+
+function renderDrawer(){
+  const pct = Math.round(overallPct()*100);
+  const firstOpen = STATIONS.find(s => !isDone(s.id));
+  $('#drawer').innerHTML = `<h3>AMEBA ROBOT JOURNEY</h3><div class="big">${pct}%</div>
+    <div class="meter"><i style="width:${pct}%"></i></div>
+    <ol>${ALL.map(s => {
+      const d = isDone(s.id), cur = firstOpen && s.id === firstOpen.id;
+      const mk = d ? '✓' : (s.id === 's10' ? '★' : cur ? '●' : '○');
+      const cls = d ? 'done' : (s.id === 's10' ? 'star' : cur ? 'cur' : '');
+      return `<li><button data-id="${s.id}"><span class="mk ${cls}">${mk}</span><span class="n">${s.num}</span><span>${esc(s.en)}</span><span class="p">${Math.round(stationPct(s.id)*100)}%</span></button></li>`;
+    }).join('')}</ol>
+    <div class="foot"><span>進度儲存在此瀏覽器</span><button id="resetProg">重設進度</button></div>`;
+  $$('#drawer li button').forEach(b => b.addEventListener('click', () => { toggleDrawer(false); openStation(b.dataset.id); }));
+  $('#resetProg').addEventListener('click', () => {
+    if (!confirm('確定要清除所有學習進度？')) return;
+    state.steps = {}; state.current = 's01'; save(); refreshAll(); renderTabs(); toast('進度已重設');
+  });
+}
+function toggleDrawer(force){
+  const d = $('#drawer'), open = force ?? !d.classList.contains('open');
+  d.classList.toggle('open', open); $('#progBtn').setAttribute('aria-expanded', open);
+}
+
+/* ---------- camera (pan / zoom / inertia) ---------- */
+const cam = { x:0, y:0, s:1, vx:0, vy:0 };
+let camAnim = null, dragMoved = false;
+const world = $('#world'), viewport = $('#viewport');
+function applyCam(){ world.style.transform = `translate3d(${cam.x}px,${cam.y}px,0) scale(${cam.s})`; }
+function clampCam(){
+  const vw = innerWidth, vh = innerHeight, m = 260;
+  cam.x = clamp(cam.x, vw - WORLD.w*cam.s - m, m);
+  cam.y = clamp(cam.y, vh - WORLD.h*cam.s - m, m);
+}
+function panelW(){ return $('#panel').classList.contains('open') && !isMobile() ? $('#panel').offsetWidth : 0; }
+function camTo(wx, wy, s, dur = 1100, done){
+  cancelAnimationFrame(camAnim);
+  const vw = innerWidth - panelW(), vh = innerHeight;
+  const tx = vw/2 - wx*s, ty = vh/2 - wy*s;
+  const fx = cam.x, fy = cam.y, fs = cam.s, t0 = performance.now();
+  if (REDUCED) dur = 1;
+  const ease = t => t < .5 ? 4*t*t*t : 1 - Math.pow(-2*t + 2, 3)/2;
+  const step = now => {
+    const t = Math.min(1, (now - t0) / dur), e = ease(t);
+    cam.s = fs + (s - fs)*e;
+    cam.x = fx + (tx - fx)*e; cam.y = fy + (ty - fy)*e;
+    applyCam();
+    if (t < 1) camAnim = requestAnimationFrame(step); else done && done();
+  };
+  camAnim = requestAnimationFrame(step);
+}
+function fitWorld(){
+  const s = Math.min(innerWidth / (WORLD.w + 200), innerHeight / (WORLD.h + 200));
+  cam.s = s; cam.x = (innerWidth - WORLD.w*s)/2; cam.y = (innerHeight - WORLD.h*s)/2; applyCam();
+}
+
+const pointers = new Map();
+let lastX = 0, lastY = 0, lastT = 0, pinchD = 0, inertia = null;
+viewport.addEventListener('pointerdown', e => {
+  if (e.button !== 0 && e.pointerType === 'mouse') return;
+  pointers.set(e.pointerId, {x:e.clientX, y:e.clientY});
+  cancelAnimationFrame(camAnim); cancelAnimationFrame(inertia);
+  dragMoved = false; lastX = e.clientX; lastY = e.clientY; lastT = performance.now();
+  cam.vx = cam.vy = 0;
+  if (pointers.size === 2){ const [a,b] = [...pointers.values()]; pinchD = Math.hypot(a.x-b.x, a.y-b.y); }
+});
+window.addEventListener('pointermove', e => {
+  if (!pointers.has(e.pointerId)) return;
+  pointers.set(e.pointerId, {x:e.clientX, y:e.clientY});
+  if (pointers.size === 2){
+    const [a,b] = [...pointers.values()]; const d = Math.hypot(a.x-b.x, a.y-b.y);
+    if (pinchD) zoomAt((a.x+b.x)/2, (a.y+b.y)/2, d / pinchD);
+    pinchD = d; dragMoved = true; return;
+  }
+  const dx = e.clientX - lastX, dy = e.clientY - lastY;
+  if (Math.abs(dx) + Math.abs(dy) > 3 || dragMoved){
+    if (!dragMoved){ dragMoved = true; viewport.classList.add('dragging'); hideHint(); }
+    const now = performance.now(), dt = Math.max(1, now - lastT);
+    cam.x += dx; cam.y += dy; clampCam(); applyCam();
+    cam.vx = dx / dt * 16; cam.vy = dy / dt * 16;
+    lastX = e.clientX; lastY = e.clientY; lastT = now;
+  }
+});
+const endPtr = e => {
+  if (!pointers.has(e.pointerId)) return;
+  pointers.delete(e.pointerId); pinchD = 0;
+  viewport.classList.remove('dragging');
+  if (pointers.size === 0 && dragMoved && !REDUCED){
+    const glide = () => {
+      cam.vx *= .92; cam.vy *= .92; cam.x += cam.vx; cam.y += cam.vy; clampCam(); applyCam();
+      if (Math.abs(cam.vx) + Math.abs(cam.vy) > .3) inertia = requestAnimationFrame(glide);
+    };
+    inertia = requestAnimationFrame(glide);
+  }
+  setTimeout(() => dragMoved = false, 30);
+};
+window.addEventListener('pointerup', endPtr);
+window.addEventListener('pointercancel', endPtr);
+function zoomAt(mx, my, f){
+  const ns = clamp(cam.s * f, .28, 1.6), k = ns / cam.s;
+  cam.x = mx - (mx - cam.x)*k; cam.y = my - (my - cam.y)*k; cam.s = ns; clampCam(); applyCam();
+}
+viewport.addEventListener('wheel', e => {
+  e.preventDefault(); cancelAnimationFrame(camAnim); hideHint();
+  if (!e.ctrlKey && Math.abs(e.deltaX) > Math.abs(e.deltaY) * .5 && e.deltaMode === 0 && Math.abs(e.deltaX) > 0){
+    cam.x -= e.deltaX; cam.y -= e.deltaY; clampCam(); applyCam(); return;
+  }
+  zoomAt(e.clientX, e.clientY, Math.exp(-e.deltaY * (e.ctrlKey ? .01 : .0016)));
+}, {passive:false});
+let hintHidden = false;
+function hideHint(){ if (!hintHidden){ hintHidden = true; $('#hudBC').style.opacity = 0; } }
+
+/* ---------- background canvas: neural drift + labels ---------- */
+const bg = $('#bg'), bctx = bg.getContext('2d');
+let BW, BH, DPR, dots = [], labels = [];
+const LABELS = ['TOKEN','VECTOR','PWM','I2C','RTSP','H.264','NPU','YOLO','MQTT','IMU','ToF','YAMNet','AGENT','ACTION','WORLD MODEL','GPIO','UART','0.4 TOPS','EMBEDDING'];
+function sizeBg(){
+  DPR = Math.min(2, devicePixelRatio || 1); BW = innerWidth; BH = innerHeight;
+  bg.width = BW*DPR; bg.height = BH*DPR; bctx.setTransform(DPR,0,0,DPR,0,0);
+  const n = Math.round(Math.min(90, BW*BH/16000));
+  const r = mulberry(3);
+  dots = Array.from({length:n}, () => ({x:r()*BW, y:r()*BH, vx:(r()-.5)*.12, vy:(r()-.5)*.12, z:.3 + r()*.7}));
+  labels = Array.from({length:7}, (_, i) => newLabel(r, i*1.7));
+}
+function newLabel(r = Math.random, t0 = 0){ return {t:LABELS[(r()*LABELS.length)|0], x:r()*BW, y:r()*BH, life:-t0, max:9 + r()*6}; }
+let bgAlpha = 0;
+function drawBg(dt){
+  bctx.clearRect(0,0,BW,BH);
+  const px = cam.x * .06, py = cam.y * .06;
+  bctx.lineWidth = 1;
+  for (const d of dots){
+    if (!REDUCED){ d.x += d.vx; d.y += d.vy; }
+    if (d.x < -20) d.x = BW+20; if (d.x > BW+20) d.x = -20; if (d.y < -20) d.y = BH+20; if (d.y > BH+20) d.y = -20;
+  }
+  for (let i = 0; i < dots.length; i++){
+    const a = dots[i], ax = (a.x + px*a.z) % (BW+40), ay = (a.y + py*a.z) % (BH+40);
+    for (let j = i+1; j < dots.length; j++){
+      const b = dots[j], bx = (b.x + px*b.z) % (BW+40), by = (b.y + py*b.z) % (BH+40);
+      const dd = (ax-bx)**2 + (ay-by)**2;
+      if (dd < 15000){ bctx.strokeStyle = `rgba(139,233,255,${(1 - dd/15000)*.10*bgAlpha})`; bctx.beginPath(); bctx.moveTo(ax,ay); bctx.lineTo(bx,by); bctx.stroke(); }
+    }
+    bctx.fillStyle = `rgba(139,233,255,${.35*a.z*bgAlpha})`;
+    bctx.beginPath(); bctx.arc(ax, ay, 1.1 + a.z, 0, 6.283); bctx.fill();
+  }
+  bctx.font = '500 11px "Chakra Petch", system-ui, sans-serif';
+  for (let i = 0; i < labels.length; i++){
+    const L = labels[i]; L.life += dt;
+    if (L.life > L.max){ labels[i] = newLabel(); continue; }
+    if (L.life < 0) continue;
+    const f = Math.sin(Math.PI * L.life / L.max);
+    bctx.fillStyle = `rgba(167,190,220,${.16*f*bgAlpha})`;
+    bctx.fillText(L.t, L.x + px*.5, L.y - L.life*3 + py*.5);
+  }
+}
+
+/* ---------- route sparks ---------- */
+const SPARKS = 34;
+let sparkEls = [];
+function buildSparks(){
+  const g = $('#sparks'); g.innerHTML = '';
+  for (let i = 0; i < SPARKS; i++){
+    const c = document.createElementNS('http://www.w3.org/2000/svg','circle');
+    c.setAttribute('r', i % 5 === 0 ? 3.2 : 2); c.setAttribute('fill', i % 5 === 0 ? '#FFFFFF' : '#8BE9FF');
+    c.setAttribute('opacity', 0); g.appendChild(c);
+    sparkEls.push({el:c, off:i / SPARKS, sp:.012 + (i % 7)*.0015});
+  }
+}
+let sparkOn = false, sparkT = 0;
+function drawSparks(dt){
+  if (!sparkOn || !SAMPLES.length) return;
+  sparkT += dt;
+  const N = SAMPLES.length - 1;
+  for (const s of sparkEls){
+    const u = (((s.off + sparkT * s.sp) % 1) + 1) % 1, q = SAMPLES[Math.min(N, Math.floor(u*N))];
+    s.el.setAttribute('cx', q[0]); s.el.setAttribute('cy', q[1]);
+    s.el.setAttribute('opacity', (Math.sin(u*Math.PI*14)*.25 + .6).toFixed(2));
+  }
+}
+
+let lastFrame = performance.now();
+function frame(now){
+  const dt = clamp((now - lastFrame)/1000, 0, .05); lastFrame = now;
+  drawBg(dt);
+  if (!REDUCED) drawSparks(dt);
+  requestAnimationFrame(frame);
+}
+
+/* ---------- flow diagram renderer ---------- */
+const KIND_COL = { hw:'#22D3EE', ai:'#A78BFA', io:'#8BE9FF' };
+function renderFlow(el, flow){
+  const W = 520, BH = 34, GAP = 34, PAD = 12;
+  const rows = flow.rows, H = PAD*2 + rows.length*BH + (rows.length-1)*GAP;
+  const boxes = rows.map((r, ri) => {
+    const n = r.length, gap = 10, bw = Math.min(300, (W - PAD*2 - gap*(n-1)) / n);
+    const total = n*bw + (n-1)*gap, x0 = (W - total)/2, y = PAD + ri*(BH + GAP);
+    return r.map((t, i) => ({t, x:x0 + i*(bw+gap), y, w:bw, k:(flow.kinds||[])[ri] || 'io'}));
+  });
+  let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(flow.cap || '')}">`;
+  for (let ri = 0; ri < boxes.length - 1; ri++){
+    const A = boxes[ri], B = boxes[ri+1];
+    const pairs = [];
+    if (A.length === B.length) A.forEach((a, i) => pairs.push([a, B[i]]));
+    else A.forEach(a => B.forEach(b => pairs.push([a, b])));
+    pairs.forEach(([a, b]) => {
+      const x1 = a.x + a.w/2, y1 = a.y + BH, x2 = b.x + b.w/2, y2 = b.y, my = (y1 + y2)/2;
+      const d = `M${x1},${y1} C${x1},${my} ${x2},${my} ${x2},${y2}`;
+      s += `<path class="fl-line" d="${d}"/><path class="fl-flow" d="${d}" style="animation-delay:${-ri*.3}s"/>`;
+    });
+  }
+  boxes.flat().forEach(b => {
+    const c = KIND_COL[b.k];
+    s += `<rect class="fl-box" x="${b.x}" y="${b.y}" width="${b.w}" height="${BH}" rx="8" stroke="${c}" stroke-opacity=".7"/>`;
+    s += `<text class="fl-t" x="${b.x + b.w/2}" y="${b.y + BH/2}">${esc(b.t)}</text>`;
+  });
+  s += '</svg>';
+  el.innerHTML = `<div class="flowwrap">${s}</div><p class="cap">${esc(flow.cap || '')}</p>`;
+}
+
+/* ---------- code highlighting ---------- */
+const KW = new Set('void int float char bool byte const return if else for while do break continue struct class new delete true false static unsigned long short uint8_t uint16_t uint32_t int16_t String auto sizeof include define from import def async await with as return'.split(' '));
+const TY = new Set('WiFi WiFiClient WiFiSSLClient Serial Wire Camera OSD VideoSetting RTSP StreamIO NNObjectDetection ObjectDetectionResult NNAudioClassification AudioClassificationResult AudioSetting Audio GenAI PubSubClient AmebaServo VL53L0X IPAddress FastAPI Request std vector itemList audioNames'.split(' '));
+function highlight(src, lang){
+  const re = lang === 'py'
+    ? /(#[^\n]*|"(?:\\.|[^"\\\n])*"|'(?:\\.|[^'\\\n])*'|\b\d+(?:\.\d+)?\b|\b[A-Za-z_]\w*\b)/g
+    : /(\/\/[^\n]*|\/\*[\s\S]*?\*\/|^[ \t]*#[^\n]*|"(?:\\.|[^"\\\n])*"|'(?:\\.|[^'\\\n])*'|\b\d+(?:\.\d+)?\b|\b[A-Za-z_]\w*\b)/gm;
+  let out = '', last = 0, m;
+  while ((m = re.exec(src))){
+    out += esc(src.slice(last, m.index));
+    const t = m[0]; let cls = '';
+    if (t.startsWith('//') || t.startsWith('/*') || (lang === 'py' && t.startsWith('#'))) cls = 'c-com';
+    else if (/^\s*#/.test(t)) cls = 'c-pre';
+    else if (t[0] === '"' || t[0] === "'") cls = 'c-str';
+    else if (/^\d/.test(t)) cls = 'c-num';
+    else if (KW.has(t)) cls = 'c-kw';
+    else if (TY.has(t) || /^[A-Z][A-Z0-9_]{2,}$/.test(t)) cls = 'c-ty';
+    else if (src[re.lastIndex] === '(') cls = 'c-fn';
+    out += cls ? `<span class="${cls}">${esc(t)}</span>` : esc(t);
+    last = re.lastIndex;
+  }
+  return out + esc(src.slice(last));
+}
+
+/* ---------- panel ---------- */
+let openId = null, curStep = 'learn', cleanupLab = null;
+function openStation(id){
+  const s = byId(id); if (!s) return;
+  openId = id; state.current = id; save();
+  const panel = $('#panel');
+  panel.classList.add('open'); panel.setAttribute('aria-hidden', 'false');
+  document.body.classList.add('panel-open');
+  $$('#nodes .node').forEach(n => n.classList.toggle('active', n.dataset.id === id));
+  world.classList.add('focus');
+  $('#pCount').textContent = s.num === 'B' ? 'OPTIONAL BRANCH' : `${s.num} / 10`;
+  $('#pTitle').textContent = s.en; $('#pZh').textContent = s.zh; $('#pDesc').textContent = s.desc;
+  const st = stepsOf(id);
+  curStep = (STEPS.find(x => !st[x.k]) || STEPS[0]).k;
+  renderTabs(); renderStep();
+  placeCompanion(id);
+  refreshAll();
+  if (!isMobile()) requestAnimationFrame(() => camTo(s.x, s.y + 40, s.kind === 'final' ? .82 : 1, 1000));
+  $('#pClose').focus({preventScroll:true});
+}
+function closePanel(){
+  if (cleanupLab){ cleanupLab(); cleanupLab = null; }
+  const panel = $('#panel');
+  panel.classList.remove('open'); panel.setAttribute('aria-hidden', 'true');
+  document.body.classList.remove('panel-open');
+  world.classList.remove('focus');
+  $$('#nodes .node').forEach(n => n.classList.remove('active'));
+  const s = byId(openId); openId = null;
+  if (s && !isMobile()) camTo(s.x, s.y, cam.s, 700);
+}
+function renderTabs(){
+  if (!openId) return;
+  const st = stepsOf(openId);
+  $('#tabs').innerHTML = STEPS.map(x =>
+    `<button class="tab ${st[x.k] ? 'done' : ''}" role="tab" aria-selected="${x.k === curStep}" data-k="${x.k}"><span class="dot"></span>${x.en}</button>`).join('');
+  $$('#tabs .tab').forEach(t => t.addEventListener('click', () => { curStep = t.dataset.k; renderTabs(); renderStep(); }));
+  const i = STEPS.findIndex(x => x.k === curStep);
+  $('#stepPrev').disabled = i === 0;
+  $('#stepNext').textContent = i === STEPS.length - 1 ? '前往下一站 →' : `${STEPS[i+1].zh} →`;
+}
+function renderStep(){
+  if (cleanupLab){ cleanupLab(); cleanupLab = null; }
+  const s = byId(openId), body = $('#pBody');
+  body.scrollTop = 0;
+  if (curStep === 'learn'){
+    body.innerHTML = `<p class="lead">${s.lead}</p>
+      <h3 class="sec-h">YOU WILL LEARN · 學習重點</h3>
+      <div class="topics">${s.topics.map(t => `<div class="topic"><b>${esc(t[0])}</b><span>${esc(t[1])}</span></div>`).join('')}</div>
+      <h3 class="sec-h">AMB82-MINI EXAMPLES · 對應範例</h3>
+      <ul class="paths">${s.paths.map(p => `<li class="${/^Examples/.test(p) ? '' : 'sk'}">${esc(p)}</li>`).join('')}</ul>
+      ${s.note ? `<div class="note">${s.note}</div>` : ''}`;
+    markStep(s.id, 'learn');
+  } else if (curStep === 'visual'){
+    body.innerHTML = `<h3 class="sec-h">SYSTEM VIEW · 系統流程</h3><div id="flowBox"></div>`;
+    renderFlow($('#flowBox'), s.flow);
+    markStep(s.id, 'visual');
+  } else if (curStep === 'lab'){
+    body.innerHTML = `<div class="mission-box ${stepsOf(s.id).mission ? 'won' : ''}" id="labMission"><div class="m-h">${stepsOf(s.id).mission ? 'MISSION COMPLETE' : 'MISSION'}</div><div class="m-t">${s.mission.t}</div></div><div id="labBox" style="margin-top:14px"></div>`;
+    const api = {
+      touch: () => markStep(s.id, 'lab'),
+      win: (msg) => { markStep(s.id, 'lab'); if (markStep(s.id, 'mission', msg || '任務達成！')){ const m = $('#labMission'); if (m){ m.classList.add('won'); m.querySelector('.m-h').textContent = 'MISSION COMPLETE'; } } }
+    };
+    cleanupLab = (LABS[s.id] || (() => () => {}))($('#labBox'), api) || null;
+  } else if (curStep === 'build'){
+    body.innerHTML = `<h3 class="sec-h">ARDUINO SKETCH · 實作程式</h3>
+      <div class="codebar" id="codeTabs">${s.code.map((c, i) => `<button class="chip ${i ? '' : 'on'}" data-i="${i}">${esc(c.name)}</button>`).join('')}</div>
+      <div class="codefile" id="codePath"></div>
+      <div style="position:relative;margin-top:6px"><pre class="code" id="codePre"></pre></div>
+      <div class="lab-row" style="margin-top:10px"><button class="btn" id="copyBtn">複製程式碼</button>
+        <label class="ctl"><input type="checkbox" id="builtChk" ${stepsOf(s.id).build ? 'checked' : ''}> 我已在 Arduino IDE 編譯 / 上傳</label></div>
+      <h3 class="sec-h">RUN IT · 上板步驟</h3>
+      <ol class="steps">${s.run.map(r => `<li>${esc(r)}</li>`).join('')}</ol>
+      <div class="note">函式庫與範例來自 Realtek Ameba Arduino SDK（<a href="https://github.com/Ameba-AIoT/ameba-arduino-pro2" target="_blank" rel="noopener">ameba-arduino-pro2</a>）與 <a href="https://rkuo2000.github.io/EdgeAI-AMB82mini/" target="_blank" rel="noopener">EdgeAI-AMB82mini</a> 教材。SDK 改版時 API 可能微調，請以 IDE 內 File &gt; Examples 的版本為準。</div>`;
+    let ci = 0;
+    const show = i => { ci = i; const c = s.code[i]; $('#codePre').innerHTML = highlight(c.src, c.lang); $('#codePath').textContent = c.path; $$('#codeTabs .chip').forEach(b => b.classList.toggle('on', +b.dataset.i === i)); };
+    show(0);
+    $$('#codeTabs .chip').forEach(b => b.addEventListener('click', () => show(+b.dataset.i)));
+    $('#copyBtn').addEventListener('click', async () => {
+      const txt = s.code[ci].src;
+      try { await navigator.clipboard.writeText(txt); }
+      catch(e){ const r = document.createRange(); r.selectNodeContents($('#codePre')); const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r); try { document.execCommand('copy'); } catch(_){} }
+      $('#copyBtn').textContent = '已複製 ✓'; setTimeout(() => { const b = $('#copyBtn'); if (b) b.textContent = '複製程式碼'; }, 1600);
+      $('#builtChk').checked = true; markStep(s.id, 'build');
+    });
+    $('#builtChk').addEventListener('change', e => { if (e.target.checked) markStep(s.id, 'build'); });
+  } else if (curStep === 'mission'){
+    const st = stepsOf(s.id);
+    body.innerHTML = `<div class="mission-box ${st.mission ? 'won' : ''}"><div class="m-h">${st.mission ? 'MISSION COMPLETE' : 'MISSION'}</div><div class="m-t">${s.mission.t}</div></div>
+      <div class="lab-row" style="margin-top:12px"><button class="btn" id="goLab">${st.mission ? '再玩一次實驗' : '前往實驗完成任務'}</button></div>
+      <h3 class="sec-h">HARDWARE CHALLENGE · 實體挑戰</h3>
+      <p class="lead">${s.mission.hw}</p>
+      <label class="ctl"><input type="checkbox" id="hwChk" ${st.mission ? 'checked' : ''}> 我已在實體 AMB82-Mini 上完成</label>
+      <h3 class="sec-h">STATION CHECKLIST · 本站進度</h3>
+      <ul class="checks">${STEPS.map(x => `<li class="${st[x.k] ? 'ok' : ''}">${x.en} · ${x.zh}</li>`).join('')}</ul>`;
+    $('#goLab').addEventListener('click', () => { curStep = 'lab'; renderTabs(); renderStep(); });
+    $('#hwChk').addEventListener('change', e => { if (e.target.checked){ markStep(s.id, 'mission', '實體挑戰完成！'); renderStep(); } });
+  }
+}
+function stepMove(d){
+  const i = STEPS.findIndex(x => x.k === curStep) + d;
+  if (i >= STEPS.length){ goNextStation(); return; }
+  if (i < 0) return;
+  curStep = STEPS[i].k; renderTabs(); renderStep();
+}
+function goNextStation(){
+  const order = STATIONS.map(s => s.id);
+  const from = openId || state.current;
+  let idx = order.indexOf(from);
+  const next = order.find((id, i) => i > idx && !isDone(id)) || order.find(id => !isDone(id)) || order[Math.min(order.length-1, idx+1)];
+  openStation(next);
+}
+
+/* ---------- wiring ---------- */
+$('#pClose').addEventListener('click', closePanel);
+$('#stepPrev').addEventListener('click', () => stepMove(-1));
+$('#stepNext').addEventListener('click', () => stepMove(1));
+$('#nextBtn').addEventListener('click', goNextStation);
+$('#curBtn').addEventListener('click', () => openStation(state.current));
+$('#progBtn').addEventListener('click', e => { e.stopPropagation(); toggleDrawer(); });
+document.addEventListener('click', e => { if (!e.target.closest('#drawer,#progBtn')) toggleDrawer(false); });
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape'){ if ($('#drawer').classList.contains('open')) toggleDrawer(false); else if (openId) closePanel(); }
+});
+window.addEventListener('resize', () => { sizeBg(); clampCam(); applyCam(); });
+
+/* ---------- intro ---------- */
+function runIntro(){
+  const intro = $('#intro'), nodes = $$('#nodes .node');
+  const base = $('#routeBase'), glow = $('#routeGlow');
+  let finished = false;
+  const finish = () => {
+    if (finished) return; finished = true;
+    intro.classList.add('t1','t2','t3','out','clear');
+    nodes.forEach(n => n.classList.add('shown'));
+    [base, glow].forEach(p => { p.style.transition = 'none'; p.style.strokeDasharray = ''; p.style.strokeDashoffset = ''; });
+    $('#companion').style.opacity = 1; bgAlpha = 1; sparkOn = true;
+    setTimeout(() => intro.remove(), 900);
+    state.introSeen = true; save();
+    const s = byId(state.current) || STATIONS[0];
+    camTo(s.x, s.y, 1, REDUCED ? 1 : 1400);
+  };
+  fitWorld();
+  if (REDUCED || isMobile()){ finish(); return; }
+  [base, glow].forEach(p => { p.style.strokeDasharray = routeLen; p.style.strokeDashoffset = routeLen; });
+  $('#companion').style.opacity = 0; $('#companion').style.transition = 'transform 1.1s cubic-bezier(.65,0,.35,1), opacity 1s';
+  intro.style.pointerEvents = 'auto';
+  intro.addEventListener('click', finish);
+  const T = (ms, f) => setTimeout(() => !finished && f(), ms);
+  T(150, () => intro.classList.add('c1'));
+  T(700, () => { intro.classList.add('c2'); intro.classList.add('clear'); const t0 = performance.now(); const fade = n => { bgAlpha = Math.min(1, (n - t0)/1200); if (bgAlpha < 1) requestAnimationFrame(fade); }; requestAnimationFrame(fade); });
+  T(950, () => { [base, glow].forEach(p => { p.style.transition = 'stroke-dashoffset 1.6s cubic-bezier(.4,0,.2,1)'; p.style.strokeDashoffset = 0; }); });
+  nodes.forEach((n, i) => T(1100 + i*120, () => n.classList.add('shown')));
+  T(2300, () => { $('#companion').style.opacity = 1; sparkOn = true; });
+  T(2200, () => intro.classList.add('t1'));
+  T(2650, () => intro.classList.add('t2'));
+  T(3000, () => intro.classList.add('t3'));
+  T(3900, () => { intro.style.pointerEvents = 'none'; finish(); });
+}
+
+/* ---------- boot ---------- */
+function boot(){
+  $('#companion').innerHTML = ROBOT_SVG;
+  buildRoute(); buildNodes(); buildSparks(); sizeBg();
+  refreshAll();
+  placeCompanion(state.current);
+  requestAnimationFrame(frame);
+  runIntro();
+}
+
+/* ============================================================
+   labs.js — one interactive experiment per station
+   ============================================================ */
+const LABS = {};
+function mkCanvas(parent, w, h){
+  const c = document.createElement('canvas'), d = Math.min(2, devicePixelRatio || 1);
+  c.width = w*d; c.height = h*d; c.style.aspectRatio = `${w} / ${h}`;
+  const ctx = c.getContext('2d'); ctx.setTransform(d,0,0,d,0,0);
+  parent.appendChild(c); return {c, ctx, w, h};
+}
+function logger(el){
+  return (txt, cls = '') => { const l = document.createElement('div'); if (cls) l.className = cls; l.textContent = txt; el.appendChild(l); while (el.childNodes.length > 140) el.firstChild.remove(); el.scrollTop = el.scrollHeight; };
+}
+function runLoop(fn){
+  let id, last = performance.now(), t0 = last;
+  const f = now => { const dt = Math.max(0, Math.min(.05, (now - last)/1000)); last = now; fn(dt, (now - t0)/1000); id = requestAnimationFrame(f); };
+  id = requestAnimationFrame(f); return () => cancelAnimationFrame(id);
+}
+function rr(ctx, x, y, w, h, r){ ctx.beginPath(); ctx.roundRect ? ctx.roundRect(x, y, w, h, r) : ctx.rect(x, y, w, h); }
+const C = { ice:'#8BE9FF', cyan:'#22D3EE', violet:'#A78BFA', green:'#6EE7A8', amber:'#FBBF24', red:'#F87171', text:'#DCE7F5', muted:'#7D92AC', line:'rgba(139,233,255,.18)' };
+function checks(el, items){ el.innerHTML = items.map(([ok, t]) => `<li class="${ok ? 'ok' : ''}">${t}</li>`).join(''); }
+
+/* ---------------- 01 BOARD & IDE ---------------- */
+LABS.s01 = (el, api) => {
+  el.innerHTML = `<div class="lab">
+    <div class="lab-row" id="sk">${['Blink','Button','AnalogReadSerial'].map(n => `<button class="chip" data-n="${n}">上傳 ${n}.ino</button>`).join('')}</div>
+    <div class="lab-screen" style="display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:12px;align-items:center;padding:12px">
+      <svg viewBox="0 0 300 190" aria-label="虛擬 AMB82-Mini 開發板">
+        <rect x="14" y="16" width="272" height="158" rx="12" fill="#0B2238" stroke="#22D3EE" stroke-opacity=".5"/>
+        <rect x="24" y="64" width="34" height="62" rx="3" fill="#07111F" stroke="#7D92AC"/><text x="41" y="140" fill="#7D92AC" font-size="9" text-anchor="middle" font-family="Chakra Petch, Noto Sans TC, sans-serif">CAM</text>
+        <rect x="104" y="56" width="78" height="78" rx="6" fill="#050C17" stroke="#8BE9FF" stroke-opacity=".7"/>
+        <text x="143" y="92" fill="#DCE7F5" font-size="11" text-anchor="middle" font-family="Chakra Petch, Noto Sans TC, sans-serif">RTL8735B</text>
+        <text x="143" y="107" fill="#7D92AC" font-size="8.5" text-anchor="middle" font-family="Chakra Petch, Noto Sans TC, sans-serif">NPU 0.4 TOPS</text>
+        <rect x="120" y="164" width="30" height="16" rx="3" fill="#1A2C44" stroke="#7D92AC"/><rect x="200" y="164" width="30" height="16" rx="3" fill="#1A2C44" stroke="#7D92AC"/>
+        <text x="150" y="34" fill="#9FB4CC" font-size="11" text-anchor="middle" font-family="Chakra Petch, Noto Sans TC, sans-serif" letter-spacing="2">AMB82-MINI</text>
+        <circle id="led" cx="236" cy="52" r="9" fill="#123" stroke="#6EE7A8"/><text x="236" y="76" fill="#7D92AC" font-size="9" text-anchor="middle" font-family="Chakra Petch, Noto Sans TC, sans-serif">LED_BUILTIN</text>
+        <g id="pb" style="cursor:pointer"><circle cx="236" cy="120" r="14" fill="#1A2C44" stroke="#8BE9FF"/><circle cx="236" cy="120" r="8" fill="#2A4566"/></g>
+        <text x="236" y="148" fill="#7D92AC" font-size="9" text-anchor="middle" font-family="Chakra Petch, Noto Sans TC, sans-serif">GPIO 1 按鍵</text>
+        <g id="pot"><circle cx="66" cy="40" r="10" fill="#1A2C44" stroke="#A78BFA"/><line id="potArm" x1="66" y1="40" x2="66" y2="32" stroke="#A78BFA" stroke-width="2"/></g>
+        <text x="84" y="44" fill="#7D92AC" font-size="9" font-family="Chakra Petch, Noto Sans TC, sans-serif">A0</text>
+      </svg>
+      <div id="ctl1" style="display:flex;flex-direction:column;gap:10px;font-size:13.5px;color:#C2D3E6">選一支範例「上傳」到虛擬開發板。</div>
+    </div>
+    <div class="serial" id="ser" aria-live="polite"></div>
+    <ul class="checks" id="ck"></ul></div>`;
+  const log = logger($('#ser', el)), led = $('#led', el), ctl = $('#ctl1', el);
+  const done = {Blink:false, Button:false, AnalogReadSerial:false};
+  let timer = null, sketch = null, ledOn = false, blinkCount = 0, pot = 512;
+  const setLed = on => { ledOn = on; led.setAttribute('fill', on ? '#6EE7A8' : '#123'); led.style.filter = on ? 'drop-shadow(0 0 8px #6EE7A8)' : 'none'; };
+  const upd = () => {
+    checks($('#ck', el), [[done.Blink,'Blink：LED 依 delay 閃爍'],[done.Button,'Button：按下按鍵讓 LED 亮'],[done.AnalogReadSerial,'AnalogReadSerial：轉動 A0 看數值變化']]);
+    if (done.Blink && done.Button && done.AnalogReadSerial) api.win('三支範例都跑起來了！');
+  };
+  const stop = () => { clearInterval(timer); timer = null; };
+  const start = n => {
+    stop(); sketch = n; setLed(false); api.touch();
+    $$('#sk .chip', el).forEach(b => b.classList.toggle('on', b.dataset.n === n));
+    log(`Uploading ${n}.ino ... Image download done.`, 's-h');
+    log(`[boot] AMB82-MINI ready @ 115200`, 's-i');
+    if (n === 'Blink'){
+      ctl.innerHTML = `<label class="ctl">delay(ms) <input type="range" min="50" max="2000" step="50" value="1000" id="dl"><output id="dlo">1000</output></label><div>LED 每次 delay 後切換一次。把數值調小看看。</div>`;
+      const go = () => { stop(); const ms = +$('#dl', el).value; $('#dlo', el).textContent = ms;
+        timer = setInterval(() => { setLed(!ledOn); blinkCount++; log(`digitalWrite(LED_BUILTIN, ${ledOn ? 'HIGH' : 'LOW'})`); if (blinkCount >= 4 && !done.Blink){ done.Blink = true; upd(); } }, ms); };
+      $('#dl', el).addEventListener('input', go); go();
+    } else if (n === 'Button'){
+      ctl.innerHTML = `<div>按住板子上的 <b>GPIO 1 按鍵</b>（圓形按鈕），LED 會跟著亮。</div><div class="kv"><div><small>buttonState</small><b id="bs">LOW</b></div></div>`;
+    } else {
+      ctl.innerHTML = `<label class="ctl">A0 可變電阻 <input type="range" min="0" max="1023" value="512" id="pt"><output id="pto">512</output></label><div id="plot"></div>`;
+      const plot = mkCanvas($('#plot', el), 220, 70), hist = [];
+      let moved = 0;
+      $('#pt', el).addEventListener('input', e => { pot = +e.target.value; $('#pto', el).textContent = pot; $('#potArm', el).setAttribute('transform', `rotate(${(pot/1023)*270 - 135} 66 40)`); moved++; if (moved > 6 && !done.AnalogReadSerial){ done.AnalogReadSerial = true; upd(); } });
+      timer = setInterval(() => {
+        const v = Math.max(0, Math.min(1023, pot + Math.round((Math.random() - .5)*6)));
+        log(String(v)); hist.push(v); if (hist.length > 60) hist.shift();
+        const g = plot.ctx; g.clearRect(0,0,220,70); g.strokeStyle = C.violet; g.lineWidth = 1.6; g.beginPath();
+        hist.forEach((h, i) => { const x = i*220/59, y = 66 - h/1023*62; i ? g.lineTo(x,y) : g.moveTo(x,y); }); g.stroke();
+      }, 160);
+    }
+  };
+  $$('#sk .chip', el).forEach(b => b.addEventListener('click', () => start(b.dataset.n)));
+  const pb = $('#pb', el);
+  const press = v => { if (sketch !== 'Button') return; setLed(v); $('#bs', el) && ($('#bs', el).textContent = v ? 'HIGH' : 'LOW'); log(`buttonState = ${v ? 'HIGH → LED ON' : 'LOW → LED OFF'}`); if (v && !done.Button){ done.Button = true; upd(); } };
+  pb.addEventListener('pointerdown', e => { e.preventDefault(); press(true); });
+  pb.addEventListener('pointerup', () => press(false)); pb.addEventListener('pointerleave', () => ledOn && sketch === 'Button' && press(false));
+  log('Serial Monitor 115200 baud — waiting for upload...', 's-h'); upd();
+  return () => stop();
+};
+
+/* ---------------- 02 PWM & SERVO ---------------- */
+LABS.s02 = (el, api) => {
+  el.innerHTML = `<div class="lab">
+    <div class="lab-row"><button class="chip on" data-m="led">LED · analogWrite()</button><button class="chip" data-m="servo">Servo · myservo.write()</button></div>
+    <div class="lab-screen" id="wv"></div>
+    <div style="display:grid;grid-template-columns:minmax(0,1fr) 150px;gap:12px;align-items:center">
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <label class="ctl" id="ldc">analogWrite(8, <input type="range" min="0" max="255" value="40" id="duty"><output id="dutyo">40</output>)</label>
+        <label class="ctl" id="sdc" hidden>myservo.write(<input type="range" min="0" max="180" value="30" id="ang"><output id="ango">30°</output>)</label>
+        <div class="kv" id="kv2"></div>
+      </div>
+      <svg viewBox="0 0 150 130" id="vis2"></svg>
+    </div>
+    <ul class="checks" id="ck"></ul></div>`;
+  const wv = mkCanvas($('#wv', el), 520, 150);
+  let mode = 'led', duty = 40, ang = 30, okLed = false, okServo = false;
+  const draw = () => {
+    const g = wv.ctx, W = 520, H = 150; g.clearRect(0,0,W,H);
+    g.strokeStyle = C.line; g.lineWidth = 1;
+    for (let x = 0; x <= W; x += 52){ g.beginPath(); g.moveTo(x, 10); g.lineTo(x, H-22); g.stroke(); }
+    const hi = 24, lo = 112;
+    g.strokeStyle = mode === 'led' ? C.cyan : C.violet; g.lineWidth = 2.2; g.beginPath();
+    if (mode === 'led'){
+      const per = W/5, f = duty/255; g.moveTo(0, lo);
+      for (let i = 0; i < 5; i++){ const x0 = i*per; if (f > 0){ g.lineTo(x0, lo); g.lineTo(x0, hi); g.lineTo(x0 + per*f, hi); g.lineTo(x0 + per*f, lo); } g.lineTo(x0 + per, lo); }
+      g.stroke();
+      const avg = lo - (lo - hi)*f; g.setLineDash([5,5]); g.strokeStyle = C.amber; g.lineWidth = 1.4; g.beginPath(); g.moveTo(0, avg); g.lineTo(W, avg); g.stroke(); g.setLineDash([]);
+      g.fillStyle = C.amber; g.font = '12px Chakra Petch'; g.fillText(`平均電壓 ≈ ${(3.3*f).toFixed(2)} V`, W - 140, avg - 6);
+      g.fillStyle = C.muted; g.fillText('一個週期（約 1 kHz）', 6, H - 6);
+    } else {
+      const ms = .5 + ang/180*2, per = W/2, pw = per * ms / 20; g.moveTo(0, lo);
+      for (let i = 0; i < 2; i++){ const x0 = i*per + 20; g.lineTo(x0, lo); g.lineTo(x0, hi); g.lineTo(x0 + pw, hi); g.lineTo(x0 + pw, lo); g.lineTo(i*per + per, lo); }
+      g.stroke();
+      g.fillStyle = C.violet; g.font = '12px Chakra Petch'; g.fillText(`脈衝 ${ms.toFixed(2)} ms`, 20 + pw + 8, hi + 14);
+      g.fillStyle = C.muted; g.fillText('週期 20 ms（50 Hz）', 6, H - 6);
+    }
+  };
+  const vis = () => {
+    const s = $('#vis2', el);
+    if (mode === 'led'){
+      const f = duty/255;
+      s.innerHTML = `<circle cx="75" cy="58" r="${26 + f*20}" fill="#6EE7A8" opacity="${f*.25}"/><circle cx="75" cy="58" r="22" fill="#6EE7A8" opacity="${.12 + f*.88}" stroke="#6EE7A8"/>
+        <rect x="70" y="80" width="3" height="30" fill="#7D92AC"/><rect x="78" y="80" width="3" height="24" fill="#7D92AC"/><text x="75" y="126" fill="#7D92AC" font-size="11" text-anchor="middle" font-family="Chakra Petch, Noto Sans TC, sans-serif">LED @ GPIO 8</text>`;
+    } else {
+      s.innerHTML = `<rect x="35" y="50" width="80" height="56" rx="6" fill="#0B1A2E" stroke="#A78BFA"/><circle cx="75" cy="60" r="8" fill="#A78BFA"/>
+        <g transform="rotate(${ang - 90} 75 60)"><rect x="71" y="14" width="8" height="48" rx="4" fill="#DCE7F5"/></g>
+        <path d="M40 60 A35 35 0 0 1 110 60" fill="none" stroke="rgba(167,139,250,.3)" stroke-dasharray="3 4"/>
+        <text x="75" y="124" fill="#7D92AC" font-size="11" text-anchor="middle" font-family="Chakra Petch, Noto Sans TC, sans-serif">SG90 · ${ang}°</text>`;
+    }
+  };
+  const kv = () => {
+    $('#kv2', el).innerHTML = mode === 'led'
+      ? `<div><small>DUTY</small><b>${(duty/255*100).toFixed(1)}%</b></div><div><small>VALUE</small><b>${duty}</b></div><div><small>AVG V</small><b>${(3.3*duty/255).toFixed(2)}</b></div>`
+      : `<div><small>ANGLE</small><b>${ang}°</b></div><div><small>PULSE</small><b>${(.5 + ang/180*2).toFixed(2)}ms</b></div><div><small>PERIOD</small><b>20ms</b></div>`;
+  };
+  const upd = () => {
+    okLed = okLed || (duty >= 126 && duty <= 129);
+    okServo = okServo || ang === 90;
+    checks($('#ck', el), [[okLed, 'LED 亮度 50%（analogWrite ≈ 128）'], [okServo, '伺服馬達 90°（脈衝 1.5 ms）']]);
+    if (okLed && okServo) api.win('PWM 雙任務完成！');
+    draw(); vis(); kv();
+  };
+  $$('[data-m]', el).forEach(b => b.addEventListener('click', () => { mode = b.dataset.m; $$('[data-m]', el).forEach(x => x.classList.toggle('on', x === b)); $('#ldc', el).hidden = mode !== 'led'; $('#sdc', el).hidden = mode !== 'servo'; api.touch(); upd(); }));
+  $('#duty', el).addEventListener('input', e => { duty = +e.target.value; $('#dutyo', el).textContent = duty; api.touch(); upd(); });
+  $('#ang', el).addEventListener('input', e => { ang = +e.target.value; $('#ango', el).textContent = ang + '°'; api.touch(); upd(); });
+  upd();
+};
+
+/* ---------------- 03 WIFI / MQTT ---------------- */
+LABS.s03 = (el, api) => {
+  el.innerHTML = `<div class="lab">
+    <div class="lab-row"><label class="ctl" style="flex:1">Topic <input type="text" id="tp" value="ntou/edgeai/robot1" style="flex:1"></label></div>
+    <div class="lab-row"><label class="ctl" style="flex:1">Message <input type="text" id="ms" placeholder="go to the kitchen" style="flex:1"></label><button class="btn" id="pub">Publish</button></div>
+    <div class="lab-row">${['go to the kitchen','turn left','stop','led on','led off'].map(t => `<button class="chip" data-t="${t}">${t}</button>`).join('')}</div>
+    <div class="lab-screen" id="net"></div>
+    <div class="lab-row"><span style="font-size:13px;color:var(--muted)">HTTP（SimpleHttpWeb &gt; ControlLED）：</span><button class="btn sm ghost" data-h="H">GET /H</button><button class="btn sm ghost" data-h="L">GET /L</button></div>
+    <div class="serial" id="ser"></div></div>`;
+  const net = mkCanvas($('#net', el), 520, 130), log = logger($('#ser', el));
+  const SUB = 'ntou/edgeai/robot1';
+  const N = { pc:{x:70,y:62,l:'PC · paho-mqtt'}, br:{x:260,y:62,l:'test.mosquitto.org'}, bd:{x:450,y:62,l:'AMB82-MINI'} };
+  let packets = [], ledOn = false, action = 'IDLE', flash = 0;
+  log('[AMB82] WiFi connected, IP 192.168.1.42', 's-h');
+  log(`[AMB82] MQTT connected → subscribe("${SUB}")`, 's-i');
+  const publish = () => {
+    const topic = $('#tp', el).value.trim(), msg = $('#ms', el).value.trim() || $('#ms', el).placeholder;
+    api.touch();
+    log(`[PC] publish.single("${topic}", "${msg}")`, 's-h');
+    packets.push({t:0, topic, msg, ok: topic === SUB, kind:'mqtt'});
+  };
+  $('#pub', el).addEventListener('click', publish);
+  $('#ms', el).addEventListener('keydown', e => { if (e.key === 'Enter') publish(); });
+  $$('[data-t]', el).forEach(b => b.addEventListener('click', () => { $('#ms', el).value = b.dataset.t; publish(); }));
+  $$('[data-h]', el).forEach(b => b.addEventListener('click', () => { api.touch(); packets.push({t:0, kind:'http', h:b.dataset.h}); log(`[Browser] GET http://192.168.1.42/${b.dataset.h}`, 's-h'); }));
+  const arrive = p => {
+    if (p.kind === 'http'){ ledOn = p.h === 'H'; action = ledOn ? 'LED ON' : 'LED OFF'; log(`[AMB82] HTTP ${p.h} → digitalWrite(LED, ${ledOn ? 'HIGH' : 'LOW'})`); flash = 1; return; }
+    log(`Message arrived [${p.topic}] ${p.msg}`);
+    const m = p.msg.toLowerCase();
+    if (m.includes('kitchen')){ action = 'GOTO(kitchen)'; log('-> GOTO(kitchen)', 's-i'); api.win('機器人收到指令並解析成 GOTO(kitchen)！'); }
+    else if (m.includes('left')){ action = 'TURN(left)'; log('-> TURN(left)', 's-i'); }
+    else if (m.includes('right')){ action = 'TURN(right)'; log('-> TURN(right)', 's-i'); }
+    else if (m.includes('stop')){ action = 'STOP'; log('-> STOP', 's-i'); }
+    else if (m.includes('led on')){ ledOn = true; action = 'LED ON'; log('-> LED ON', 's-i'); }
+    else if (m.includes('led off')){ ledOn = false; action = 'LED OFF'; log('-> LED OFF', 's-i'); }
+    else { action = '?'; log('-> 無法解析的指令', 's-w'); }
+    log(`publish("${SUB}/status", "ack")`, 's-h'); flash = 1;
+  };
+  const stop = runLoop(dt => {
+    const g = net.ctx; g.clearRect(0,0,520,130);
+    g.strokeStyle = C.line; g.lineWidth = 2; g.beginPath(); g.moveTo(N.pc.x, N.pc.y); g.lineTo(N.bd.x, N.bd.y); g.stroke();
+    g.setLineDash([3,5]); g.strokeStyle = 'rgba(167,139,250,.35)'; g.beginPath(); g.moveTo(N.pc.x, N.pc.y + 30); g.quadraticCurveTo(260, 128, N.bd.x, N.bd.y + 30); g.stroke(); g.setLineDash([]);
+    Object.values(N).forEach((n, i) => {
+      g.fillStyle = '#07111F'; g.strokeStyle = i === 1 ? C.violet : C.cyan; g.lineWidth = 1.5; rr(g, n.x - 52, n.y - 24, 104, 48, 10); g.fill(); g.stroke();
+      g.fillStyle = C.text; g.font = '600 12px Chakra Petch'; g.textAlign = 'center'; g.fillText(n.l, n.x, n.y - 4);
+      g.fillStyle = C.muted; g.font = '10.5px Chakra Petch';
+      g.fillText(i === 0 ? 'publisher' : i === 1 ? 'broker :1883' : 'sub: robot1', n.x, n.y + 12);
+    });
+    g.fillStyle = ledOn ? C.green : '#123'; g.beginPath(); g.arc(N.bd.x + 40, N.bd.y - 14, 5, 0, 6.3); g.fill();
+    g.fillStyle = flash > 0 ? `rgba(110,231,168,${flash})` : C.muted; g.font = '600 12px Chakra Petch'; g.fillText(action, N.bd.x, N.bd.y + 42); flash = Math.max(0, flash - dt*.6);
+    g.textAlign = 'left';
+    packets = packets.filter(p => {
+      p.t += dt * 1.1;
+      let x, y;
+      if (p.kind === 'http'){ const u = Math.min(1, p.t); x = N.pc.x + (N.bd.x - N.pc.x)*u; y = N.pc.y + 30 + Math.sin(u*Math.PI)*34; if (u >= 1){ arrive(p); return false; } }
+      else if (p.t < 1){ x = N.pc.x + (N.br.x - N.pc.x)*p.t; y = N.pc.y; }
+      else if (!p.ok){ if (!p.warned){ p.warned = true; log(`[broker] 主題 "${p.topic}" 沒有訂閱者 → 機器人收不到`, 's-w'); } if (p.t > 1.8) return false; x = N.br.x; y = N.br.y - 34 - (p.t - 1)*20; g.globalAlpha = Math.max(0, 1.8 - p.t); }
+      else { const u = Math.min(1, p.t - 1); x = N.br.x + (N.bd.x - N.br.x)*u; y = N.pc.y; if (u >= 1){ arrive(p); return false; } }
+      g.fillStyle = p.kind === 'http' ? C.violet : (p.ok || p.t < 1 ? C.ice : C.amber);
+      g.beginPath(); g.arc(x, y, 6, 0, 6.3); g.fill(); g.globalAlpha = 1;
+      return true;
+    });
+  });
+  return stop;
+};
+
+/* ---------------- 04 SENSORS ---------------- */
+LABS.s04 = (el, api) => {
+  const SENS = [['Camera','前方：牆面、門框','看不到前方是什麼'],['Mic','環境音 42 dB','聽不到聲音指令'],['IMU','pitch 0.8°、平穩','不知道自己是否傾倒'],['ToF','—','不知道離牆多遠'],['Encoder','—','不知道自己走了多遠']];
+  el.innerHTML = `<div class="lab">
+    <div class="lab-row" id="sw">${SENS.map(s => `<button class="chip on" data-s="${s[0]}">${s[0]}</button>`).join('')}</div>
+    <div class="lab-screen" id="room"></div>
+    <div class="lab-row"><label class="ctl" style="flex:1">安全距離 SAFE_MM <input type="range" min="40" max="400" step="10" value="60" id="th"><output id="tho">60 mm</output></label></div>
+    <div class="lab-row"><button class="btn" id="go">自動前進</button><button class="btn ghost" id="rs">重設</button></div>
+    <h3 class="sec-h" style="margin:4px 0 0">WORLD MODEL · 機器人知道的事</h3>
+    <div class="kv" id="wm"></div><div class="serial" id="ser" style="height:96px"></div></div>`;
+  const room = mkCanvas($('#room', el), 520, 170), log = logger($('#ser', el));
+  const on = {Camera:true, Mic:true, IMU:true, ToF:true, Encoder:true};
+  const WALL = 470, MMPX = 5;
+  let x = 50, moving = false, crashed = false, stopped = false, shake = 0, th = 60, travelled = 0;
+  const dist = () => Math.max(0, Math.round((WALL - (x + 26)) * MMPX));
+  const wm = () => {
+    $('#wm', el).innerHTML = SENS.map(([k, v, lost]) => {
+      let val = v; if (k === 'ToF') val = `${dist()} mm`; if (k === 'Encoder') val = `${(travelled*MMPX/10).toFixed(0)} cm`;
+      return on[k] ? `<div><small>${k}</small><b style="font-size:14px">${val}</b></div>` : `<div style="border-color:rgba(248,113,113,.4)"><small>${k} · LOST</small><b style="font-size:13px;color:#F9B4B4">${lost}</b></div>`;
+    }).join('');
+  };
+  $$('#sw .chip', el).forEach(b => b.addEventListener('click', () => { const k = b.dataset.s; on[k] = !on[k]; b.classList.toggle('on', on[k]); b.classList.toggle('off', !on[k]); log(`${k} ${on[k] ? '啟用' : '停用'}`, on[k] ? 's-i' : 's-w'); api.touch(); wm(); }));
+  $('#th', el).addEventListener('input', e => { th = +e.target.value; $('#tho', el).textContent = th + ' mm'; });
+  $('#go', el).addEventListener('click', () => { if (crashed || stopped) reset(); moving = true; api.touch(); log(`drive(160, 160)  ToF=${on.ToF ? 'ON' : 'OFF'}  SAFE_MM=${th}`, 's-h'); });
+  const reset = () => { x = 50; moving = false; crashed = false; stopped = false; travelled = 0; wm(); };
+  $('#rs', el).addEventListener('click', reset);
+  wm();
+  const stop = runLoop((dt, t) => {
+    if (moving){
+      const step = 110*dt; x += step; travelled += step;
+      if (on.ToF && dist() <= th){
+        moving = false; stopped = true; log(`ToF ${dist()} mm ≤ ${th} → stopAll()`, 's-i');
+        if (th >= 100) api.win('ToF 讓機器人在撞牆前停下！');
+        else log('停是停了，但離牆太近；把 SAFE_MM 設到 100 以上更安全。', 's-w');
+      }
+      if (x + 26 >= WALL){ x = WALL - 26; moving = false; crashed = true; shake = .5; log(on.ToF ? '撞牆！' : '撞牆！沒有 ToF，機器人不知道前方有多遠。', 's-e'); }
+      wm();
+    }
+    const g = room.ctx; g.clearRect(0,0,520,170);
+    g.fillStyle = '#06101D'; g.fillRect(0,0,520,170);
+    g.strokeStyle = C.line; for (let i = 0; i < 520; i += 26){ g.beginPath(); g.moveTo(i,140); g.lineTo(i,146); g.stroke(); }
+    g.fillStyle = '#1A2C44'; g.fillRect(WALL, 10, 40, 150); g.strokeStyle = crashed ? C.red : '#2A4566'; g.strokeRect(WALL, 10, 40, 150);
+    const sx = shake > 0 ? Math.sin(t*90)*4*shake : 0; shake = Math.max(0, shake - dt);
+    const rx = x + sx, ry = 92;
+    if (on.ToF){ const d = WALL - (rx + 26); g.strokeStyle = `rgba(139,233,255,${.35 + .25*Math.sin(t*12)})`; g.setLineDash([4,4]); g.beginPath(); g.moveTo(rx + 26, ry); g.lineTo(WALL, ry); g.stroke(); g.setLineDash([]);
+      g.fillStyle = C.ice; g.font = '12px Chakra Petch'; g.fillText(`${dist()} mm`, rx + 30 + Math.max(0, d/2 - 20), ry - 8);
+      g.strokeStyle = 'rgba(251,191,36,.6)'; const tx = WALL - th/MMPX; g.beginPath(); g.moveTo(tx, 30); g.lineTo(tx, 150); g.stroke(); g.fillStyle = C.amber; g.fillText('SAFE', tx - 32, 26); }
+    if (on.Camera){ g.fillStyle = 'rgba(34,211,238,.06)'; g.beginPath(); g.moveTo(rx + 20, ry - 14); g.lineTo(rx + 160, ry - 70); g.lineTo(rx + 160, ry + 42); g.fill(); }
+    g.fillStyle = '#0B1A2E'; g.strokeStyle = crashed ? C.red : stopped ? C.green : C.cyan; g.lineWidth = 2; rr(g, rx - 26, ry - 22, 52, 40, 8); g.fill(); g.stroke();
+    g.fillStyle = '#07111F'; g.beginPath(); g.arc(rx - 14, ry + 24, 10, 0, 6.3); g.arc(rx + 14, ry + 24, 10, 0, 6.3); g.fill(); g.strokeStyle = C.ice; g.lineWidth = 1.5; g.stroke();
+    g.fillStyle = on.ToF ? C.ice : '#333'; g.fillRect(rx + 24, ry - 4, 5, 8);
+    g.fillStyle = C.muted; g.font = '11px Chakra Petch'; g.fillText('牆', WALL + 14, 26);
+  });
+  return stop;
+};
+
+/* ---------------- 05 MOTOR CONTROL ---------------- */
+LABS.s05 = (el, api) => {
+  el.innerHTML = `<div class="lab">
+    <div class="lab-screen" id="arena"></div>
+    <div style="display:grid;grid-template-columns:auto minmax(0,1fr);gap:14px;align-items:center">
+      <div style="display:grid;grid-template-columns:repeat(3,44px);gap:6px" id="pad">
+        <span></span><button class="btn sm" data-k="ArrowUp" aria-label="前進">↑</button><span></span>
+        <button class="btn sm" data-k="ArrowLeft" aria-label="左轉">←</button><button class="btn sm ghost" data-k="stop" aria-label="停止">■</button><button class="btn sm" data-k="ArrowRight" aria-label="右轉">→</button>
+        <span></span><button class="btn sm" data-k="ArrowDown" aria-label="後退">↓</button><span></span>
+      </div>
+      <div class="kv" id="mk"></div>
+    </div>
+    <div class="kv" id="pins"></div>
+    <div class="lab-row"><span style="font-size:13px;color:var(--muted)">按住按鈕或使用鍵盤方向鍵。</span><button class="btn sm ghost" id="rs">重設位置</button></div></div>`;
+  const ar = mkCanvas($('#arena', el), 520, 300);
+  const OBS = [[220,0,26,190],[330,150,110,24]], TGT = {x:460, y:70, r:32};
+  let R, keys = new Set(), trail = [], bumped = 0;
+  const reset = () => { R = {x:60, y:250, h:-Math.PI/2}; trail = []; };
+  reset();
+  const hit = (x, y) => x < 16 || y < 16 || x > 504 || y > 284 || OBS.some(([ox,oy,w,h]) => x > ox - 16 && x < ox + w + 16 && y > oy - 16 && y < oy + h + 16);
+  const cmd = () => {
+    const u = keys.has('ArrowUp'), d = keys.has('ArrowDown'), l = keys.has('ArrowLeft'), r = keys.has('ArrowRight');
+    let L = 0, Rr = 0;
+    if (u){ L = 200; Rr = 200; } if (d){ L = -200; Rr = -200; }
+    if (l){ if (u || d){ L = Math.sign(L)*80; } else { L = -150; Rr = 150; } }
+    if (r){ if (u || d){ Rr = Math.sign(Rr)*80; } else { L = 150; Rr = -150; } }
+    return [L, Rr];
+  };
+  const kd = e => { if (e.key.startsWith('Arrow')){ e.preventDefault(); keys.add(e.key); api.touch(); } };
+  const ku = e => { if (e.key.startsWith('Arrow')) keys.delete(e.key); };
+  window.addEventListener('keydown', kd); window.addEventListener('keyup', ku);
+  $$('#pad [data-k]', el).forEach(b => {
+    const k = b.dataset.k;
+    b.addEventListener('pointerdown', e => { e.preventDefault(); if (k === 'stop') keys.clear(); else keys.add(k); api.touch(); });
+    ['pointerup','pointerleave','pointercancel'].forEach(ev => b.addEventListener(ev, () => keys.delete(k)));
+  });
+  $('#rs', el).addEventListener('click', reset);
+  let won = false;
+  const stop = runLoop(dt => {
+    const [L, Rr] = cmd();
+    const v = (L + Rr)/2 / 200 * 95, w = (Rr - L)/255 * 1.7;
+    R.h -= w*dt;
+    const nx = R.x + Math.cos(R.h)*v*dt, ny = R.y + Math.sin(R.h)*v*dt;
+    if (!hit(nx, ny)){ R.x = nx; R.y = ny; } else if (v) bumped = .3;
+    bumped = Math.max(0, bumped - dt);
+    if (v || w){ trail.push([R.x, R.y]); if (trail.length > 400) trail.shift(); }
+    if (!won && Math.hypot(R.x - TGT.x, R.y - TGT.y) < TGT.r){ won = true; api.win('差速驅動駕駛成功！'); }
+    const dir = !L && !Rr ? 'STOP' : L > 0 && Rr > 0 ? (L === Rr ? 'FORWARD' : L < Rr ? 'FWD-LEFT' : 'FWD-RIGHT') : L < 0 && Rr < 0 ? 'BACKWARD' : L < Rr ? 'TURN LEFT' : 'TURN RIGHT';
+    $('#mk', el).innerHTML = `<div><small>LEFT MOTOR</small><b>${L}</b></div><div><small>RIGHT MOTOR</small><b>${Rr}</b></div><div><small>SPEED</small><b>${Math.abs(v).toFixed(0)} px/s</b></div><div><small>DIRECTION</small><b style="font-size:14px">${dir}</b></div>`;
+    const pin = s => s >= 0 ? [s, 0] : [0, -s];
+    const [a1, a2] = pin(L), [b1, b2] = pin(Rr);
+    $('#pins', el).innerHTML = `<div><small>AIN1</small><b>${a1}</b></div><div><small>AIN2</small><b>${a2}</b></div><div><small>BIN1</small><b>${b1}</b></div><div><small>BIN2</small><b>${b2}</b></div>`;
+    const g = ar.ctx; g.clearRect(0,0,520,300); g.fillStyle = '#06101D'; g.fillRect(0,0,520,300);
+    g.strokeStyle = 'rgba(139,233,255,.06)'; for (let i = 0; i < 520; i += 26){ g.beginPath(); g.moveTo(i,0); g.lineTo(i,300); g.stroke(); } for (let j = 0; j < 300; j += 26){ g.beginPath(); g.moveTo(0,j); g.lineTo(520,j); g.stroke(); }
+    g.fillStyle = won ? 'rgba(110,231,168,.28)' : 'rgba(110,231,168,.12)'; g.strokeStyle = C.green; g.beginPath(); g.arc(TGT.x, TGT.y, TGT.r, 0, 6.3); g.fill(); g.stroke();
+    g.fillStyle = C.green; g.font = '12px Chakra Petch'; g.textAlign = 'center'; g.fillText('TARGET', TGT.x, TGT.y + 4); g.textAlign = 'left';
+    OBS.forEach(([x,y,w,h]) => { g.fillStyle = '#1A2C44'; g.fillRect(x,y,w,h); g.strokeStyle = '#2E4A6E'; g.strokeRect(x,y,w,h); });
+    g.strokeStyle = 'rgba(34,211,238,.35)'; g.lineWidth = 2; g.beginPath(); trail.forEach(([x,y], i) => i ? g.lineTo(x,y) : g.moveTo(x,y)); g.stroke();
+    g.save(); g.translate(R.x, R.y); g.rotate(R.h);
+    g.fillStyle = '#0B1A2E'; g.strokeStyle = bumped ? C.red : C.cyan; g.lineWidth = 2; rr(g, -16, -14, 32, 28, 6); g.fill(); g.stroke();
+    g.fillStyle = L ? (L > 0 ? C.green : C.amber) : '#2A4566'; g.fillRect(-12, -19, 22, 5);
+    g.fillStyle = Rr ? (Rr > 0 ? C.green : C.amber) : '#2A4566'; g.fillRect(-12, 14, 22, 5);
+    g.fillStyle = C.ice; g.beginPath(); g.moveTo(17, 0); g.lineTo(9, -6); g.lineTo(9, 6); g.fill();
+    g.restore();
+  });
+  return () => { stop(); window.removeEventListener('keydown', kd); window.removeEventListener('keyup', ku); };
+};
+
+/* ---------------- 06 CAMERA & MOTION ---------------- */
+LABS.s06 = (el, api) => {
+  el.innerHTML = `<div class="lab">
+    <div class="lab-screen" id="cam"></div>
+    <div class="lab-row">
+      <label class="ctl">解析度 <select id="res"><option value="1920x1080">VIDEO_FHD 1920×1080</option><option value="1280x720">VIDEO_HD 1280×720</option><option value="640x480">VIDEO_VGA 640×480</option></select></label>
+      <button class="chip on" data-c="H264">H.264</button><button class="chip" data-c="JPEG">JPEG</button>
+    </div>
+    <label class="ctl">FPS <input type="range" min="5" max="30" value="30" id="fps"><output id="fpso">30</output></label>
+    <div class="kv" id="ck6"></div>
+    <div class="lab-row"><button class="chip" id="md">Motion detection：OFF</button><button class="btn" id="wave">在鏡頭前揮手</button></div>
+    <div class="serial" id="ser" style="height:96px"></div></div>`;
+  const cam = mkCanvas($('#cam', el), 512, 288), log = logger($('#ser', el));
+  let res = [1920,1080], fps = 30, codec = 'H264', md = false, hand = -1, acc = 0, grid = [], lastHand = null, lastAlert = -9;
+  const info = () => {
+    const [w, h] = res;
+    const rate = codec === 'H264' ? `${(Math.min(8, w*h*fps*.07/1e6)).toFixed(1)} Mbps` : `${(w*h*.12*fps/1e6).toFixed(1)} MB/s`;
+    $('#ck6', el).innerHTML = `<div><small>STREAM</small><b style="font-size:14px">${w}×${h}</b></div><div><small>FPS</small><b>${fps}</b></div><div><small>${codec === 'H264' ? 'BITRATE' : 'DATA RATE'}</small><b style="font-size:14px">${rate}</b></div><div><small>RTSP</small><b style="font-size:12px">rtsp://192.168.1.42:554</b></div>`;
+  };
+  $('#res', el).addEventListener('change', e => { res = e.target.value.split('x').map(Number); api.touch(); info(); log(`VideoSetting config(${res[0]}, ${res[1]}, ${fps}, VIDEO_${codec}, 0)`, 's-h'); });
+  $('#fps', el).addEventListener('input', e => { fps = +e.target.value; $('#fpso', el).textContent = fps; api.touch(); info(); });
+  $$('[data-c]', el).forEach(b => b.addEventListener('click', () => { codec = b.dataset.c; $$('[data-c]', el).forEach(x => x.classList.toggle('on', x === b)); api.touch(); info(); }));
+  $('#md', el).addEventListener('click', () => { md = !md; $('#md', el).classList.toggle('on', md); $('#md', el).textContent = `Motion detection：${md ? 'ON' : 'OFF'}`; api.touch(); log(md ? 'MotionDetection begin() — 16×9 區塊比對' : 'MotionDetection stopped', 's-i'); });
+  $('#wave', el).addEventListener('click', () => { hand = 0; api.touch(); });
+  info(); log('Camera.videoInit() → CH0 streaming to RTSP', 's-h');
+  const scene = (g, t) => {
+    const sky = g.createLinearGradient(0,0,0,288); sky.addColorStop(0,'#1B2C42'); sky.addColorStop(1,'#0C1624'); g.fillStyle = sky; g.fillRect(0,0,512,288);
+    g.fillStyle = '#2A4060'; g.fillRect(320, 30, 140, 90); g.fillStyle = '#5B7FA8'; g.fillRect(326, 36, 128, 78); g.fillStyle = 'rgba(255,240,200,.18)'; g.fillRect(326,36,128,78);
+    g.fillStyle = '#3A2C22'; g.fillRect(40, 190, 300, 16); g.fillRect(56, 206, 12, 70); g.fillRect(312, 206, 12, 70);
+    g.fillStyle = '#C0392B'; g.fillRect(110, 162, 26, 28); g.fillStyle = '#E8E1D5'; g.fillRect(200, 150, 70, 40);
+    g.fillStyle = '#2E5E3A'; g.beginPath(); g.ellipse(420, 200, 26, 40, 0, 0, 6.3); g.fill(); g.fillStyle = '#6B4A30'; g.fillRect(405, 236, 30, 40);
+  };
+  let frameAcc = 0;
+  const stop = runLoop((dt, t) => {
+    if (hand >= 0){ hand += dt; if (hand > 2.6) hand = -1; }
+    frameAcc += dt; if (frameAcc < 1/fps) return; frameAcc = 0;
+    const g = cam.ctx; scene(g, t);
+    let hp = null;
+    if (hand >= 0){ hp = {x: 60 + hand/2.6*400, y: 140 + Math.sin(hand*9)*40}; g.fillStyle = '#D8A27A'; g.beginPath(); g.ellipse(hp.x, hp.y, 30, 40, Math.sin(hand*9)*.4, 0, 6.3); g.fill(); g.fillRect(hp.x - 12, hp.y + 30, 24, 80); }
+    for (let i = 0; i < 160; i++){ g.fillStyle = `rgba(255,255,255,${Math.random()*.05})`; g.fillRect(Math.random()*512, Math.random()*288, 1.5, 1.5); }
+    if (codec === 'JPEG'){ g.strokeStyle = 'rgba(0,0,0,.08)'; for (let x = 0; x < 512; x += 8){ g.beginPath(); g.moveTo(x,0); g.lineTo(x,288); g.stroke(); } }
+    let cnt = 0;
+    if (md){
+      const cw = 512/16, ch = 288/9;
+      g.strokeStyle = 'rgba(139,233,255,.12)';
+      for (let i = 0; i <= 16; i++){ g.beginPath(); g.moveTo(i*cw, 0); g.lineTo(i*cw, 288); g.stroke(); }
+      for (let j = 0; j <= 9; j++){ g.beginPath(); g.moveTo(0, j*ch); g.lineTo(512, j*ch); g.stroke(); }
+      if (hp && lastHand){
+        for (let i = 0; i < 16; i++) for (let j = 0; j < 9; j++){
+          const cx = i*cw + cw/2, cy = j*ch + ch/2;
+          const near = Math.hypot((cx - hp.x)/1.1, (cy - hp.y)/1.4) < 46 || Math.hypot((cx - lastHand.x)/1.1, (cy - lastHand.y)/1.4) < 46 || (cy > hp.y && cy < hp.y + 110 && Math.abs(cx - hp.x) < 18);
+          if (near && Math.hypot(hp.x - lastHand.x, hp.y - lastHand.y) > 1){ cnt++; g.fillStyle = 'rgba(248,113,113,.28)'; g.fillRect(i*cw + 1, j*ch + 1, cw - 2, ch - 2); }
+        }
+      }
+      if (cnt >= 3){ g.fillStyle = C.red; g.font = '600 15px Chakra Petch'; g.fillText('● MOTION DETECTED', 14, 278);
+        if (t - lastAlert > 1.2){ lastAlert = t; log(`motion regions = ${cnt} → 觸發通知`, 's-w'); api.win('動作偵測觸發成功！'); } }
+    }
+    lastHand = hp;
+    g.fillStyle = 'rgba(2,6,13,.55)'; g.fillRect(0,0,512,22);
+    g.fillStyle = C.ice; g.font = '12px JetBrains Mono, monospace';
+    g.fillText(`CH0 ${res[0]}x${res[1]} ${codec} ${fps}fps`, 8, 15);
+    g.fillStyle = C.red; g.beginPath(); g.arc(470, 11, 4, 0, 6.3); g.fill(); g.fillStyle = C.text; g.fillText('LIVE', 478, 15);
+  });
+  return stop;
+};
+
+/* ---------------- 07 AUDIO ---------------- */
+LABS.s07 = (el, api) => {
+  const SOUNDS = {
+    Speech:[['Speech',.87],['Conversation',.06],['Narration',.04]],
+    Clap:[['Clapping',.78],['Hands',.12],['Finger snapping',.05]],
+    Dog:[['Dog',.82],['Bark',.11],['Animal',.04]],
+    Siren:[['Siren',.74],['Emergency vehicle',.15],['Police car (siren)',.06]],
+    Music:[['Music',.80],['Guitar',.09],['Piano',.05]],
+    Silence:[['Silence',.93],['Inside, small room',.03],['White noise',.02]]
+  };
+  el.innerHTML = `<div class="lab">
+    <div class="lab-row">${Object.keys(SOUNDS).map(k => `<button class="chip" data-s="${k}">${k}</button>`).join('')}</div>
+    <div class="lab-screen" id="wave7"></div>
+    <div class="lab-screen" id="spec7"></div>
+    <div class="card"><h4>YAMNET · TOP-3</h4><div class="bars" id="yam"><span style="font-size:13px;color:var(--muted)">播放一種聲音，等待 NPU 推論結果。</span></div></div>
+    <ul class="checks" id="ck"></ul></div>`;
+  const wv = mkCanvas($('#wave7', el), 520, 90), sp = mkCanvas($('#spec7', el), 520, 120);
+  const BINS = 40, COLS = 130, spec = Array.from({length:COLS}, () => new Float32Array(BINS));
+  let cur = 'Silence', since = 0, classified = new Set(), pending = null;
+  const energy = (k, t) => {
+    const e = new Float32Array(BINS);
+    for (let b = 0; b < BINS; b++) e[b] = Math.random()*.06;
+    const add = (b, v, w = 1.5) => { for (let i = 0; i < BINS; i++) e[i] += v*Math.exp(-((i - b)**2)/(2*w*w)); };
+    if (k === 'Speech'){ const on = Math.sin(t*9) > -.2 ? 1 : .15; add(5 + Math.sin(t*3)*1.5, .9*on, 2); add(13 + Math.sin(t*5)*3, .6*on); add(22 + Math.sin(t*4)*2, .35*on); }
+    if (k === 'Clap'){ const ph = (t % .45); if (ph < .06) for (let i = 0; i < BINS; i++) e[i] += .9*(1 - ph/.06); }
+    if (k === 'Dog'){ const ph = (t % .6); if (ph < .2){ add(9, .9, 2); add(18, .6); add(27, .35); } }
+    if (k === 'Siren'){ const b = 16 + Math.sin(t*2.4)*7; add(b, 1, 1.1); add(b*1.9, .4, 1); }
+    if (k === 'Music'){ const n = [6,8,10,8][Math.floor(t*2.5) % 4]; add(n, .8, 1); add(n*2, .5, 1); add(n*3, .3, 1); add(3, .4, 1.2); }
+    return e;
+  };
+  const show = k => {
+    $('#yam', el).innerHTML = SOUNDS[k].map(([n, p]) => `<div class="bar"><span>${n}</span><span class="tr"><i style="width:0"></i></span><span class="v">${p.toFixed(2)}</span></div>`).join('');
+    requestAnimationFrame(() => $$('#yam .tr i', el).forEach((i, j) => i.style.width = SOUNDS[k][j][1]*100 + '%'));
+    if (k !== 'Silence') classified.add(k);
+    upd();
+  };
+  const upd = () => {
+    checks($('#ck', el), [[classified.size >= 1, '分類第 1 種聲音'], [classified.size >= 2, '分類第 2 種聲音'], [classified.size >= 3, `分類第 3 種聲音（目前 ${classified.size} 種）`]]);
+    if (classified.size >= 3) api.win('YAMNet 辨識了三種聲音！');
+  };
+  $$('[data-s]', el).forEach(b => b.addEventListener('click', () => {
+    cur = b.dataset.s; since = 0; api.touch();
+    $$('[data-s]', el).forEach(x => x.classList.toggle('on', x === b));
+    $('#yam', el).innerHTML = '<span style="font-size:13px;color:var(--muted)">audioNN 推論中…</span>';
+    clearTimeout(pending); pending = setTimeout(() => show(cur), 900);
+  }));
+  upd();
+  let acc = 0;
+  const stop = runLoop((dt, t) => {
+    since += dt; if (cur !== 'Silence' && since > 3.2){ cur = 'Silence'; $$('[data-s]', el).forEach(x => x.classList.remove('on')); }
+    acc += dt; if (acc < 1/30) return; acc = 0;
+    const e = energy(cur, t); spec.shift(); spec.push(e);
+    const g = wv.ctx; g.clearRect(0,0,520,90); g.strokeStyle = C.cyan; g.lineWidth = 1.4; g.beginPath();
+    for (let i = 0; i < 260; i++){
+      let s = (Math.random() - .5)*.05; for (let b = 0; b < BINS; b += 2) s += e[b]*Math.sin(i*(b + 1)*.09 + t*20)*.12;
+      const y = 45 - Math.max(-1, Math.min(1, s))*40; i ? g.lineTo(i*2, y) : g.moveTo(0, y);
+    }
+    g.stroke(); g.fillStyle = C.muted; g.font = '11px Chakra Petch'; g.fillText('waveform · 16 kHz mono', 6, 84);
+    const h = sp.ctx, cw = 520/COLS, bh = 120/BINS;
+    for (let c = 0; c < COLS; c++) for (let b = 0; b < BINS; b++){
+      const v = Math.min(1, spec[c][b]);
+      h.fillStyle = `rgb(${10 + v*157|0},${16 + v*170|0},${30 + v*220|0})`; h.fillRect(c*cw, 120 - (b + 1)*bh, cw + .5, bh + .5);
+    }
+    h.fillStyle = 'rgba(220,231,245,.75)'; h.font = '11px Chakra Petch'; h.fillText('log-mel spectrogram → YAMNet', 6, 14);
+  });
+  return () => { stop(); clearTimeout(pending); };
+};
+
+/* ---------------- 08 EDGE AI VISION ---------------- */
+LABS.s08 = (el, api) => {
+  const MODELS = {
+    v4:{name:'DEFAULT_YOLOV4TINY', det:[['person',.96,[60,52,120,236]],['cup',.91,[222,168,36,34]],['chair',.88,[300,166,92,122]],['pottedplant',.63,[396,58,48,108]],['teddy bear',.41,[420,214,64,72]]]},
+    v7:{name:'CUSTOMIZED_YOLOV7TINY (robot)', det:[['robot',.93,[420,214,64,72]]]},
+    face:{name:'DEFAULT_SCRFD (face)', det:[['face',.98,[94,58,52,58]]]}
+  };
+  el.innerHTML = `<div class="lab">
+    <div class="lab-row">${[['v4','YOLOv4-tiny · COCO'],['v7','YOLOv7-tiny · 自訂 robot'],['face','SCRFD · 人臉']].map(([k, l], i) => `<button class="chip ${i ? '' : 'on'}" data-m="${k}">${l}</button>`).join('')}</div>
+    <div class="lab-screen" id="nn"></div>
+    <label class="ctl">信心門檻 <input type="range" min="10" max="95" value="30" id="th"><output id="tho">0.30</output></label>
+    <div class="card"><h4>DETECTIONS · OBJECT / CONFIDENCE / POSITION</h4><div id="tbl" style="font-family:var(--f-code);font-size:12.5px;line-height:1.7"></div></div>
+    <div class="note" id="nn-note"></div></div>`;
+  const nn = mkCanvas($('#nn', el), 512, 300);
+  let model = 'v4', th = .30, scan = 0, lastCount = -1;
+  const notes = {
+    v4:'COCO 資料集有 80 類，但沒有「robot」──所以小機器人被誤認成 teddy bear（分數也低）。這就是為什麼要訓練自訂模型。',
+    v7:'用 Kaggle 訓練只有一個類別的 YOLOv7-tiny，轉成 network_binary.nb 放到 SD:/NN_MDL/yolov7_tiny.nb，就能精準辨識 robot。',
+    face:'SCRFD 偵測人臉與 5 個特徵點；RTSPFaceRecognition 再用 MobileFaceNet 比對已註冊的名字（Serial 輸入 REG=名字）。'
+  };
+  const setNote = () => $('#nn-note', el).textContent = notes[model];
+  $$('[data-m]', el).forEach(b => b.addEventListener('click', () => { model = b.dataset.m; scan = 0; $$('[data-m]', el).forEach(x => x.classList.toggle('on', x === b)); api.touch(); setNote(); }));
+  $('#th', el).addEventListener('input', e => { th = e.target.value/100; $('#tho', el).textContent = th.toFixed(2); api.touch(); });
+  setNote();
+  const scene = g => {
+    const bgg = g.createLinearGradient(0,0,0,300); bgg.addColorStop(0,'#1A2A3E'); bgg.addColorStop(1,'#0E1828'); g.fillStyle = bgg; g.fillRect(0,0,512,300);
+    g.fillStyle = '#16283E'; g.fillRect(0, 240, 512, 60);
+    g.fillStyle = '#3B5A7C'; g.beginPath(); g.arc(120, 86, 24, 0, 6.3); g.fill(); rr(g, 78, 112, 84, 150, 26); g.fill();
+    g.fillStyle = '#4A3A2C'; g.fillRect(196, 200, 110, 10); g.fillRect(204, 210, 8, 60); g.fillRect(290, 210, 8, 60);
+    g.fillStyle = '#C0392B'; rr(g, 226, 172, 28, 28, 4); g.fill();
+    g.fillStyle = '#5A4632'; g.fillRect(310, 222, 76, 10); g.fillRect(372, 170, 10, 62); g.fillRect(312, 232, 8, 52); g.fillRect(372, 232, 8, 52);
+    g.fillStyle = '#2C3E50'; g.fillRect(392, 160, 56, 8); g.fillStyle = '#2E6B44'; g.beginPath(); g.ellipse(420, 100, 22, 40, 0, 0, 6.3); g.fill(); g.fillStyle = '#7A5638'; g.fillRect(408, 132, 24, 28);
+    g.fillStyle = '#0B1A2E'; g.strokeStyle = '#8BE9FF'; g.lineWidth = 2; rr(g, 428, 226, 48, 36, 8); g.fill(); g.stroke(); g.beginPath(); g.arc(440, 270, 8, 0, 6.3); g.arc(464, 270, 8, 0, 6.3); g.fill(); g.stroke();
+    g.fillStyle = '#8BE9FF'; g.beginPath(); g.arc(452, 242, 6, 0, 6.3); g.fill();
+  };
+  const stop = runLoop((dt, t) => {
+    scan = Math.min(1, scan + dt*1.4);
+    const g = nn.ctx; scene(g);
+    const vis = MODELS[model].det.filter(d => d[1] >= th);
+    if (scan < 1){ g.fillStyle = 'rgba(139,233,255,.15)'; g.fillRect(0, scan*300 - 6, 512, 6); }
+    vis.forEach(([n, p, [x, y, w, h]], i) => {
+      if (scan < (y + h)/300) return;
+      const j = Math.sin(t*6 + i)*.8, col = n === 'teddy bear' ? C.amber : model === 'v4' ? C.cyan : C.violet;
+      g.strokeStyle = col; g.lineWidth = 2; g.strokeRect(x + j, y - j, w, h);
+      const lab = `${n.toUpperCase()} ${p.toFixed(2)}`; g.font = '600 11px Chakra Petch'; const tw = g.measureText(lab).width + 8;
+      g.fillStyle = col; g.fillRect(x + j, y - j - 16, tw, 16); g.fillStyle = '#02060D'; g.fillText(lab, x + j + 4, y - j - 4);
+      if (n === 'face'){ g.fillStyle = C.green; [[110,80],[130,80],[120,92],[112,102],[128,102]].forEach(([a, b]) => { g.beginPath(); g.arc(a, b, 2.4, 0, 6.3); g.fill(); }); }
+    });
+    g.fillStyle = 'rgba(2,6,13,.6)'; g.fillRect(0,0,512,20); g.fillStyle = C.ice; g.font = '11px JetBrains Mono, monospace';
+    g.fillText(`CH3 576x320 RGB → NPU · ${MODELS[model].name}`, 6, 14);
+    if (vis.length !== lastCount || t % 1 < dt){
+      lastCount = vis.length;
+      $('#tbl', el).innerHTML = vis.length ? vis.map(([n, p, [x, y, w, h]]) => `<div style="display:grid;grid-template-columns:1.3fr .6fr 1fr;gap:6px"><span style="color:#EAF6FF">${n.toUpperCase()}</span><span style="color:var(--ice)">${p.toFixed(2)}</span><span style="color:var(--muted)">(${Math.round((x + w/2)/512*1920)}, ${Math.round((y + h/2)/300*1080)})</span></div>`).join('') : '<span style="color:var(--muted)">沒有物件高於門檻</span>';
+      const names = vis.map(v => v[0]).sort().join(',');
+      if (model === 'v4' && names === 'chair,cup,person') api.win('門檻調得剛好：只留下三個可靠的物件！');
+    }
+  });
+  return stop;
+};
+
+/* ---------------- 09 GENERATIVE AI ---------------- */
+LABS.s09 = (el, api) => {
+  const SCN = {
+    desk:{zh:'書桌', desc_en:'A wooden desk with a red cup on the left, an open laptop in the center and a notebook with a pen on the right.', desc_zh:'一張木頭書桌：左邊有一個紅色杯子，中間是打開的筆電，右邊有筆記本和一支筆。',
+      objs:[['red cup','紅色杯子','left',60],['laptop','筆記型電腦','center',90],['notebook','筆記本','right',75],['pen','筆','right',70]]},
+    hall:{zh:'走廊', desc_en:'A narrow hallway. A cardboard box blocks the center of the path; a door is on the right and a charging dock sits on the left wall.', desc_zh:'狹窄的走廊，正中間有一個紙箱擋住去路；右側是門，左牆邊有一個充電座。',
+      objs:[['cardboard box','紙箱','center',40,true],['door','門','right',300],['charging dock','充電座','left',220]]},
+    kit:{zh:'廚房', desc_en:'A kitchen with a refrigerator on the left, a table in the middle and a red apple on the right side of the table. A chair is pulled out.', desc_zh:'廚房：左邊是冰箱，中間有餐桌，桌子右側放著一顆紅蘋果，旁邊有一張拉開的椅子。',
+      objs:[['red apple','紅蘋果','right',120],['refrigerator','冰箱','left',250],['table','桌子','center',110],['chair','椅子','center',140]]}
+  };
+  const PRE = [['描述畫面','Describe this image in one sentence.'],['數物件','How many objects can you see? List them.'],['JSON 給機器人','You are the eyes of a robot. Reply ONLY with JSON: {"target","direction","distance_cm","action"}. Target: the red object.'],['繁體中文','請用繁體中文描述這張照片，並指出機器人前方有沒有障礙物。']];
+  el.innerHTML = `<div class="lab">
+    <div class="lab-row" id="scn">${Object.entries(SCN).map(([k, s], i) => `<button class="chip ${i ? '' : 'on'}" data-s="${k}">${s.zh}</button>`).join('')}
+      <select id="mdl" style="margin-left:auto"><option value="gemini">Gemini · gemini-2.0-flash</option><option value="openai">OpenAI · gpt-4o-mini</option><option value="llama">Groq · llama-4-scout</option></select></div>
+    <div style="display:grid;grid-template-columns:200px minmax(0,1fr);gap:12px;align-items:start">
+      <div class="lab-screen" id="thumb"></div>
+      <div><textarea id="pr" aria-label="提示詞">${PRE[0][1]}</textarea>
+        <div class="lab-row" style="margin-top:6px">${PRE.map(([l], i) => `<button class="chip" data-p="${i}">${l}</button>`).join('')}</div></div>
+    </div>
+    <div class="lab-row"><button class="btn violet" id="run">llm.geminivision(...) 送出</button><span style="font-size:12.5px;color:var(--muted)">模擬回應，展示提示詞如何改變輸出</span></div>
+    <div class="pipe" id="pipe"><span>PROMPT + IMAGE</span><i>→</i><span>TOKENIZE</span><i>→</i><span>MODEL</span><i>→</i><span>RESPONSE</span></div>
+    <div class="tok" id="tok"></div>
+    <div class="ai-out" id="out">結果會出現在這裡。</div></div>`;
+  const th = mkCanvas($('#thumb', el), 200, 140);
+  let scn = 'desk', busy = false, timers = [];
+  const drawThumb = () => {
+    const g = th.ctx; g.fillStyle = '#132235'; g.fillRect(0,0,200,140);
+    if (scn === 'desk'){ g.fillStyle = '#5A4130'; g.fillRect(10, 90, 180, 12); g.fillStyle = '#C0392B'; g.fillRect(30, 66, 18, 24); g.fillStyle = '#7F93A8'; g.fillRect(80, 54, 50, 34); g.fillStyle = '#2B3A4C'; g.fillRect(84, 58, 42, 26); g.fillStyle = '#E8E1D5'; g.fillRect(146, 80, 34, 10); }
+    if (scn === 'hall'){ g.fillStyle = '#1C2E46'; g.beginPath(); g.moveTo(0,0); g.lineTo(70,40); g.lineTo(70,110); g.lineTo(0,140); g.fill(); g.beginPath(); g.moveTo(200,0); g.lineTo(130,40); g.lineTo(130,110); g.lineTo(200,140); g.fill(); g.fillStyle = '#8A6A44'; g.fillRect(84, 92, 34, 28); g.fillStyle = '#3B5A7C'; g.fillRect(150, 40, 22, 66); g.fillStyle = '#22D3EE'; g.fillRect(20, 112, 18, 8); }
+    if (scn === 'kit'){ g.fillStyle = '#C9D3DD'; g.fillRect(10, 20, 40, 100); g.fillStyle = '#5A4130'; g.fillRect(70, 84, 110, 10); g.fillRect(76, 94, 6, 36); g.fillRect(168, 94, 6, 36); g.fillStyle = '#D0352B'; g.beginPath(); g.arc(150, 76, 8, 0, 6.3); g.fill(); g.fillStyle = '#5A4632'; g.fillRect(100, 100, 30, 6); }
+    g.fillStyle = 'rgba(2,6,13,.6)'; g.fillRect(0, 124, 200, 16); g.fillStyle = C.ice; g.font = '10px JetBrains Mono, monospace'; g.fillText('Camera.getImage() · JPEG', 6, 135);
+  };
+  drawThumb();
+  $$('#scn [data-s]', el).forEach(b => b.addEventListener('click', () => { scn = b.dataset.s; $$('#scn [data-s]', el).forEach(x => x.classList.toggle('on', x === b)); drawThumb(); api.touch(); }));
+  $$('[data-p]', el).forEach(b => b.addEventListener('click', () => { $('#pr', el).value = PRE[+b.dataset.p][1]; api.touch(); }));
+  const tokens = p => (p.match(/[\u4e00-\u9fff]|[A-Za-z]+|\d+|[^\sA-Za-z\d\u4e00-\u9fff]/g) || []).flatMap(w => /^[A-Za-z]{7,}$/.test(w) ? [w.slice(0, Math.ceil(w.length/2)), w.slice(Math.ceil(w.length/2))] : [w]);
+  const answer = p => {
+    const S = SCN[scn], json = /json/i.test(p), zh = /[\u4e00-\u9fff]/.test(p), count = /how many|count|list|幾個|數量|列出/i.test(p);
+    let tgt = S.objs.find(o => p.toLowerCase().includes(o[0].split(' ').pop()) || p.includes(o[1]));
+    if (!tgt && /red|紅/i.test(p)) tgt = S.objs.find(o => /red/.test(o[0]));
+    if (!tgt) tgt = S.objs[0];
+    if (json){
+      const obs = S.objs.filter(o => o[4]).map(o => o[0]);
+      return {code:true, text: JSON.stringify({target:tgt[0], direction:tgt[2], distance_cm:tgt[3], action: tgt[4] ? 'avoid' : 'move_toward', obstacles:obs}, null, 2)};
+    }
+    if (count) return {text: zh ? `我看到 ${S.objs.length} 個物件：${S.objs.map(o => o[1]).join('、')}。` : `I can see ${S.objs.length} objects: ${S.objs.map(o => o[0]).join(', ')}.`};
+    if (zh){ const ob = S.objs.find(o => o[4]); return {text: S.desc_zh + (/障礙/.test(p) ? (ob ? `\n\n機器人正前方約 ${ob[3]} 公分處有${ob[1]}，建議先繞行。` : '\n\n機器人正前方沒有明顯障礙物，可以前進。') : '')}; }
+    return {text: S.desc_en};
+  };
+  $('#run', el).addEventListener('click', () => {
+    if (busy) return; busy = true; api.touch();
+    const p = $('#pr', el).value.trim() || PRE[0][1], tk = tokens(p), sp = $$('#pipe span', el);
+    sp.forEach(s => s.className = '');
+    const hue = i => [190, 260, 160, 220, 300][i % 5];
+    $('#tok', el).innerHTML = '';
+    const lat = {gemini:900, openai:1300, llama:700}[$('#mdl', el).value];
+    const T = (ms, f) => timers.push(setTimeout(f, ms));
+    sp[0].className = 'on';
+    T(350, () => { sp[0].className = 'ok'; sp[1].className = 'on'; $('#tok', el).innerHTML = tk.map((w, i) => `<span style="background:hsla(${hue(i)},70%,60%,.16);color:hsl(${hue(i)},80%,80%)">${esc(w)}</span>`).join('') + `<span style="color:var(--muted)">≈ ${tk.length} tokens + image</span>`; });
+    T(900, () => { sp[1].className = 'ok'; sp[2].className = 'on'; $('#out', el).className = 'ai-out'; $('#out', el).textContent = '模型推理中…'; });
+    T(900 + lat, () => {
+      sp[2].className = 'ok'; sp[3].className = 'on';
+      const a = answer(p), out = $('#out', el); out.className = 'ai-out' + (a.code ? ' code' : ''); out.textContent = '';
+      let i = 0; const typer = setInterval(() => { out.textContent = a.text.slice(0, i += 3); if (i >= a.text.length){ clearInterval(typer); sp[3].className = 'ok'; busy = false; if (a.code) api.win('結構化輸出完成：機器人可以直接解析 JSON！'); } }, 18);
+      timers.push(typer);
+    });
+  });
+  return () => timers.forEach(t => { clearTimeout(t); clearInterval(t); });
+};
+
+/* ---------------- 10 AUTONOMOUS ROBOT ---------------- */
+LABS.s10 = (el, api) => {
+  const GW = 14, GH = 9, CS = 40;
+  const ITEMS = { cup:{x:12, y:1, n:'red cup', c:'#E04A3A'}, ball:{x:11, y:7, n:'green ball', c:'#4ADE80'}, dock:{x:1, y:7, n:'charging dock', c:'#22D3EE'}, box:{x:7, y:4, n:'blue box', c:'#60A5FA'} };
+  const WALLS = new Set(['4,0','4,1','4,2','4,3','9,3','9,4','9,5','9,6','9,7','9,8','5,6','6,6','7,6','2,4','3,4']);
+  el.innerHTML = `<div class="lab">
+    <div class="lab-row"><input type="text" id="cmd" value="Find the red cup and move toward it" style="flex:1" aria-label="自然語言指令"><button class="btn" id="go">執行</button></div>
+    <div class="lab-row">${['Find the red cup and move toward it','Go to the charging dock','找到綠色的球','Bring me the blue box'].map(t => `<button class="chip" data-t="${t}">${t}</button>`).join('')}</div>
+    <div class="pipe" id="pipe"><span>COMMAND · MQTT</span><i>→</i><span>UNDERSTAND · GenAI</span><i>→</i><span>DETECT · YOLO</span><i>→</i><span>PLAN · A*</span><i>→</i><span>ACT · Motors</span></div>
+    <div class="lab-screen" id="grid"></div>
+    <div style="font-size:12.5px;color:var(--muted)">點擊格子放置 / 移除障礙物；機器人行進中被擋住時會用 ToF 偵測並重新規劃。</div>
+    <div class="serial" id="ser"></div>
+    <ul class="checks" id="ck"></ul></div>`;
+  const cv = mkCanvas($('#grid', el), GW*CS, GH*CS), log = logger($('#ser', el));
+  const user = new Set();
+  let R = {x:1, y:1, h:0, fx:1, fy:1}, path = [], target = null, phase = 'idle', reached = new Set(), timers = [], stepT = 0, flashCell = null;
+  const blocked = (x, y) => x < 0 || y < 0 || x >= GW || y >= GH || WALLS.has(`${x},${y}`) || user.has(`${x},${y}`);
+  const astar = (sx, sy, tx, ty) => {
+    const key = (x, y) => `${x},${y}`, open = [[sx, sy]], g = {[key(sx,sy)]:0}, came = {};
+    const f = (x, y) => g[key(x,y)] + Math.abs(x - tx) + Math.abs(y - ty);
+    const closed = new Set();
+    while (open.length){
+      open.sort((a, b) => f(...a) - f(...b));
+      const [x, y] = open.shift(), k = key(x, y);
+      if (x === tx && y === ty){ const p = [[x, y]]; let c = k; while (came[c]){ c = came[c]; p.unshift(c.split(',').map(Number)); } return p; }
+      closed.add(k);
+      for (const [dx, dy] of [[1,0],[-1,0],[0,1],[0,-1]]){
+        const nx = x + dx, ny = y + dy, nk = key(nx, ny);
+        if (closed.has(nk) || (blocked(nx, ny) && !(nx === tx && ny === ty))) continue;
+        const ng = g[k] + 1;
+        if (g[nk] === undefined || ng < g[nk]){ g[nk] = ng; came[nk] = k; if (!open.some(o => o[0] === nx && o[1] === ny)) open.push([nx, ny]); }
+      }
+    }
+    return null;
+  };
+  const sp = () => $$('#pipe span', el);
+  const stage = i => sp().forEach((s, j) => s.className = j < i ? 'ok' : j === i ? 'on' : '');
+  const parse = c => {
+    const m = c.toLowerCase();
+    if (/cup|杯/.test(m)) return 'cup'; if (/ball|球/.test(m)) return 'ball'; if (/dock|charg|充電/.test(m)) return 'dock'; if (/box|箱|盒/.test(m)) return 'box';
+    return null;
+  };
+  const upd = () => {
+    checks($('#ck', el), [[reached.size >= 1, '完成第 1 個指令'], [reached.size >= 2, `完成第 2 個不同目標（目前 ${reached.size}）`]]);
+    if (reached.size >= 2) api.win('自主 AI 機器人完成任務！你已走完整條航線。');
+  };
+  const T = (ms, f) => timers.push(setTimeout(f, ms));
+  const replan = () => {
+    const t = ITEMS[target]; const p = astar(R.x, R.y, t.x, t.y);
+    if (!p){ log('[plan] 找不到路徑，原地等待。移除一些障礙物再試。', 's-e'); phase = 'idle'; stage(-1); return false; }
+    path = p.slice(1); log(`[plan] A* 路徑 ${path.length} 步`, 's-i'); return true;
+  };
+  const run = () => {
+    if (phase !== 'idle') return;
+    api.touch();
+    const c = $('#cmd', el).value.trim(); if (!c) return;
+    phase = 'think'; path = []; target = null; stage(0);
+    log(`[mqtt] ntou/edgeai/robot1 ← "${c}"`, 's-h');
+    T(600, () => { stage(1); const t = parse(c);
+      if (!t){ log('[genai] 無法從指令判斷目標，請說出 cup / ball / dock / box', 's-w'); phase = 'idle'; stage(-1); return; }
+      target = t; log(`[genai] intent → {"action":"goto","target":"${ITEMS[t].n}"}`, 's-i');
+      T(600, () => { stage(2); log(`[yolo] ${ITEMS[t].n} 0.9${(Math.random()*9)|0} @ grid(${ITEMS[t].x},${ITEMS[t].y})`, 's-i');
+        T(600, () => { stage(3); if (replan()){ T(500, () => { stage(4); phase = 'move'; stepT = 0; }); } });
+      });
+    });
+  };
+  $('#go', el).addEventListener('click', run);
+  $('#cmd', el).addEventListener('keydown', e => { if (e.key === 'Enter') run(); });
+  $$('[data-t]', el).forEach(b => b.addEventListener('click', () => { $('#cmd', el).value = b.dataset.t; run(); }));
+  cv.c.addEventListener('click', e => {
+    const r = cv.c.getBoundingClientRect(), x = Math.floor((e.clientX - r.left)/r.width*GW), y = Math.floor((e.clientY - r.top)/r.height*GH);
+    if (WALLS.has(`${x},${y}`) || (x === R.x && y === R.y) || Object.values(ITEMS).some(i => i.x === x && i.y === y)) return;
+    const k = `${x},${y}`; user.has(k) ? user.delete(k) : user.add(k); api.touch();
+  });
+  const mqttAck = () => log('[mqtt] ntou/edgeai/robot1/status → "arrived"', 's-h');
+  upd(); log('[boot] AMB82-MINI robot online · YOLO on NPU · ToF ready', 's-h');
+  const stop = runLoop((dt, t) => {
+    if (phase === 'move'){
+      stepT += dt;
+      R.fx += (R.x - R.fx)*Math.min(1, dt*10); R.fy += (R.y - R.fy)*Math.min(1, dt*10);
+      if (stepT > .28){
+        stepT = 0;
+        if (!path.length){ phase = 'idle'; stage(5); log(`[act] 抵達 ${ITEMS[target].n}，stopAll()`, 's-i'); mqttAck(); reached.add(target); upd(); }
+        else {
+          const [nx, ny] = path[0], t2 = ITEMS[target];
+          if (blocked(nx, ny) && !(nx === t2.x && ny === t2.y)){ flashCell = [nx, ny, t]; log('[tof] 前方 120 mm 有障礙物 → 重新規劃', 's-w'); if (!replan()) phase = 'idle'; }
+          else { R.h = Math.atan2(ny - R.y, nx - R.x); R.x = nx; R.y = ny; path.shift(); }
+        }
+      }
+    } else { R.fx += (R.x - R.fx)*Math.min(1, dt*10); R.fy += (R.y - R.fy)*Math.min(1, dt*10); }
+    const g = cv.ctx; g.fillStyle = '#06101D'; g.fillRect(0,0,GW*CS,GH*CS);
+    g.strokeStyle = 'rgba(139,233,255,.07)';
+    for (let i = 0; i <= GW; i++){ g.beginPath(); g.moveTo(i*CS, 0); g.lineTo(i*CS, GH*CS); g.stroke(); }
+    for (let j = 0; j <= GH; j++){ g.beginPath(); g.moveTo(0, j*CS); g.lineTo(GW*CS, j*CS); g.stroke(); }
+    WALLS.forEach(k => { const [x, y] = k.split(',').map(Number); g.fillStyle = '#1A2C44'; g.fillRect(x*CS + 1, y*CS + 1, CS - 2, CS - 2); });
+    user.forEach(k => { const [x, y] = k.split(',').map(Number); g.fillStyle = '#4A2A2A'; g.fillRect(x*CS + 4, y*CS + 4, CS - 8, CS - 8); g.strokeStyle = C.red; g.strokeRect(x*CS + 4, y*CS + 4, CS - 8, CS - 8); });
+    if (flashCell && t - flashCell[2] < .8){ g.strokeStyle = C.amber; g.lineWidth = 3; g.strokeRect(flashCell[0]*CS + 2, flashCell[1]*CS + 2, CS - 4, CS - 4); g.lineWidth = 1; }
+    if (path.length){ g.strokeStyle = 'rgba(167,139,250,.7)'; g.setLineDash([5,5]); g.lineWidth = 2; g.beginPath(); g.moveTo(R.fx*CS + CS/2, R.fy*CS + CS/2); path.forEach(([x, y]) => g.lineTo(x*CS + CS/2, y*CS + CS/2)); g.stroke(); g.setLineDash([]); g.lineWidth = 1; }
+    Object.entries(ITEMS).forEach(([k, it]) => {
+      const cx = it.x*CS + CS/2, cy = it.y*CS + CS/2;
+      if (k === 'dock'){ g.fillStyle = it.c; g.fillRect(cx - 12, cy - 8, 24, 16); } else if (k === 'box'){ g.fillStyle = it.c; g.fillRect(cx - 10, cy - 10, 20, 20); } else { g.fillStyle = it.c; g.beginPath(); g.arc(cx, cy, 10, 0, 6.3); g.fill(); }
+      if (target === k){ g.strokeStyle = C.amber; g.lineWidth = 2; g.beginPath(); g.arc(cx, cy, 16 + Math.sin(t*5)*2, 0, 6.3); g.stroke(); g.lineWidth = 1; }
+      if (reached.has(k)){ g.fillStyle = C.green; g.font = '600 12px Chakra Petch'; g.fillText('✓', cx + 12, cy - 10); }
+    });
+    const rx = R.fx*CS + CS/2, ry = R.fy*CS + CS/2;
+    g.fillStyle = 'rgba(34,211,238,.10)'; g.beginPath(); g.moveTo(rx, ry); g.arc(rx, ry, 90, R.h - .5, R.h + .5); g.fill();
+    g.save(); g.translate(rx, ry); g.rotate(R.h);
+    g.fillStyle = '#0B1A2E'; g.strokeStyle = C.ice; g.lineWidth = 2; rr(g, -13, -11, 26, 22, 5); g.fill(); g.stroke();
+    g.fillStyle = C.ice; g.beginPath(); g.moveTo(15, 0); g.lineTo(8, -5); g.lineTo(8, 5); g.fill(); g.restore();
+  });
+  return () => { stop(); timers.forEach(clearTimeout); };
+};
+
+/* ---------------- BRANCH: EDGE ↔ CLOUD ---------------- */
+LABS.b01 = (el, api) => {
+  const OPT = {
+    device:{n:'On-device · AMB82-Mini NPU', lat:n => 40, priv:100, off:100, cap:30, cost:5},
+    edge:{n:'Edge server · PC (Whisper / LLaVA)', lat:n => 180 + n*6, priv:80, off:60, cap:70, cost:20},
+    cloud:{n:'Cloud API · Gemini / OpenAI', lat:n => 700 + n*22, priv:30, off:0, cap:100, cost:60}
+  };
+  const TASKS = {
+    avoid:['避障反射（ToF + 停車）','device','反應必須在數十毫秒內，且不能因斷網失效 → 板上。'],
+    detect:['物件偵測（YOLO）','device','NPU 就是為此而生：即時、私密、免費。'],
+    stt:['語音轉文字','edge','Whisper 在本地 PC 跑得動，語音不出內網；需要多語言時可改用雲端。'],
+    scene:['場景理解 / 自然語言推理','cloud','需要常識與大模型能力 → 雲端 VLM；也可用本地 LLaVA 換取隱私。']
+  };
+  el.innerHTML = `<div class="lab">
+    <div class="lab-row">${Object.entries(OPT).map(([k, o]) => `<button class="chip" data-o="${k}">${o.n}</button>`).join('')}</div>
+    <label class="ctl">任務 <select id="task">${Object.entries(TASKS).map(([k, t]) => `<option value="${k}">${t[0]}</option>`).join('')}</select></label>
+    <label class="ctl">網路品質 <input type="range" min="0" max="100" value="20" id="net"><output id="neto">良好</output></label>
+    <div class="card"><h4 id="bt">選擇一個部署位置</h4><div class="bars" id="bars"></div></div>
+    <div class="note" id="verdict"></div>
+    <ul class="checks" id="ck"></ul></div>`;
+  const tried = new Set(); let sel = null;
+  const upd = () => {
+    const n = +$('#net', el).value, task = TASKS[$('#task', el).value];
+    $('#neto', el).textContent = n < 34 ? '良好' : n < 67 ? '普通' : '很差';
+    if (sel){
+      const o = OPT[sel], lat = o.lat(n);
+      $('#bt', el).textContent = o.n;
+      const rows = [['延遲 latency', Math.min(100, lat/30), `${lat} ms`], ['隱私 privacy', o.priv, o.priv], ['離線可用 offline', o.off, o.off], ['模型能力 capability', o.cap, o.cap], ['成本 cost', o.cost, o.cost]];
+      $('#bars', el).innerHTML = rows.map(([l, w, v]) => `<div class="bar"><span>${l}</span><span class="tr"><i style="width:${w}%"></i></span><span class="v">${v}</span></div>`).join('');
+    }
+    $('#verdict', el).innerHTML = `建議：<b>${OPT[task[1]].n}</b> — ${task[2]}（數值為教學用的相對示意）`;
+    checks($('#ck', el), [[tried.has('device'), 'On-device'], [tried.has('edge'), 'Edge server'], [tried.has('cloud'), 'Cloud API']]);
+    if (tried.size === 3) api.win('你已比較三種 AI 部署位置！');
+  };
+  $$('[data-o]', el).forEach(b => b.addEventListener('click', () => { sel = b.dataset.o; tried.add(sel); $$('[data-o]', el).forEach(x => x.classList.toggle('on', x === b)); api.touch(); upd(); }));
+  $('#net', el).addEventListener('input', upd); $('#task', el).addEventListener('change', upd);
+  upd();
+};
+
+boot();
+
+</script>
+</body>
+</html>
