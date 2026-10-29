@@ -1,5 +1,30 @@
 /* AI PlushPet: AMB82-MINI microphone/camera body + remote Gemma personality.
  * See README_AI_PlushPet.md for setup, protocol, examples and hardware limits.
+ 
+Commands for Serial Monitor:
+status
+text Hello Giraffe, tell me a short story.
+speak 你好！我是長頸鹿，很高興見到你。
+image What do you see in front of you?
+record
+play laugh
+emotion shy
+listen off
+listen on
+clear
+
+Commands for HTTP server:
+http://BOARD_IP:8080/command?Hello+Giraffe
+http://BOARD_IP:8080/command?happy
+http://BOARD_IP:8080/command?text=Hello+Giraffe
+http://BOARD_IP:8080/command?emotion=happy
+http://BOARD_IP:8080/command?speak=Hello
+http://BOARD_IP:8080/command?image=What+do+you+see%3F
+http://BOARD_IP:8080/command?record
+http://BOARD_IP:8080/command?play=laugh
+http://BOARD_IP:8080/command?listen=off
+http://BOARD_IP:8080/command?clear
+
  */
 #include <SPI.h>
 #include "AmebaILI9341.h"
