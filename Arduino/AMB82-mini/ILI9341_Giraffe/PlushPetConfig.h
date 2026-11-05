@@ -1,7 +1,7 @@
 #pragma once
 
 // Fill these in before enabling AI requests. Do not copy credentials from examples.
-#define PET_WIFI_SSID "HITRON-DF90-2.4G"
+#define PET_WIFI_SSID "AMEBAPRO2"
 #define PET_WIFI_PASSWORD "0972211921"
 #define PET_AI_HOST "123.192.49.97"
 #define PET_AI_PORT 11434
