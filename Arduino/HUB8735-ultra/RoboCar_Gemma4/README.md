@@ -1,4 +1,5 @@
 # RoboCar with Gemma4-VLA
+![](https://github.com/rkuo2000/EdgeAI-AmebaPro2/blob/main/assets/HUB8735-ultra_RoboCar.jpg?raw=true)
 
 ## System Hardware
 1. HUB8735-ultra board which has camera to capture image, mic to record audio, and audio out to play mp3 file
